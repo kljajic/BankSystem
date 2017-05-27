@@ -1,0 +1,75 @@
+<div ng-cloak ng-controller="countryController">
+
+<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+					aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<ul class="nav navbar-nav">
+					<li><a href="#/country">Drzave</a></li>
+					<li><a href="#/cities">Naseljena mesta</a></li>
+				</ul>
+			</div>
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse"
+				id="bs-example-navbar-collapse-1">
+			</div>
+			<!-- /.navbar-collapse -->
+		</div>
+		<!-- /.container-fluid -->
+	</nav>
+
+<p>
+	<ul>
+	  <li><a id = "search" ng-click="searchClicked()"><img src="images/search.gif"/></a></li>
+	  <li><a href="#" id = "refresh"><img src="images/refresh.gif"/></a></li>
+	  <li><a href="#" id = "pickup"><img src="images/zoom-pickup.gif"/></a></li>
+	  <li><a href="#" id = "help"><img src="images/help.gif"/></a></li>
+	  <li><a id = "first" ng-click="firstClicked()"><img src="images/first.gif"/></a></li>
+	  <li><a id = "prev" ng-click="prevClicked()"><img src="images/prev.gif"/></a></li>
+	  <li><a id = "next" ng-click="nextClicked()"><img src="images/next.gif"/></a></li>
+	  <li><a id = "last" ng-click="lastClicked()"><img src="images/last.gif"/></a></li>
+	  <li><a id = "add"  ng-click="addClicked()"><img src="images/add.gif"/></a></li>
+	  <li><a id = "remove" ng-click="removeClicked(selectedDrzava)"><img src="images/remove.gif"/></a></li>
+	  <li><a id = "nextform" ng-click="nextClicked2(selectedDrzava)"><img src="images/nextform.gif"/></a></li>
+	</ul>
+</p>
+
+{{ action }}
+
+<table>
+	 <tr class="header">
+	 	<th>Id</th>
+	 	<th>Naziv</th>
+	 </tr>
+	 <tr ng-repeat="drzava in drzave" ng-click="setSelected(drzava)" ng-class="{'alert alert-info' : selectedDrzava===drzava}">
+	 	<td class="id">{{ drzava.id }}</td>
+	 	<td class="naziv">{{ drzava.naziv }}</td>
+	 </tr>
+</table>
+
+<div class = "panel">
+	<p>
+	
+					<input ng-value="drzava.id" type = "hidden" name = "${field.name}" id = "${field.id}"/>
+				<input type="text" name="someData" ng-model="drzava.id" style="display: none;"/>
+				
+				<p>
+					<label for = "${field.id}">Naziv</label>
+					<input ng-model="drzava.naziv" type = "text" name = "${field.name}" id = "${field.id}"/>
+				</p>
+				<div id = "formActions">
+					<input ng-click="submitAction(drzava)" type = "submit" value = "Potvrda" style="margin-left:6em"/>
+					<a href = "#/" style="margin-left:1em" ng-click="rollbackAction()">Rollback</a>
+				</div>			
+				
+	</p>
+</div>
+
+</div>
