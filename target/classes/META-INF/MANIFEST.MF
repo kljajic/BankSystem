@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Implementation-Title: BankSystem
 Implementation-Version: 0.0.1-SNAPSHOT
-Built-By: MK
+Built-By: darko
 Implementation-Vendor-Id: com
 Build-Jdk: 1.8.0_111
 Implementation-URL: http://projects.spring.io/spring-boot/boot/
