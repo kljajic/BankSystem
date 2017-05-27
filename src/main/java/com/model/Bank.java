@@ -32,24 +32,24 @@ public class Bank implements Serializable {
 	@Column(name = "BANK_ADRESS", nullable = false, length = 120)
 	private String adress;
 	
-	@Column(name = "BANK_EMAIL", nullable = false, length = 128)
+	@Column(name = "BANK_EMAIL",  length = 128)
 	@Email
 	private String email;
 	
-	@Column(name = "BANK_WEB", nullable = false, length = 128)
+	@Column(name = "BANK_WEB",  length = 128)
 	private String web;
 	
-	@Column(name = "BANK_TEL", nullable = false, length = 20)
+	@Column(name = "BANK_TEL",length = 20)
 	private String telephone;
 	
-	@Column(name = "BANK_FAX", nullable = false, length = 20)
+	@Column(name = "BANK_FAX",length = 20)
 	private String fax;
 	
-	@Column(name = "BANK_FAX", nullable = false, length = 20)
+	@Column(name = "BANK_ACT", nullable = false)
 	private boolean banka;
 	
 	public Bank(){
-		
+			
 	}
 
 	public Long getId() {
