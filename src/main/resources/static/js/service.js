@@ -1,1 +1,2 @@
-var service = angular.module('bankApp.service', []);
+var service = angular.module('bankApp.service', ['bankApp.countryService'
+                                                 ]);

@@ -1,1 +1,1 @@
-var app = angular.module('bankApp', ['bankAppApp.controller', 'bankAppApp.service', 'bankAppApp.route', 'ngNotify', 'ngMessages']);
+var app = angular.module('bankApp', ['bankApp.controller', 'bankApp.service', 'bankApp.route', 'ngNotify', 'ngMessages']);
