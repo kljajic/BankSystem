@@ -7,9 +7,17 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
 @Entity
+@Data
+@NoArgsConstructor
+@EqualsAndHashCode(exclude = {"id"})
 @Table(name = "REV_ACC")
 public class RevokedAccount implements Serializable {
 
@@ -26,33 +34,7 @@ public class RevokedAccount implements Serializable {
 	@Column(name = "REV_ACC_TRN")
 	private String transferAcc;
 	
-	public RevokedAccount(){
-		
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Date getRevocationDate() {
-		return revocationDate;
-	}
-
-	public void setRevocationDate(Date revocationDate) {
-		this.revocationDate = revocationDate;
-	}
-
-	public String getTransferAcc() {
-		return transferAcc;
-	}
-
-	public void setTransferAcc(String transferAcc) {
-		this.transferAcc = transferAcc;
-	}
-	
+	@ManyToOne
+	private Account account;
 	
 }

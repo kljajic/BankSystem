@@ -16,8 +16,17 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.hibernate.validator.constraints.Email;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 
+@Data
+@NoArgsConstructor
+@EqualsAndHashCode(exclude = {"id"})
 @Entity
 @Table(name = "BANK")
 @XmlType(name="bank", namespace="http://informatika.ftn.ns.ac.yu/ws/model", propOrder={
@@ -37,14 +46,18 @@ public class Bank implements Serializable {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, targetEntity = ExchangeList.class, mappedBy="bank")
 	private Set<ExchangeList> exchangeLists;
 	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy="bank")
+	private Set<Account> accounts;
+	
+
 	@Column(name = "BANK_PIB", nullable = false, length = 10)
 	private String pib;
 	
 	@Column(name = "BANK_NAME", nullable = false, length = 120)
 	private String name;
 	
-	@Column(name = "BANK_ADRESS", nullable = false, length = 120)
-	private String adress;
+	@Column(name = "BANK_ADDRESS", nullable = false, length = 120)
+	private String address;
 	
 	@Column(name = "BANK_EMAIL",  length = 128)
 	@Email
@@ -73,93 +86,21 @@ public class Bank implements Serializable {
 	public String getSwift() {
 		return swift;
 	}
-
-	public void setSwift(String swift) {
-		this.swift = swift;
-	}
-
-	public String getTransactionAccount() {
-		return transactionAccount;
-	}
-
-	public void setTransactionAccount(String transactionAccount) {
-		this.transactionAccount = transactionAccount;
-	}
-
-	public Bank(){
-			
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getPib() {
-		return pib;
-	}
-
-	public void setPib(String pib) {
-		this.pib = pib;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getAdress() {
-		return adress;
-	}
-
-	public void setAdress(String adress) {
-		this.adress = adress;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getWeb() {
-		return web;
-	}
-
-	public void setWeb(String web) {
-		this.web = web;
-	}
-
-	public String getTelephone() {
-		return telephone;
-	}
-
-	public void setTelephone(String telephone) {
-		this.telephone = telephone;
-	}
-
-	public String getFax() {
-		return fax;
-	}
-
-	public void setFax(String fax) {
-		this.fax = fax;
-	}
-
-	public boolean isBanka() {
-		return banka;
-	}
-
-	public void setBanka(boolean banka) {
-		this.banka = banka;
-	}
 	
+	@JsonIgnore
+	public Set<ExchangeList> getExchangeLists() {
+		return exchangeLists;
+	}
+	@JsonProperty
+	public void setExchangeLists(Set<ExchangeList> exchangeLists) {
+		this.exchangeLists = exchangeLists;
+	}
+	@JsonIgnore
+	public Set<Account> getAccounts() {
+		return accounts;
+	}
+	@JsonProperty
+	public void setAccounts(Set<Account> accounts) {
+		this.accounts = accounts;
+	}
 }
