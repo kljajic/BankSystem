@@ -36,7 +36,6 @@ public class Country {
 	String code;
 	*/
 	
-	//napravi country atribut u City !!!!!
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, targetEntity = City.class, mappedBy="country")
 	private Set<City> cities;
 

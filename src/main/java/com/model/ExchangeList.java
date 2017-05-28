@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -36,6 +37,12 @@ public class ExchangeList {
 	private Set<CurrencyExchange> currencyExchanges;
 	
 	//polje banke
+	@ManyToOne(optional = false)
+	private Bank bank;
+	
+	public Bank getBank() {
+		return bank;
+	}
 
 	public ExchangeList() {
 		super();

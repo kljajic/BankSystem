@@ -1,11 +1,15 @@
 package com.model;
 
 import java.io.Serializable;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.Email;
@@ -22,6 +26,10 @@ public class Bank implements Serializable {
 	@Column(name = "BANK_ID")
 	@GeneratedValue
 	private Long id;
+	
+	//lista kursnih lista...
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, targetEntity = ExchangeList.class, mappedBy="bank")
+	private Set<ExchangeList> exchangeLists;
 	
 	@Column(name = "BANK_PIB", nullable = false, length = 10)
 	private String pib;
