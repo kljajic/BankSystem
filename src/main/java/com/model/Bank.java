@@ -48,6 +48,28 @@ public class Bank implements Serializable {
 	@Column(name = "BANK_ACT", nullable = false)
 	private boolean banka;
 	
+	@Column(name = "BANK_SWT", nullable = false, length = 8)
+	private String swift;
+	
+	@Column(name = "BANK_TR_ACC")
+	private String transactionAccount;
+	
+	public String getSwift() {
+		return swift;
+	}
+
+	public void setSwift(String swift) {
+		this.swift = swift;
+	}
+
+	public String getTransactionAccount() {
+		return transactionAccount;
+	}
+
+	public void setTransactionAccount(String transactionAccount) {
+		this.transactionAccount = transactionAccount;
+	}
+
 	public Bank(){
 			
 	}
