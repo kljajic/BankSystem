@@ -15,6 +15,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -30,6 +34,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @EqualsAndHashCode(exclude = {"id"})
 @ApiModel(value = "Daily account status", description = "Daily account status.")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name="daily_account_status", namespace="", propOrder={
+	"id", 
+	"date", 
+	"previousAmmount",
+	"transferInFavor",
+	"numberOfChanges",
+	"transferExpenses",
+	"currentAmmount",
+	"account"
+})
 public class DailyAccountStatus implements Serializable{
 
 	private static final long serialVersionUID = 8421999162724817258L;
@@ -43,33 +58,46 @@ public class DailyAccountStatus implements Serializable{
 	@Column
 	@NotNull
 	@ApiModelProperty(value = "Date of daily account status.", required = true)
+	@XmlElement(name="date", required=true)
 	private Date date;
 	
 	@Column
 	@NotNull
 	@Digits(integer=15, fraction=2)
 	@ApiModelProperty(value = "Previous ammount on account.", required = true)
+	@XmlElement(name="previousAmmount", required=true)
 	private double previousAmmount;
 	
 	@Column
 	@NotNull
 	@Digits(integer=15, fraction=2)
 	@ApiModelProperty(value = "Transfer in favor.", required = true)
+	@XmlElement(name="transferInFavor", required=true)
 	private double transferInFavor;
+	
+	@Column
+	@NotNull
+	@Digits(integer=6, fraction=0)
+	@ApiModelProperty(value = "Number of changes.", required = true)
+	@XmlElement(name="numberOfChanges", required=true)
+	private int numberOfChanges;
 	
 	@Column
 	@NotNull
 	@Digits(integer=15, fraction=2)
 	@ApiModelProperty(value = "Transfer expenses.", required = true)
+	@XmlElement(name="transferExpenses", required=true)
 	private double transferExpenses;
 	
 	@Column
 	@NotNull
 	@Digits(integer=15, fraction=2)
 	@ApiModelProperty(value = "Current ammount on account.", required = true)
+	@XmlElement(name="currentAmmount", required=true)
 	private double currentAmmount;
 	
 	@ManyToOne
+	@XmlElement(name="account", required=true)
 	private Account account;
 	
 	@OneToMany(mappedBy = "dailyAccountStatus", fetch=FetchType.LAZY)

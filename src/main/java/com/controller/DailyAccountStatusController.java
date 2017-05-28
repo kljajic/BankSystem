@@ -1,7 +1,8 @@
 package com.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
-import java.util.Date;
 
 import javax.validation.Valid;
 
@@ -41,16 +42,24 @@ public class DailyAccountStatusController {
 		return dailyAccountStatusService.createDailyAccountStatus(dailyAccountStatus);
 	}
 	
-	@GetMapping
+	@PostMapping
 	@ResponseBody
-	@ApiOperation(value = "Get all cities.", notes = "Get all cities.", response = Collection.class)
-	public Collection<DailyAccountStatus> getDailyAccountStatuses(@RequestBody Date date){
-		return dailyAccountStatusService.getDailyAccountStatuses(date);
+	@ApiOperation(value = "Get daily account statuses.", notes = "Get all daily account statuses.", response = Collection.class)
+	public Collection<DailyAccountStatus> getDailyAccountStatuses(@RequestBody String date) throws ParseException{
+		return dailyAccountStatusService.getDailyAccountStatuses(new SimpleDateFormat("yyyy-MM-dd").parse(date));
+	}
+	
+	@GetMapping("/{id}")
+	@ResponseBody
+	@ApiOperation(value = "Get daily account status.", notes = "Get single daily account status.", response = DailyAccountStatus.class)
+	public DailyAccountStatus getDailyAccountStatus(@PathVariable("id") Long id){
+		return dailyAccountStatusService.getDailyAccountStatus(id);
 	}
 	
 	@PutMapping("/update")
 	@ResponseBody
-	@ApiOperation(value = "Update a city.", notes = "Update a single city.", response = DailyAccountStatus.class)
+	@ApiOperation(value = "Update a daily account status.",
+				notes = "Update a single daily account status.", response = DailyAccountStatus.class)
 	public DailyAccountStatus updateDailyAccountStatus(@RequestBody @Valid DailyAccountStatus dailyAccountStatus){
 		return dailyAccountStatusService.updateDailyAccountStatus(dailyAccountStatus);
 	}
@@ -59,6 +68,14 @@ public class DailyAccountStatusController {
 	@ApiOperation(value = "Delete a daily account status.", notes = "Delete a daily account status with given id.")
 	public void deleteDailyAccountStatus(@PathVariable("id") Long id){
 		dailyAccountStatusService.deleteDailyAccountStatus(id);
+	}
+	
+	@PostMapping("/search")
+	@ResponseBody
+	@ApiOperation(value = "Search daily account statuses.",
+				notes = "Search daily account statuses by fiven fields.", response = DailyAccountStatus.class)
+	public Collection<DailyAccountStatus> searchDailyAccountStatuses(@RequestBody DailyAccountStatus dailyAccountStatus){
+		return dailyAccountStatusService.searchDailyAccountStatuses(dailyAccountStatus);
 	}
 	
 }

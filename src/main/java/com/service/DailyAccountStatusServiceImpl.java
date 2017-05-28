@@ -50,7 +50,7 @@ public class DailyAccountStatusServiceImpl implements DailyAccountStatusService{
 	
 	@Override
 	@Transactional(readOnly = true)
-	public DailyAccountStatus searchDailyAccountStatuses(DailyAccountStatus dailyAccountStatus) {
+	public Collection<DailyAccountStatus> searchDailyAccountStatuses(DailyAccountStatus dailyAccountStatus) {
 		return null;
 	}
 	
