@@ -12,17 +12,27 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name="currency", namespace="http://informatika.ftn.ns.ac.yu/ws/model", propOrder={
+		"officialCode"
+	} 
+)
 public class Currency {
 	
 	@GeneratedValue
 	@Id
 	private Long id;
 
+	@XmlElement(name="officialCode", required=true)
 	@Column(nullable = false)
 	@Size(min = 3, max = 3)
 	private String officialCode;

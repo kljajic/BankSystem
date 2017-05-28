@@ -9,6 +9,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import com.model.Account;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -79,7 +81,7 @@ public class Invoice implements Serializable{
 	private Set<InvoiceItem> invoiceItems;
 	
 	@XmlElement(name="accountNumber", required=true)
-	private String accountNumber;
+	private Account accountNumber;
 	
 	@XmlElement(name="currency", required=true)
 	private String currency;
