@@ -2,15 +2,22 @@ package com.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -64,5 +71,18 @@ public class DailyAccountStatus implements Serializable{
 	
 	@ManyToOne
 	private Account account;
+	
+	@OneToMany(mappedBy = "dailyAccountStatus", fetch=FetchType.LAZY)
+	private Set<AnalyticalStatement> analyticalStatements = new HashSet<>();
+	
+	@JsonIgnore
+	public Set<AnalyticalStatement> getAnalyticalStatements(){
+		return analyticalStatements;
+	}
+	
+	@JsonProperty
+	public void setAnalyticalStatemts(Set<AnalyticalStatement> analyticalStatements){
+		this.analyticalStatements = analyticalStatements;
+	}
 	
 }

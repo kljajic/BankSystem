@@ -18,10 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.model.PaymentType;
 import com.service.PaymentTypeService;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/paymentTypes")
+@Api(value = "/paymentTypes")
 public class PaymentTypeController {
 
 	private final PaymentTypeService paymentTypeService;
@@ -45,6 +47,13 @@ public class PaymentTypeController {
 		return paymentTypeService.getPaymentTypes();
 	}
 	
+	@GetMapping("/{id}")
+	@ResponseBody
+	@ApiOperation(value = "Get a payment type.", notes = "Get a payment type with given id.", response = PaymentType.class)
+	public PaymentType getPaymentType(@PathVariable("id") Long id){
+		return paymentTypeService.getPaymentType(id);
+	}
+	
 	@PutMapping("/update")
 	@ResponseBody
 	@ApiOperation(value = "Update a payment type.", notes = "Update a single payment type.", response = PaymentType.class)
@@ -56,6 +65,13 @@ public class PaymentTypeController {
 	@ApiOperation(value = "Delete a payment type.", notes = "Delete a payment type with given id.")
 	public void deletePaymentType(@PathVariable("id") Long id){
 		paymentTypeService.deletePaymentType(id);
+	}
+	
+	@PostMapping("/search")
+	@ResponseBody
+	@ApiOperation(value = "Search a payment types.", notes = "Search a payment types by given field.", response = Collection.class)
+	public Collection<PaymentType> searchPaymentTypes(@RequestBody PaymentType paymentType){
+		return paymentTypeService.searchPaymentTypes(paymentType);
 	}
 	
 }

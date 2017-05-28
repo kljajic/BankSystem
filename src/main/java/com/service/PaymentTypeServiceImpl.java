@@ -30,6 +30,12 @@ public class PaymentTypeServiceImpl implements PaymentTypeService {
 	public Collection<PaymentType> getPaymentTypes() {
 		return paymentTypeRepository.findAll();
 	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public PaymentType getPaymentType(Long id) {
+		return paymentTypeRepository.findOne(id);
+	}
 
 	@Override
 	public PaymentType updatePaymentType(PaymentType paymentType) {
@@ -41,6 +47,12 @@ public class PaymentTypeServiceImpl implements PaymentTypeService {
 	@Override
 	public void deletePaymentType(Long id) {
 		paymentTypeRepository.delete(id);
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public Collection<PaymentType> searchPaymentTypes(PaymentType paymentType) {
+		return paymentTypeRepository.search(paymentType.getPaymentTypeName().toUpperCase());
 	}
 
 }

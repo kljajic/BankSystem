@@ -1,5 +1,6 @@
 package com.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -11,6 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 public class Currency {
@@ -34,6 +38,8 @@ public class Currency {
 	private Country country;
 	
 	//lista analitika izvoda
+	@OneToMany(mappedBy = "currency", fetch = FetchType.LAZY)
+	private Set<AnalyticalStatement> analyticalStatement = new HashSet<>();
 	//lista racuna pravnih lica
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, targetEntity = CurrencyExchange.class, mappedBy="primaryCurrency")
@@ -64,6 +70,16 @@ public class Currency {
 
 	public boolean isDomicilna() {
 		return domicilna;
+	}
+
+	@JsonIgnore
+	public Set<AnalyticalStatement> getAnalyticalStatement() {
+		return analyticalStatement;
+	}
+
+	@JsonProperty
+	public void setAnalyticalStatement(Set<AnalyticalStatement> analyticalStatement) {
+		this.analyticalStatement = analyticalStatement;
 	}
 	
 }

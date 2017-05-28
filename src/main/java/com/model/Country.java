@@ -11,6 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 @Entity
 //@Table(uniqueConstraints=@UniqueConstraint(columnNames = {"code"}))
@@ -53,8 +56,14 @@ public class Country {
 		return code;
 	}*/
 
+	@JsonIgnore
 	public Set<City> getCities() {
 		return cities;
+	}
+	
+	@JsonProperty
+	public void setCities(Set<City> cities) {
+		this.cities = cities;
 	}
 	
 	

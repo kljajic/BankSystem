@@ -32,19 +32,18 @@ public class CityServiceImpl implements CityService {
 	}
 	
 	@Override
+	@Transactional(readOnly = true)
 	public City getCity(Long id) {
 		return cityRepository.findOne(id);
 	}
 
 	@Override
-	public City updateCity(City city) {/*
+	public City updateCity(City city) {
 		City temp = cityRepository.findOne(city.getId());
 		temp.setCountry(city.getCountry());
 		temp.setName(city.getName());
 		temp.setPttNumber(city.getPttNumber());
 		return cityRepository.save(temp);
-		*/
-		return null;
 	}
 
 	@Override
@@ -53,19 +52,19 @@ public class CityServiceImpl implements CityService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public Collection<City> searchCities(City city) {
-		/*String name="";
+		String name = "";
 		if(city.getName()!=null)
-			name=city.getName().toUpperCase();
-		String pttNumber="";
+			name=city.getName();
+		String pttNumber = "";
 		if(city.getPttNumber()!=null)
 			pttNumber=city.getPttNumber();
-		String countryName="";
+		String countryName = "";
 		if(city.getCountry()!=null){
-			countryName=city.getCountry().toString();//getCountryName
+			countryName=city.getCountry().getName();
 		}
-		return cityRepository.search(name, countryName, pttNumber);*/
-		return null;
+		return cityRepository.search(name, countryName, pttNumber);
 	}
 
 }

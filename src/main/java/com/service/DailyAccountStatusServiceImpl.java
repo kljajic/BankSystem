@@ -22,14 +22,20 @@ public class DailyAccountStatusServiceImpl implements DailyAccountStatusService{
 	}
 
 	@Override
-	@Transactional(readOnly = true)
 	public DailyAccountStatus createDailyAccountStatus(DailyAccountStatus dailyAccountStatus) {
 		return dailyAccountStatusRepository.save(dailyAccountStatus);
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public Collection<DailyAccountStatus> getDailyAccountStatuses(Date date) {
 		return dailyAccountStatusRepository.findDailyAccountStatusesByDate(date);
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public DailyAccountStatus getDailyAccountStatus(Long id) {
+		return dailyAccountStatusRepository.findOne(id);
 	}
 
 	@Override
@@ -40,6 +46,12 @@ public class DailyAccountStatusServiceImpl implements DailyAccountStatusService{
 	@Override
 	public void deleteDailyAccountStatus(Long id) {
 		dailyAccountStatusRepository.delete(id);
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public DailyAccountStatus searchDailyAccountStatuses(DailyAccountStatus dailyAccountStatus) {
+		return null;
 	}
 	
 }

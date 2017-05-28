@@ -19,10 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.model.DailyAccountStatus;
 import com.service.DailyAccountStatusService;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/dailyAccountStatuses")
+@Api(value = "/dailyAccountStatuses")
 public class DailyAccountStatusController {
 
 	private final DailyAccountStatusService dailyAccountStatusService;

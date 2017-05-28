@@ -9,7 +9,9 @@ public interface DailyAccountStatusService {
 
 	public DailyAccountStatus createDailyAccountStatus(DailyAccountStatus dailyAccountStatus);
 	public Collection<DailyAccountStatus> getDailyAccountStatuses(Date date);
+	public DailyAccountStatus getDailyAccountStatus(Long id);
 	public DailyAccountStatus updateDailyAccountStatus(DailyAccountStatus dailyAccountStatus);
 	public void deleteDailyAccountStatus(Long id);
+	public DailyAccountStatus searchDailyAccountStatuses(DailyAccountStatus dailyAccountStatus);
 	
 }
