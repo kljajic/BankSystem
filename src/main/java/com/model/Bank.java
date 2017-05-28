@@ -11,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 import org.hibernate.validator.constraints.Email;
 
@@ -18,6 +20,10 @@ import org.hibernate.validator.constraints.Email;
 
 @Entity
 @Table(name = "BANK")
+@XmlType(name="bank", namespace="http://informatika.ftn.ns.ac.yu/ws/model", propOrder={
+		"swift",
+		"transactionAccount"
+})
 public class Bank implements Serializable {
 
 	private static final long serialVersionUID = -5790070241207558112L;
@@ -56,9 +62,11 @@ public class Bank implements Serializable {
 	@Column(name = "BANK_ACT", nullable = false)
 	private boolean banka;
 	
+	@XmlElement(name="swift", required=true)
 	@Column(name = "BANK_SWT", nullable = false, length = 8)
 	private String swift;
 	
+	@XmlElement(name="transactionAccount", required=true)
 	@Column(name = "BANK_TR_ACC")
 	private String transactionAccount;
 	

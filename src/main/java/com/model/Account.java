@@ -8,9 +8,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 @Entity
 @Table(name = "ACCOUNT")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name="account", namespace="http://informatika.ftn.ns.ac.yu/ws/model", propOrder={
+	"accountNumber"
+})
 public class Account implements Serializable {
 
 
@@ -21,6 +29,7 @@ public class Account implements Serializable {
 	@GeneratedValue
 	private Long id;
 	
+	@XmlElement(name="accountNumber", required=true)
 	@Column(name = "ACCOUNT_NUM")
 	private String accountNumber;
 	
