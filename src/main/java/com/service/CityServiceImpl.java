@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.model.City;
+import com.model.Country;
 import com.repository.CityRepository;
 
 @Service
@@ -14,14 +15,18 @@ import com.repository.CityRepository;
 public class CityServiceImpl implements CityService {
 
 	private final CityRepository cityRepository;
+	private final CountryService countryService;
 	
 	@Autowired
-	public CityServiceImpl(CityRepository cityRepository) {
+	public CityServiceImpl(CityRepository cityRepository, CountryService countryService) {
 		this.cityRepository = cityRepository;
+		this.countryService = countryService;
 	}
 	
 	@Override
-	public City createCity(City city) {
+	public City createCity(Long countryId, City city) {
+		Country country = countryService.getCountry(countryId);
+		city.setCountry(country);
 		return cityRepository.save(city);
 	}
 
@@ -38,9 +43,9 @@ public class CityServiceImpl implements CityService {
 	}
 
 	@Override
-	public City updateCity(City city) {
+	public City updateCity(Long countryId, City city) {
 		City temp = cityRepository.findOne(city.getId());
-		temp.setCountry(city.getCountry());
+		temp.setCountry(countryService.getCountry(countryId));
 		temp.setName(city.getName());
 		temp.setPttNumber(city.getPttNumber());
 		return cityRepository.save(temp);

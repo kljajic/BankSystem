@@ -33,11 +33,11 @@ public class CityController {
 		this.cityService = cityService;
 	}
 	
-	@PostMapping("/add")
+	@PostMapping("/add/{countryId}")
 	@ResponseBody
 	@ApiOperation(value = "Add a city.", notes = "Add a single city.", response = City.class)
-	public City createCity(@RequestBody @Valid City city){
-		return cityService.createCity(city);
+	public City createCity(@RequestBody @Valid City city, @PathVariable("countryId") Long countryId){
+		return cityService.createCity(countryId, city);
 	}
 	
 	@GetMapping
@@ -54,11 +54,11 @@ public class CityController {
 		return cityService.getCity(id);
 	}
 	
-	@PutMapping("/update")
+	@PutMapping("/update/{countryId}")
 	@ResponseBody
 	@ApiOperation(value = "Update a city.", notes = "Update a single city.", response = City.class)
-	public City updateCity(@RequestBody @Valid City city){
-		return cityService.updateCity(city);
+	public City updateCity(@RequestBody @Valid City city, @PathVariable("countryId") Long countryId){
+		return cityService.updateCity(countryId, city);
 	}
 	
 	@DeleteMapping("/delete/{id}")

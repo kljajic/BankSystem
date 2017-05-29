@@ -19,4 +19,6 @@ public interface CountryService {
 	public void updateCountry(long id, String name);
 	
 	public Set<Country> searchByName(String name);
+	
+	Country getCountry(Long id);
 }

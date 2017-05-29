@@ -51,4 +51,9 @@ public class CountryServiceImpl implements CountryService {
 		return countryRepository.SearchByName(name);
 	}
 
+	@Override
+	public Country getCountry(Long id) {
+		return countryRepository.findOne(id);
+	}
+
 }
