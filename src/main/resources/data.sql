@@ -41,6 +41,7 @@ insert into city(id, name, ptt_number, country_id) values(4, 'Rim', '41000', 3);
 insert into payment_type(id, payment_type_name) values(1, 'Kes');
 insert into payment_type(id, payment_type_name) values(2, 'Cekovi');
 insert into payment_type(id, payment_type_name) values(3, 'Kredit');
+insert into payment_type(id, payment_type_name) values(4, 'Transfer novca');
 
 
 insert into account(account_id,account_num,account_date,account_active,bank_bank_id) values(1,'333-111-333','2017-10-15',true,1);
@@ -54,3 +55,11 @@ insert into daily_account_status(id, date,account_account_id, previous_ammount, 
 values(2, '2017-05-28', 2, 10000, 0, 1, 13500, 23500);
 insert into daily_account_status(id, date,account_account_id, previous_ammount, transfer_expenses, number_of_changes, transfer_in_favor, current_ammount)
 values(3, '2017-05-28', 3, 10000, 10000, 2, 13500, 13500);
+
+insert into analytical_statement(id, ammount, approval_autorization_number, approval_model, currency_date, date_of_receipt, 
+								 debit_autorization_number, error_type, model, originator, originator_account, purpose, recipient,
+								 recipient_account, uplata, urgently, currency_id, daily_account_status_id, payment_type_id,
+								 place_of_acceptance_id) 
+	   value (1, 10000.00, '123456789', '97', '2015-05-29', '2015-05-29', '100018356', 'IZVRSEN_NALOG', '97',
+	   		  '\"Racunovodstvena praksa\" Njegoseva 19, 11000 Beograd', '355-1000466-07', 'Uplata poreza na promet proizvoda', 'Poreska uprava',
+	   		  '840-714121843-73', false, false, 1, 2 , 4, 1)

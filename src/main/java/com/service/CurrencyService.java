@@ -16,4 +16,6 @@ public interface CurrencyService {
 
 	public ArrayList<Currency> searchCurrency(String name, String officialCode, String country, boolean domicilna);
 
+	Currency getCurrency(Long id);
+	
 }

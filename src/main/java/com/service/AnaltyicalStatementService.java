@@ -6,9 +6,12 @@ import com.model.AnalyticalStatement;
 
 public interface AnaltyicalStatementService {
 	
-	AnalyticalStatement createAnalyticalStatement(AnalyticalStatement analyticalStatement);
+	AnalyticalStatement createAnalyticalStatement(String currencyId, String paymentTypeId, String cityId, Long dailyAccountStatusId, 
+												  AnalyticalStatement analyticalStatement);
 	Collection<AnalyticalStatement> getAnalyticalStatements();
-	AnalyticalStatement updateAnalyticalStatement(AnalyticalStatement analyticalStatement);
+	AnalyticalStatement getAnalyticalStatement(Long id);
+	AnalyticalStatement updateAnalyticalStatement(String currencyId, String paymentTypeId, String cityId, Long dailyAccountStatusId, 
+			  									  AnalyticalStatement analyticalStatement);
 	void deleteAnalyticalStatement(Long id);
 
 }

@@ -44,4 +44,9 @@ public class CurrencyServiceImpl implements CurrencyService {
 		return currencyRepository.searchCurrency(name, officialCode, country, domicilna);
 	}
 
+	@Override
+	public Currency getCurrency(Long id) {
+		return currencyRepository.findOne(id);
+	}
+
 }
