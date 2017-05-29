@@ -7,11 +7,11 @@ import com.model.DailyAccountStatus;
 
 public interface DailyAccountStatusService {
 
-	public DailyAccountStatus createDailyAccountStatus(DailyAccountStatus dailyAccountStatus);
-	public Collection<DailyAccountStatus> getDailyAccountStatuses(Date date);
-	public DailyAccountStatus getDailyAccountStatus(Long id);
-	public DailyAccountStatus updateDailyAccountStatus(DailyAccountStatus dailyAccountStatus);
-	public void deleteDailyAccountStatus(Long id);
-	public Collection<DailyAccountStatus> searchDailyAccountStatuses(DailyAccountStatus dailyAccountStatus);
+	DailyAccountStatus createDailyAccountStatus(Long accountId, DailyAccountStatus dailyAccountStatus);
+	Collection<DailyAccountStatus> getDailyAccountStatuses(Date date);
+	DailyAccountStatus getDailyAccountStatus(Long id);
+	DailyAccountStatus updateDailyAccountStatus(Long accountId, DailyAccountStatus dailyAccountStatus);
+	void deleteDailyAccountStatus(Long id);
+	Collection<DailyAccountStatus> searchDailyAccountStatuses(DailyAccountStatus dailyAccountStatus);
 	
 }

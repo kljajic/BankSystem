@@ -44,4 +44,9 @@ public class AccountServiceImpl implements AccountService {
 		}
 	}
 
+	@Override
+	public Account getAccount(Long id) {
+		return accountRepository.findOne(id);
+	}
+
 }

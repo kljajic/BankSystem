@@ -11,6 +11,6 @@ import com.model.DailyAccountStatus;
 @Repository
 public interface DailyAccountStatusRepository extends JpaRepository<DailyAccountStatus, Long> {
 	
-	public Collection<DailyAccountStatus> findDailyAccountStatusesByDate(Date date);
+	Collection<DailyAccountStatus> findDailyAccountStatusesByDate(Date date);
 
 }

@@ -6,9 +6,9 @@ import com.model.AnalyticalStatement;
 
 public interface AnaltyicalStatementService {
 	
-	public AnalyticalStatement createAnalyticalStatement(AnalyticalStatement analyticalStatement);
-	public Collection<AnalyticalStatement> getAnalyticalStatements();
-	public AnalyticalStatement updateAnalyticalStatement(AnalyticalStatement analyticalStatement);
-	public void deleteAnalyticalStatement(Long id);
+	AnalyticalStatement createAnalyticalStatement(AnalyticalStatement analyticalStatement);
+	Collection<AnalyticalStatement> getAnalyticalStatements();
+	AnalyticalStatement updateAnalyticalStatement(AnalyticalStatement analyticalStatement);
+	void deleteAnalyticalStatement(Long id);
 
 }

@@ -35,11 +35,12 @@ public class DailyAccountStatusController {
 		this.dailyAccountStatusService = dailyAccountStatusService;
 	}
 	
-	@PostMapping("/add")
+	@PostMapping("/add/{accountId}")
 	@ResponseBody
 	@ApiOperation(value = "Add a daily account status.", notes = "Add a single daily account status.", response = DailyAccountStatus.class)
-	public DailyAccountStatus createDailyAccountStatus(@RequestBody @Valid DailyAccountStatus dailyAccountStatus){
-		return dailyAccountStatusService.createDailyAccountStatus(dailyAccountStatus);
+	public DailyAccountStatus createDailyAccountStatus(@RequestBody @Valid DailyAccountStatus dailyAccountStatus,
+							@PathVariable("accountId") Long accountId){
+		return dailyAccountStatusService.createDailyAccountStatus(accountId, dailyAccountStatus);
 	}
 	
 	@PostMapping
@@ -56,12 +57,13 @@ public class DailyAccountStatusController {
 		return dailyAccountStatusService.getDailyAccountStatus(id);
 	}
 	
-	@PutMapping("/update")
+	@PutMapping("/update/{accountId}")
 	@ResponseBody
 	@ApiOperation(value = "Update a daily account status.",
 				notes = "Update a single daily account status.", response = DailyAccountStatus.class)
-	public DailyAccountStatus updateDailyAccountStatus(@RequestBody @Valid DailyAccountStatus dailyAccountStatus){
-		return dailyAccountStatusService.updateDailyAccountStatus(dailyAccountStatus);
+	public DailyAccountStatus updateDailyAccountStatus(@RequestBody @Valid DailyAccountStatus dailyAccountStatus,
+								@PathVariable("accountId") Long accountId){
+		return dailyAccountStatusService.updateDailyAccountStatus(accountId, dailyAccountStatus);
 	}
 	
 	@DeleteMapping("/delete/{id}")
