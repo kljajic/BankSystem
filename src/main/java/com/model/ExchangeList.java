@@ -63,9 +63,5 @@ public class ExchangeList {
 	public Date getUsedSince() {
 		return usedSince;
 	}
-
-	public Set<CurrencyExchange> getCurrencyExchanges() {
-		return currencyExchanges;
-	}
 	
 }

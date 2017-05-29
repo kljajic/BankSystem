@@ -1,0 +1,53 @@
+package com.controller;
+
+import java.util.ArrayList;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.service.ExchangeListServiceImpl;
+import com.model.ExchangeList;
+
+@RequestMapping("/exchangeListController")
+@RestController
+public class ExchangeListController {
+
+	@Autowired
+	private ExchangeListServiceImpl exchangeListServiceImpl;
+	
+	@RequestMapping(path="/getAllExchangeLists", method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ArrayList<ExchangeList> getAll(){
+		ArrayList<ExchangeList> el = exchangeListServiceImpl.getAll();
+		return el;
+	}
+	
+	@RequestMapping(path="/addNewEL", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ExchangeList addNewEL(@RequestBody ExchangeList el){
+		exchangeListServiceImpl.save(el);
+		return el;
+	}
+	
+	@RequestMapping(path="/deleteEL", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ExchangeList deleteEL(@RequestBody ExchangeList el){
+		exchangeListServiceImpl.removeExchangeList(el.getId());
+		return el;
+	}
+	
+	@RequestMapping(path="/editEL", method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ExchangeList editEL(@RequestBody ExchangeList el){
+		exchangeListServiceImpl.editEL(el.getId(), el.getDate(), el.getNumberOfExchangeList(), el.getUsedSince());
+		return el;
+	}
+	
+	//search...
+	
+}

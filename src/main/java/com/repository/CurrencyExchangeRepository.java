@@ -21,6 +21,7 @@ public interface CurrencyExchangeRepository extends JpaRepository<CurrencyExchan
 	//@Query(value="select distinct ce.id, ce.buy_rate, ce.middle_rate, ce.sell_rate, ce.exchange_list_id, ce.primary_currency_id, ce.according_to_currency_id from currency_exchange ce inner join country d on c.country_id = d.id where c.name like ?1% and c.official_code like ?2% and c.domicilna like ?4% and d.name like ?3%" ,nativeQuery=true)
 	//public ArrayList<CurrencyExchange> searchCurrencyExchange(Double buyRate, Double middleRate, Double sellRate, int numberOfExchangeList, String offCodePrimaryCurrency, String offCodeAccordingToCurrency);
 
+	//da li and, or, between ...
 	@Query("select ce from CurrencyExchange as ce where ce.buyRate=?1 and ce.middleRate=?2 and ce.sellRate=?3 and ce.exchangeList.numberOfExchangeList=?4 and ce.primaryCurrency.officialCode like ?5% and ce.accordingToCurrency.officialCode like ?6%")
 	public ArrayList<CurrencyExchange> searchCurrencyExchange(Double buyRate, Double middleRate, Double sellRate, int numberOfExchangeList, String offCodePrimaryCurrency, String offCodeAccordingToCurrency);
 }
