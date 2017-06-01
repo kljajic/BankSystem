@@ -1,9 +1,13 @@
 package com.service;
 
+import com.model.user.User;
+
 public interface SecurityService {
 	
-	 public String findLoggedInUsername();
-
-	 public void autologin(String username, String password);
+	 void loginUser(User user);
+	 
+	 void registerUser(User user);
+	 
+	 void logoutUser();
 	
 }
