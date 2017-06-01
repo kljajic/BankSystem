@@ -54,7 +54,7 @@ public class CountryController {
 		return "1";
 	}
 	
-	@RequestMapping(path="/searchCountries/{naziv}", method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(path="/searchCountries/{name}", method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public HashSet<Country> searchCountries(@PathVariable ("name") String name){
 		HashSet<Country> countries = (HashSet<Country>) countryServiceImpl.searchByName(name); 

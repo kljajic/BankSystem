@@ -13,8 +13,8 @@
 	  <li><a id = "next" ng-click="nextClicked()"><img src="images/next.gif"/></a></li>
 	  <li><a id = "last" ng-click="lastClicked()"><img src="images/last.gif"/></a></li>
 	  <li><a id = "add"  ng-click="addClicked()"><img src="images/add.gif"/></a></li>
-	  <li><a id = "remove" ng-click="removeClicked(selectedDrzava)"><img src="images/remove.gif"/></a></li>
-	  <li><a id = "nextform" ng-click="nextClicked2(selectedDrzava)"><img src="images/nextform.gif"/></a></li>
+	  <li><a id = "remove" ng-click="removeClicked(selectedCountry)"><img src="images/remove.gif"/></a></li>
+	  <li><a id = "nextform" ng-click="nextClicked2(selectedCountry)"><img src="images/nextform.gif"/></a></li>
 	</ul>
 </div>
 
@@ -26,9 +26,9 @@
 		 	<th>Id</th>
 		 	<th>Naziv</th>
 		 </tr>
-		 <tr ng-repeat="drzava in drzave" ng-click="setSelected(drzava)" ng-class="{'alert alert-info' : selectedDrzava===drzava}">
-		 	<td class="id">{{ drzava.id }}</td>
-		 	<td class="naziv">{{ drzava.naziv }}</td>
+		 <tr ng-repeat="country in countries" ng-click="setSelected(country)" ng-class="{'alert alert-info' : selectedCountry===country}">
+		 	<td class="id">{{ country.id }}</td>
+		 	<td class="naziv">{{ country.name }}</td>
 		 </tr>
 	</table>
 </div>
@@ -36,15 +36,15 @@
 <div class = "panel">
 	<p>
 	
-					<input ng-value="drzava.id" type = "hidden" name = "${field.name}" id = "${field.id}"/>
-				<input type="text" name="someData" ng-model="drzava.id" style="display: none;"/>
+					<input ng-value="country.id" type = "hidden" name = "${field.name}" id = "${field.id}"/>
+				<input type="text" name="someData" ng-model="country.id" style="display: none;"/>
 				
 				<p>
 					<label for = "${field.id}">Naziv</label>
-					<input ng-model="drzava.naziv" type = "text" name = "${field.name}" id = "${field.id}"/>
+					<input ng-model="country.name" type = "text" name = "${field.name}" id = "${field.id}"/>
 				</p>
 				<div id = "formActions">
-					<input ng-click="submitAction(drzava)" type = "submit" value = "Potvrda" style="margin-left:6em"/>
+					<input ng-click="submitAction(country)" type = "submit" value = "Potvrda" style="margin-left:6em"/>
 					<a href = "#/" style="margin-left:1em" ng-click="rollbackAction()">Rollback</a>
 				</div>			
 				
