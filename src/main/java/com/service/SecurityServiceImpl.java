@@ -1,47 +1,46 @@
 package com.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
+
+import com.model.user.User;
 
 @Service
 public class SecurityServiceImpl implements SecurityService {
 
-	@Autowired
-	private AuthenticationManager authenticationManager;
+	private final AuthenticationManager authenticationManager;
+	private final UserService userService;
 
 	@Autowired
-	private UserDetailsService userDetailsService;
-
-	private static final Logger logger = LoggerFactory.getLogger(SecurityServiceImpl.class);
-
-	@Override
-	public String findLoggedInUsername() {
-		Object userDetails = SecurityContextHolder.getContext().getAuthentication().getDetails();
-		if (userDetails instanceof UserDetails) {
-			return ((UserDetails) userDetails).getUsername();
-		}
-		return null;
+	public SecurityServiceImpl(AuthenticationManager authenticationManager,
+							   UserService userService) {
+		this.authenticationManager = authenticationManager;
+		this.userService = userService;
 	}
 
 	@Override
-	public void autologin(String username, String password) {
-		UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-		UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-				userDetails, password, userDetails.getAuthorities());
-		
-		authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+	public void loginUser(User user) {
+		UserDetails userDetails = userService.loadUserByUsername(user.getEmail());
+		UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+				userDetails, user.getPassword(), userDetails.getAuthorities());
+		authenticationManager.authenticate(authenticationToken);
+		if (authenticationToken.isAuthenticated())
+			SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+	}
 
-		if (usernamePasswordAuthenticationToken.isAuthenticated()) {
-			SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-			logger.debug(String.format("Auto login %s successfully!", username));
-		}
+	@Override
+	public void registerUser(User user) {
+		userService.createUser(user);
+		loginUser(user);
+	}
+
+	@Override
+	public void logoutUser() {
+		SecurityContextHolder.getContext().setAuthentication(null);
 	}
 
 }

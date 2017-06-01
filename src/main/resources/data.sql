@@ -62,4 +62,38 @@ insert into analytical_statement(id, ammount, approval_autorization_number, appr
 								 place_of_acceptance_id) 
 	   value (1, 10000.00, '123456789', '97', '2015-05-29', '2015-05-29', '100018356', 'IZVRSEN_NALOG', '97',
 	   		  '\"Racunovodstvena praksa\" Njegoseva 19, 11000 Beograd', '355-1000466-07', 'Uplata poreza na promet proizvoda', 'Poreska uprava',
-	   		  '840-714121843-73', false, false, 1, 2 , 4, 1)
+	   		  '840-714121843-73', false, false, 1, 2 , 4, 1);
+	   		  
+insert into user(id, email, name, password, surname) values (1, 'mir@gmail.com', 'Mirko', 'mirko', 'Mikac');
+insert into user(id, email, name, password, surname) values (2, 'mar@gmail.com', 'Marko', 'marko', 'Kljajic');
+insert into user(id, email, name, password, surname) values (3, 'ste@gmail.com', 'Stefan', 'stefan', 'Varajic');
+insert into user(id, email, name, password, surname) values (4, 'dar@gmail.com', 'Darko', 'darko', 'Tacic');
+
+insert into role(id, name) values (1, 'BANK_ADMIN');
+insert into role(id, name) values (2, 'BANK_MANAGER');
+insert into role(id, name) values (3, 'BANK_STAFF');
+insert into role(id, name) values (4, 'CLIENT');
+
+insert into privilege(id, name) values (1, 'READ');
+insert into privilege(id, name) values (2, 'WRITE');
+insert into privilege(id, name) values (3, 'DELETE');
+
+insert into users_roles (user_id, role_id) values (1, 1);
+insert into users_roles (user_id, role_id) values (1, 2);
+insert into users_roles (user_id, role_id) values (1, 3);
+insert into users_roles (user_id, role_id) values (2, 2);
+insert into users_roles (user_id, role_id) values (2, 4);
+insert into users_roles (user_id, role_id) values (3, 4);
+insert into users_roles (user_id, role_id) values (4, 2);
+
+insert into roles_privileges(role_id, privilege_id) values(1, 1);
+insert into roles_privileges(role_id, privilege_id) values(1, 2);
+insert into roles_privileges(role_id, privilege_id) values(1, 3);
+
+insert into roles_privileges(role_id, privilege_id) values(2, 2);
+insert into roles_privileges(role_id, privilege_id) values(2, 3);
+
+insert into roles_privileges(role_id, privilege_id) values(3, 1);
+insert into roles_privileges(role_id, privilege_id) values(3, 1);
+
+insert into roles_privileges(role_id, privilege_id) values(4, 1);
