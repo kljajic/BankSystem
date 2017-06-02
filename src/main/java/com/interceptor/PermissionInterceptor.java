@@ -16,31 +16,35 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import com.model.user.Permission;
 
 @Component
-public class PermissionInterceptor extends HandlerInterceptorAdapter{
-	
-	
+public class PermissionInterceptor extends HandlerInterceptorAdapter {
+
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		
-		HandlerMethod handlerMethod = (HandlerMethod)handler;
-		Method method = (Method)handlerMethod.getMethod();
-		
-		if(method.isAnnotationPresent(Permission.class)){
+
+		HandlerMethod handlerMethod = (HandlerMethod) handler;
+		Method method = (Method) handlerMethod.getMethod();
+
+		System.out.println("Intercepted");
+
+		if (method.isAnnotationPresent(Permission.class)) {
 			String permission = method.getAnnotation(Permission.class).permissionName();
-			if(request.getSession().getAttribute("user_details") != null){
-				for(GrantedAuthority sga : SecurityContextHolder.getContext().getAuthentication().getAuthorities()){
-					if(sga.getAuthority().equals(permission)){
-						request.setAttribute("permitt", true);
+			System.out.println(permission);
+			if (SecurityContextHolder.getContext().getAuthentication() != null) {
+				for (GrantedAuthority sga : SecurityContextHolder.getContext().getAuthentication().getAuthorities()) {
+					if (sga.getAuthority().equals(permission)) {
+						request.setAttribute("permit", true);
 						return true;
 					}
 				}
+				request.setAttribute("permit", false);
+				return true;
 			}
-			request.setAttribute("permitt", true);
+			request.setAttribute("permit", false);
 			return true;
 		}
-		request.setAttribute("permitt", false);
+		request.setAttribute("permit", true);
 		return true;
 	}
-	
+
 }
