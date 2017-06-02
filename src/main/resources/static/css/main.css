@@ -1,15 +1,15 @@
-.countryTable {
+.table {
 	position: relative;
 	 display: block;
 }
 
 
-.countryTable table {
+.table table {
 	border-collapse: collapse;
 	min-width: 350px;
 }
 
-.countryTable table, th, td {
+.table table, th, td {
 	border: 1px solid black;
 }
 

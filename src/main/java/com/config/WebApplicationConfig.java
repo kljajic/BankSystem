@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import com.interceptor.PermissionInterceptor;
 
 @Component
-@ComponentScan(basePackages="com.controller")
+@ComponentScan(basePackages="com")
 public class WebApplicationConfig extends WebMvcConfigurerAdapter{
 	
 	@Bean

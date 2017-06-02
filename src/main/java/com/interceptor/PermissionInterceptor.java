@@ -22,26 +22,20 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
 
 		HandlerMethod handlerMethod = (HandlerMethod) handler;
 		Method method = (Method) handlerMethod.getMethod();
-
-		System.out.println("Intercepted");
-
 		if (method.isAnnotationPresent(Permission.class)) {
 			String permission = method.getAnnotation(Permission.class).permissionName();
-			System.out.println(permission);
-			if (SecurityContextHolder.getContext().getAuthentication() != null) {
+			if (!SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals("anonymousUser")) {
 				for (GrantedAuthority sga : SecurityContextHolder.getContext().getAuthentication().getAuthorities()) {
 					if (sga.getAuthority().equals(permission)) {
-						request.setAttribute("permit", true);
 						return true;
 					}
 				}
-				request.setAttribute("permit", false);
+				response.sendError(401, "Unauthorized request");
 				return true;
 			}
-			request.setAttribute("permit", false);
+			response.sendError(401, "Request with no logon");
 			return true;
 		}
-		request.setAttribute("permit", true);
 		return true;
 	}
 

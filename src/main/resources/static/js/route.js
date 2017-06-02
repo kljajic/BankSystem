@@ -9,5 +9,7 @@ app.config(function($routeProvider) {
 		templateUrl : "html/currency.html"
 	}).when("/currencyExchanges", {
 		templateUrl : "html/currencyExchange.html"
+	}).when("/cities", {
+		templateUrl : "html/city.html"
 	});
 });
