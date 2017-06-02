@@ -4,7 +4,7 @@ import com.model.user.User;
 
 public interface SecurityService {
 	
-	 void loginUser(User user);
+	 void loginUser(String username, String password);
 	 
 	 void registerUser(User user);
 	 

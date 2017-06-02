@@ -23,10 +23,10 @@ public class SecurityServiceImpl implements SecurityService {
 	}
 
 	@Override
-	public void loginUser(User user) {
-		UserDetails userDetails = userService.loadUserByUsername(user.getEmail());
+	public void loginUser(String email, String password) {
+		UserDetails userDetails = userService.loadUserByUsername(email);
 		UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-				userDetails, user.getPassword(), userDetails.getAuthorities());
+				userDetails, password, userDetails.getAuthorities());
 		authenticationManager.authenticate(authenticationToken);
 		if (authenticationToken.isAuthenticated())
 			SecurityContextHolder.getContext().setAuthentication(authenticationToken);
@@ -34,8 +34,9 @@ public class SecurityServiceImpl implements SecurityService {
 
 	@Override
 	public void registerUser(User user) {
+		String password = user.getPassword().concat("");
 		userService.createUser(user);
-		loginUser(user);
+		loginUser(user.getEmail(), password);
 	}
 
 	@Override

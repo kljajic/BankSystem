@@ -16,6 +16,9 @@ import javax.persistence.SequenceGenerator;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -55,5 +58,25 @@ public class User implements Serializable {
 				joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), 
 				inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
 	private Collection<Role> roles;
+
+	public void addRole(Role role){
+		roles.add(role);
+		role.getUsers().add(this);
+	}
+	
+	public void removeRole(Role role){
+		roles.remove(role);
+		role.getUsers().remove(this);
+	}
+	
+	@JsonIgnore
+	public Collection<Role> getRoles() {
+		return roles;
+	}
+
+	@JsonProperty
+	public void setRoles(Collection<Role> roles) {
+		this.roles = roles;
+	}
 
 }

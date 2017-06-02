@@ -1,41 +1,54 @@
 package com.controller;
 
-import javax.validation.Valid;
+import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.model.user.User;
-import com.service.SecurityService;
+import com.service.UserService;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
-	
-	private final SecurityService securityService;
+
+	private final UserService userService;
 	
 	@Autowired
-	public UserController(SecurityService securityService) {
-		this.securityService = securityService;
+	public UserController(UserService userService) {
+		this.userService = userService;
 	}
 	
-	@PostMapping("/login")
-	public void loginUser(@RequestBody User user){
-		securityService.loginUser(user);
+	@GetMapping("/{userId}")
+	@ResponseBody
+	public User getUser(@PathVariable("userId") Long userId){
+		return userService.getUser(userId);
 	}
 	
-	@PostMapping("/register")
-	public void registerUser(@RequestBody @Valid User user){
-		securityService.registerUser(user);
+	@GetMapping
+	@ResponseBody
+	public Collection<User> getAllUsers(){
+		return userService.getAllUsers();
 	}
 	
-	@GetMapping("/logout")
-	public void logoutUser(){
-		securityService.logoutUser();
+	@PostMapping("addRoleToUser/{userId}/{roleId}")
+	@ResponseBody
+	public User addRoleToUser(@PathVariable("userId") Long userId,
+							  @PathVariable("roleId") Long roleId){
+		return userService.addRoleToUser(userId, roleId);
+	}
+	
+	@DeleteMapping("removeRoleToUser/{userId}/{roleId}")
+	@ResponseBody
+	public User removeRoleFromUser(@PathVariable("userId") Long userId,
+							  @PathVariable("roleId") Long roleId){
+		return userService.removeRoleFromUser(userId, roleId);
 	}
 	
 }

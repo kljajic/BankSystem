@@ -9,7 +9,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,15 +21,20 @@ import com.repository.UserRepository;
 public class UserServiceImpl implements UserService {
 
 	private final UserRepository userRepository;
+	private final RoleService roleService;
+	private final PasswordEncoder passwordEncoder;
 	
 	@Autowired
-	public UserServiceImpl(UserRepository userRepository) {
+	public UserServiceImpl(UserRepository userRepository,
+						   RoleService roleService,
+						   PasswordEncoder passwordEncoder) {
 		this.userRepository = userRepository;
+		this.roleService = roleService;
+		this.passwordEncoder = passwordEncoder;
 	}
 	
 	@Override
 	public User createUser(User user) {
-		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		return userRepository.save(user);
 	}
@@ -38,6 +42,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User getUser(String username) {
 		return userRepository.findUserByEmail(username);
+	}
+	
+	@Override
+	public User getUser(Long userId) {
+		return userRepository.findOne(userId);
 	}
 
 	@Override
@@ -76,6 +85,32 @@ public class UserServiceImpl implements UserService {
 			authorities.add(new SimpleGrantedAuthority(privilege));
 		}
 		return authorities;
+	}
+
+	@Override
+	public Collection<User> getAllUsers() {
+		return userRepository.findAll();
+	}
+
+	@Override
+	public void deleteUser(Long userId) {
+		userRepository.delete(userId);
+	}
+
+	@Override
+	public User addRoleToUser(Long userId, Long roleId) {
+		User user = this.getUser(userId);
+		Role role = roleService.getOne(roleId);
+		user.addRole(role);
+		return userRepository.save(user);
+	}
+
+	@Override
+	public User removeRoleFromUser(Long userId, Long roleId) {
+		User user = this.getUser(userId);
+		Role role = roleService.getOne(roleId);
+		user.removeRole(role);
+		return userRepository.save(user);
 	}
 
 }
