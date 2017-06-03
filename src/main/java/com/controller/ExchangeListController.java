@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.service.ExchangeListServiceImpl;
 import com.model.ExchangeList;
 
-@RequestMapping("/exchangeList")
+@RequestMapping("/exchangeListController")
 @RestController
 public class ExchangeListController {
 
 	@Autowired
 	private ExchangeListServiceImpl exchangeListServiceImpl;
 	
-	@RequestMapping(path="/getAll", method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(path="/getAllExchangeLists", method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public ArrayList<ExchangeList> getAll(){
 		ArrayList<ExchangeList> el = exchangeListServiceImpl.getAll();

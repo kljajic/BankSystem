@@ -67,8 +67,8 @@ public class AccountController {
 		}
 	}
 	
-	@RequestMapping (value = "/{accountId}/{transverAcc}",
-					method=RequestMethod.PUT,
+	@RequestMapping (value = "delete/{accountId}/{transverAcc}",
+					method=RequestMethod.POST,
 					produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public ResponseEntity<Account> deleteAccount(@PathVariable("accountId") Long accountId,@PathVariable("transverAcc") String transverAcc){

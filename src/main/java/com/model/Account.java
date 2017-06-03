@@ -64,6 +64,9 @@ public class Account implements Serializable {
 	@ManyToOne
 	private Client client;
 	
+	@ManyToOne
+	private Currency currency;
+	
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy="account")
 	private Set<RevokedAccount> revokedAccounts;

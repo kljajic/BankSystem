@@ -1,0 +1,200 @@
+<div ng-cloak ng-controller="legalPersonAccountController">
+
+	<div class="toolbar">
+		<ul>
+			<li><a id="search" ng-click="searchClicked()"><img
+					src="images/search.gif" /></a></li>
+			<li><a href="#" id="refresh"><img src="images/refresh.gif" /></a></li>
+			<li><a href="#" id="pickup"><img
+					src="images/zoom-pickup.gif" /></a></li>
+			<li><a href="#" id="help"><img src="images/help.gif" /></a></li>
+			<li><a id="first" ng-click="firstClicked()"><img
+					src="images/first.gif" /></a></li>
+			<li><a id="prev" ng-click="prevClicked()"><img
+					src="images/prev.gif" /></a></li>
+			<li><a id="next" ng-click="nextClicked()"><img
+					src="images/next.gif" /></a></li>
+			<li><a id="last" ng-click="lastClicked()"><img
+					src="images/last.gif" /></a></li>
+			<li><a id="add" ng-click="addClicked()"><img
+					src="images/add.gif" /></a></li>
+			<li><a id="remove"
+				ng-click="removeClicked(selectedLegalPersonAccount)"><img
+					src="images/remove.gif" /></a></li>
+			<li><a id="nextform" ng-click="chain(selectedCity)"><img
+					src="images/nextform.gif" /></a></li>
+		</ul>
+	</div>
+
+	{{ mode.current }}
+
+	<div class="table">
+		<table>
+			<tr class="header">
+				<th>Broj racuna</th>
+				<th>Datum otvaranja</th>
+				<th>Vazeci</th>
+				<th>Klijent</th>
+				<th>Banka</th>
+				<th>Valuta</th>
+			</tr>
+			<tr ng-repeat="legalPersonAccount in legalPersonAccounts"
+				ng-click="setSelected(legalPersonAccount)"
+				ng-class="{'alert alert-info' : selectedLegalPersonAccount===legalPersonAccount}">
+				<td>{{ legalPersonAccount.accountNumber }}</td>
+				<td>{{ legalPersonAccount.openingDateView }}</td>
+				<td>{{ legalPersonAccount.activeView }}</td>
+				<td>{{ legalPersonAccount.client.name }} {{
+					legalPersonAccount.client.surname }}</td>
+				<td>{{ legalPersonAccount.bank.name}}</td>
+				<td>{{ legalPersonAccount.currency.officialCode}}</td>
+			</tr>
+		</table>
+	</div>
+
+	<div class="panel">
+		<p>
+			<input ng-value="legalPersonAccount.id" type="hidden"
+				name="${field.name}" id="${field.id}" /> <input type="text"
+				name="someData" ng-model="legalPersonAccount.id"
+				style="display: none;" />
+		<p>
+			<label for="${field.id}">Broj racuna</label> <input
+				ng-model="legalPersonAccount.accountNumber" type="text"
+				name="${field.name}" id="${field.id}" />
+		</p>
+		<p>
+			<label for="${field.id}">Datum otvaranja</label> <input
+				id=openingDateDatePicker
+				ng-model="legalPersonAccount.openingDateView" type="date"
+				name="${field.name}" id="${field.id}" />
+		</p>
+
+		<p>
+			<label for="${field.id}">Status</label> <select
+				ng-model="selectedStatus"><option value="" ng-if="true"></option>
+				<option>Aktivan</option>
+				<option>Neaktivan</option>
+			</select>
+		</p>
+		<p>
+			<input ng-value="legalPersonAccount.bank.id" type="hidden"
+				name="${field.name)" id="${field.id}" /> <label for="${field.id}">Banka</label>
+			<select ng-options="{{bankOptions}}" ng-model="selectedBank"><option
+					value="" ng-if="true"></option></select> <input
+				ng-click="showBanks(selectedBank)" type="button"
+				class="btn btn-md btn-default pulled-left" value="..."
+				style="margin-left: 6em" />
+		</p>
+
+		<p>
+			<input ng-value="legalPersonAccount.currency.id" type="hidden"
+				name="${field.name)" id="${field.id}" /> <label for="${field.id}">Valuta</label>
+			<select ng-options="{{currencyOptions}}" ng-model="selectedCurrency"><option
+					value="" ng-if="true"></option></select> <input
+				ng-click="showCurrencies(selectedCurrency)" type="button"
+				class="btn btn-md btn-default pulled-left" value="..."
+				style="margin-left: 6em" />
+		</p>
+		<div id="formActions">
+			<input ng-click="submitAction(legalPersonAccount)" type="submit"
+				value="Potvrda" style="margin-left: 6em"
+				class="btn btn-lg btn-default pulled-left" /> <input
+				ng-click="rollbackAction()" type="button" value="Rollback"
+				style="margin-left: 6em" class="btn btn-lg btn-default pulled-left" />
+		</div>
+	</div>
+
+	<md-dialog class="modal" id="bankModal" tabindex="-1"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1>Banke</h1>
+			</div>
+			<div class="modal-body">
+				<form validate class="simple-form">
+					<table class="centered">
+						<tr class="header">
+							<th>PIB</th>
+							<th>Naziv</th>
+							<th>Adresa</th>
+						</tr>
+						<tr ng-repeat="bank in banks"
+							ng-click="setModalSelectedBank(bank)"
+							ng-class="{'alert alert-info' : selectedModalBank===bank}">
+							<td class="pib">{{ bank.pib}}</td>
+							<td class="naziv">{{ bank.name }}</td>
+							<td class="adresa">{{ bank.address }}</td>
+						</tr>
+					</table>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<input id="btnConfirm" type="submit"
+					class="btn btn-default pulled-left" ng-click="confirmBank()"
+					value="Izaberi" />
+			</div>
+		</div>
+	</div>
+	</md-dialog>
+
+
+	<md-dialog class="modal" id="currencyModal" tabindex="-1"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1>Valute</h1>
+			</div>
+			<div class="modal-body">
+				<form validate class="simple-form">
+					<table class="centered">
+						<tr class="header">
+							<th>Zvanicna sifra</th>
+							<th>Naziv</th>
+							<th>Domicilna</th>
+							<th>Drzava</th>
+						</tr>
+						<tr ng-repeat="currency in currencies"
+							ng-click="setModalSelectedCurrency(currency)"
+							ng-class="{'alert alert-info' : selectedModalCurrency===currency}">
+							<td class="zvanicnaSifra">{{ currency.officialCode}}</td>
+							<td class="naziv">{{ currency.name }}</td>
+							<td class="domicilna">{{ currency.domicilna }}</td>
+							<td class="domicilna">{{ currency.country.id }}</td>
+						</tr>
+					</table>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<input id="btnConfirm" type="submit"
+					class="btn btn-default pulled-left" ng-click="confirmCurrency()"
+					value="Izaberi" />
+			</div>
+		</div>
+	</div>
+	</md-dialog>
+	
+	<md-dialog class="modal" id="deleteModal" tabindex="-1"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1>Brisanje naloga</h1>
+			</div>
+			<div class="modal-body">
+				<form validate class="simple-form">
+					<input type="text" ng-model="transferAccount">
+				</form>
+			</div>
+			<div class="modal-footer">
+				<input id="btnConfirm" type="submit"
+					class="btn btn-default pulled-left" ng-click="confirmDelete()"
+					value="Izaberi" />
+			</div>
+		</div>
+	</div>
+	</md-dialog>
+	
+</div>

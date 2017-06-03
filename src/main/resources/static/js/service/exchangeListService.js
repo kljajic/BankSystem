@@ -5,14 +5,14 @@ exchangeListService.factory('exchangeListService', function($http){
 	var temp = {};
 	
 	temp.getAllExchangeLists = function(){
-		return $http.get('/exchangeList/getAll/');
+		return $http.get('/exchangeListController/getAllExchangeLists');
 	};
 	
 	temp.deleteExchangeList = function(exchangeList){
 		var jsonExchangeList = JSON.stringify({
 			id : exchangeList.id
 		});
-		return $http.post('/exchangeList/delete/', jsonExchangeList);
+		return $http.post('/exchangeListController/delete/', jsonExchangeList);
 	};
 	
 	temp.addExchangeList = function(exchangeList, date, since, bankId){
@@ -26,7 +26,7 @@ exchangeListService.factory('exchangeListService', function($http){
 				id : bankId
 			}
 		});
-		return $http.post('/exchangeList/add/', jsonExchangeList);
+		return $http.post('/exchangeListController/add/', jsonExchangeList);
 	};
 	
 	
@@ -43,7 +43,7 @@ exchangeListService.factory('exchangeListService', function($http){
 			}
 		});
 		
-		return $http.post('/exchangeList/edit/', jsonExchangeList);
+		return $http.post('/exchangeListController/edit/', jsonExchangeList);
 	};
 	
 	

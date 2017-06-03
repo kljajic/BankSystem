@@ -5,5 +5,6 @@ var service = angular.module('bankApp.service', ['bankApp.countryService',
                                                  'bankApp.exchangeListService',
                                                  'bankApp.paymentTypeService',
                                                  'bankApp.dailyAccountStatusService',
-                                                 'bankApp.analyticalStatementService'
+                                                 'bankApp.analyticalStatementService',
+                                                 'bankApp.legalPersonAccountService'
                                                  ]);

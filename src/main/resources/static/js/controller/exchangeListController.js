@@ -64,9 +64,9 @@ exchangeListController.controller('exchangeListController', function($scope,
 	}
 	$scope.prevClicked = function() {
 		$scope.action = "prevClicked";
-		var n = $scope.cities.indexOf($scope.selectedExchangeList);
+		var n = $scope.exchangeLists.indexOf($scope.selectedExchangeList);
 		if (n == 0 || n == -1) {
-			n = $scope.cities.length;
+			n = $scope.exchangeLists.length;
 		}
 		$scope.setParameters($scope.exchangeLists[n - 1]);
 	}

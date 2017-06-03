@@ -47,10 +47,11 @@ public class Currency {
 	@ManyToOne(optional = false)
 	private Country country;
 	
-	//lista analitika izvoda
 	@OneToMany(mappedBy = "currency", fetch = FetchType.LAZY)
 	private Set<AnalyticalStatement> analyticalStatement = new HashSet<>();
-	//lista racuna pravnih lica
+	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, targetEntity = Account.class, mappedBy="currency")
+	private Set<Account> legalPersonAccounts;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, targetEntity = CurrencyExchange.class, mappedBy="primaryCurrency")
 	private Set<CurrencyExchange> primaryCurrencyExchanges;

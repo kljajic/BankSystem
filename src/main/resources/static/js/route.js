@@ -11,7 +11,7 @@ app.config(function($routeProvider) {
 		templateUrl : "html/currencyExchange.html"
 	}).when("/cities", {
 		templateUrl : "html/city.html"
-	}).when("/exchangeLists", {
+	}).when("/exchangeListController", {
 		templateUrl : "html/exchangeList.html"
 	}).when("/paymentTypes", {
 		templateUrl : "html/paymentType.html"
@@ -19,5 +19,7 @@ app.config(function($routeProvider) {
 		templateUrl : "html/dailyAccountStatus.html"
 	}).when("/analyticalStatements", {
 		templateUrl : "html/analyticalStatement.html"
+	}).when("/accounts", {
+		templateUrl : "html/legalPersonAccount.html"
 	});
 });
