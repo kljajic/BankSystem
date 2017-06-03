@@ -1,0 +1,60 @@
+<div ng-cloak ng-controller="paymentTypeController">
+
+	<div class="toolbar">
+		<ul>
+			<li><a id="search" ng-click="searchClicked()"><img
+					src="images/search.gif" /></a></li>
+			<li><a href="#" id="refresh"><img src="images/refresh.gif" /></a></li>
+			<li><a href="#" id="pickup"><img
+					src="images/zoom-pickup.gif" /></a></li>
+			<li><a href="#" id="help"><img src="images/help.gif" /></a></li>
+			<li><a id="first" ng-click="firstClicked()"><img
+					src="images/first.gif" /></a></li>
+			<li><a id="prev" ng-click="prevClicked()"><img
+					src="images/prev.gif" /></a></li>
+			<li><a id="next" ng-click="nextClicked()"><img
+					src="images/next.gif" /></a></li>
+			<li><a id="last" ng-click="lastClicked()"><img
+					src="images/last.gif" /></a></li>
+			<li><a id="add" ng-click="addClicked()"><img
+					src="images/add.gif" /></a></li>
+			<li><a id="remove" ng-click="removeClicked(selectedPaymentType)"><img
+					src="images/remove.gif" /></a></li>
+			<li><a id="nextform" ng-click="chain(selectedPaymentType)"><img
+					src="images/nextform.gif" /></a></li>
+		</ul>
+	</div>
+
+	{{ mode.current }}
+
+	<div class="table">
+		<table>
+			<tr class="header">
+				<th>ID</th>
+				<th>Name</th>
+			</tr>
+			<tr ng-repeat="paymentType in paymentTypes" ng-click="setSelected(paymentType)"
+				ng-class="{'alert alert-info' : selectedPaymentType===paymentType}">
+				<td class="number">{{ paymentType.id }}</td>
+				<td class="text">{{ paymentType.paymentTypeName }}</td>
+			</tr>
+		</table>
+	</div>
+
+	<div class="panel">
+		<p>
+			<input ng-value="paymentType.id" type="hidden"/> 
+			<input type="text" ng-model="paymentType.id" style="display: none;" />
+		<p>
+			<label for="${field.id}">Name</label> 
+			<input ng-model="paymentType.name" type="text"/>
+		</p>
+		<div id="formActions">
+			<input ng-click="submitAction(paymentType)" type="submit" value="Submit"
+				style="margin-left: 6em" class="btn btn-lg btn-default pulled-left" />
+			<input ng-click="rollbackAction()" type="button" value="Rollback"
+				style="margin-left: 6em" class="btn btn-lg btn-default pulled-left" />
+		</div>
+	</div>
+
+</div>

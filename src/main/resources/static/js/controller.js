@@ -2,5 +2,8 @@ var controller = angular.module('bankApp.controller', ['bankApp.countryControlle
                                                        'bankApp.currencyController',
                                                        'bankApp.currencyExchangeController',
                                                        'bankApp.cityController',
-                                                       'bankApp.exchangeListController'
+                                                       'bankApp.exchangeListController',
+                                                       'bankApp.paymentTypeController',
+                                                       'bankApp.dailyAccountStatusController',
+                                                       'bankApp.analyticalStatementController'
                                                        ]);

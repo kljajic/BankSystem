@@ -13,5 +13,11 @@ app.config(function($routeProvider) {
 		templateUrl : "html/city.html"
 	}).when("/exchangeLists", {
 		templateUrl : "html/exchangeList.html"
+	}).when("/paymentTypes", {
+		templateUrl : "html/paymentType.html"
+	}).when("/dailyAccountStatuses", {
+		templateUrl : "html/dailyAccountStatus.html"
+	}).when("/analyticalStatements", {
+		templateUrl : "html/analyticalStatement.html"
 	});
 });

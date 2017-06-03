@@ -14,6 +14,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -46,6 +47,7 @@ public class User implements Serializable {
 	private String surname;
 
 	@Column(unique = true)
+	@Email
 	@NotEmpty
 	private String email;
 
