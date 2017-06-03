@@ -2,7 +2,7 @@ var paymentTypeService = angular.module('bankApp.paymentTypeService', []);
 
 paymentTypeService.factory('paymentTypeService', function($http){
 	
-var temp = {};
+	var temp = {};
 	
 	temp.getAllPaymentTypes = function(){
 		return $http({
@@ -14,9 +14,9 @@ var temp = {};
 	temp.createPaymentType = function(paymentType){
 		return $http({
 			method : 'POST',
-			url: '../paymentTypes/create',
+			url: '../paymentTypes/add',
 			data: {
-				'name': paymentType.name
+				'paymentTypeName': paymentType.paymentTypeName
 			}
 		});
 	}
@@ -27,7 +27,7 @@ var temp = {};
 			url: '../paymentTypes/update',
 			data: {
 				'id': paymentType.id,
-				'name': paymentType.name
+				'paymentTypeName': paymentType.paymentTypeName
 			}
 		});
 	}
@@ -48,7 +48,7 @@ var temp = {};
 			method : 'POST',
 			url: '../paymentTypes/search',
 			data: {
-				'name': paymentType.name
+				'paymentTypeName': paymentType.paymentTypeName
 			}
 		});
 	}

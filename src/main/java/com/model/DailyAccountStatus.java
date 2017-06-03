@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,6 +21,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -38,11 +40,11 @@ import lombok.NoArgsConstructor;
 @XmlType(name="daily_account_status", namespace="", propOrder={
 	"id", 
 	"date", 
-	"previousAmmount",
+	"previousAmount",
 	"transferInFavor",
 	"numberOfChanges",
 	"transferExpenses",
-	"currentAmmount",
+	"currentAmount",
 	"account"
 })
 public class DailyAccountStatus implements Serializable{
@@ -56,7 +58,7 @@ public class DailyAccountStatus implements Serializable{
 	private Long id;
 	
 	@Column
-	@NotNull
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm a z")
 	@ApiModelProperty(value = "Date of daily account status.", required = true)
 	@XmlElement(name="date", required=true)
 	private Date date;
@@ -64,9 +66,9 @@ public class DailyAccountStatus implements Serializable{
 	@Column
 	@NotNull
 	@Digits(integer=15, fraction=2)
-	@ApiModelProperty(value = "Previous ammount on account.", required = true)
-	@XmlElement(name="previousAmmount", required=true)
-	private double previousAmmount;
+	@ApiModelProperty(value = "Previous amount on account.", required = true)
+	@XmlElement(name="previousAmount", required=true)
+	private double previousAmount;
 	
 	@Column
 	@NotNull
@@ -92,15 +94,15 @@ public class DailyAccountStatus implements Serializable{
 	@Column
 	@NotNull
 	@Digits(integer=15, fraction=2)
-	@ApiModelProperty(value = "Current ammount on account.", required = true)
-	@XmlElement(name="currentAmmount", required=true)
-	private double currentAmmount;
+	@ApiModelProperty(value = "Current amount on account.", required = true)
+	@XmlElement(name="currentAmount", required=true)
+	private double currentAmount;
 	
 	@ManyToOne
 	@XmlElement(name="account", required=true)
 	private Account account;
 	
-	@OneToMany(mappedBy = "dailyAccountStatus", fetch=FetchType.LAZY)
+	@OneToMany(mappedBy = "dailyAccountStatus", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<AnalyticalStatement> analyticalStatements = new HashSet<>();
 	
 	@JsonIgnore

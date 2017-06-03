@@ -57,11 +57,11 @@ insert into account(account_id,account_num,account_date,account_active,bank_bank
 insert into account(account_id,account_num,account_date,account_active,bank_bank_id,client_id) values(2,'222-111-444','2017-10-16',true,1,2);
 insert into account(account_id,account_num,account_date,account_active,bank_bank_id,client_id) values(3,'666-111-333','2017-10-17',true,2,3);
 
-insert into daily_account_status(id, date,account_account_id, previous_ammount, transfer_expenses, number_of_changes, transfer_in_favor, current_ammount)
+insert into daily_account_status(id, date,account_account_id, previous_amount, transfer_expenses, number_of_changes, transfer_in_favor, current_amount)
 values(1, '2017-10-16', 1, 50000, 15000, 1, 0, 35000);
-insert into daily_account_status(id, date,account_account_id, previous_ammount, transfer_expenses, number_of_changes, transfer_in_favor, current_ammount)
+insert into daily_account_status(id, date,account_account_id, previous_amount, transfer_expenses, number_of_changes, transfer_in_favor, current_amount)
 values(2, '2017-05-28', 2, 10000, 0, 1, 13500, 23500);
-insert into daily_account_status(id, date,account_account_id, previous_ammount, transfer_expenses, number_of_changes, transfer_in_favor, current_ammount)
+insert into daily_account_status(id, date,account_account_id, previous_amount, transfer_expenses, number_of_changes, transfer_in_favor, current_amount)
 values(3, '2017-05-28', 3, 10000, 10000, 2, 13500, 13500);
 
 insert into analytical_statement(id, ammount, approval_autorization_number, approval_model, currency_date, date_of_receipt, 

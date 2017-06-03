@@ -1,5 +1,6 @@
 package com.controller;
 
+import java.text.ParseException;
 import java.time.format.DateTimeParseException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,11 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler(DateTimeParseException.class)
 	public void handleDateTimeParseException(HttpServletRequest req, Exception e){
+		log.error("ERROR: "+req.getRequestURI()+", MESSAGE: "+e.getMessage());
+	}
+	
+	@ExceptionHandler(ParseException.class)
+	public void handleParseException(HttpServletRequest req, Exception e){
 		log.error("ERROR: "+req.getRequestURI()+", MESSAGE: "+e.getMessage());
 	}
 	

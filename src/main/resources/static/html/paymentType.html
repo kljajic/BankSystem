@@ -4,8 +4,8 @@
 		<ul>
 			<li><a id="search" ng-click="searchClicked()"><img
 					src="images/search.gif" /></a></li>
-			<li><a href="#" id="refresh"><img src="images/refresh.gif" /></a></li>
-			<li><a href="#" id="pickup"><img
+			<li><a ng-click="getAllPaymentTypes()" id="refresh"><img src="images/refresh.gif" /></a></li>
+			<li><a id="pickup" ng-click="previousForm()"><img
 					src="images/zoom-pickup.gif" /></a></li>
 			<li><a href="#" id="help"><img src="images/help.gif" /></a></li>
 			<li><a id="first" ng-click="firstClicked()"><img
@@ -20,7 +20,7 @@
 					src="images/add.gif" /></a></li>
 			<li><a id="remove" ng-click="removeClicked(selectedPaymentType)"><img
 					src="images/remove.gif" /></a></li>
-			<li><a id="nextform" ng-click="chain(selectedPaymentType)"><img
+			<li><a id="nextform" ng-click="nextForm(selectedPaymentType)"><img
 					src="images/nextform.gif" /></a></li>
 		</ul>
 	</div>
@@ -47,7 +47,7 @@
 			<input type="text" ng-model="paymentType.id" style="display: none;" />
 		<p>
 			<label for="${field.id}">Name</label> 
-			<input ng-model="paymentType.name" type="text"/>
+			<input ng-model="paymentType.paymentTypeName" type="text"/>
 		</p>
 		<div id="formActions">
 			<input ng-click="submitAction(paymentType)" type="submit" value="Submit"

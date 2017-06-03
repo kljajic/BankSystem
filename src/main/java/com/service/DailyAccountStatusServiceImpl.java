@@ -26,16 +26,17 @@ public class DailyAccountStatusServiceImpl implements DailyAccountStatusService{
 	}
 
 	@Override
-	public DailyAccountStatus createDailyAccountStatus(Long accountId, DailyAccountStatus dailyAccountStatus) {
+	public DailyAccountStatus createDailyAccountStatus(Long accountId, DailyAccountStatus dailyAccountStatus, Date date) {
 		Account account = accountService.getAccount(accountId);
 		dailyAccountStatus.setAccount(account);
+		dailyAccountStatus.setDate(date);
 		return dailyAccountStatusRepository.save(dailyAccountStatus);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public Collection<DailyAccountStatus> getDailyAccountStatuses(Date date) {
-		return dailyAccountStatusRepository.findDailyAccountStatusesByDate(date);
+	public Collection<DailyAccountStatus> getDailyAccountStatuses() {
+		return dailyAccountStatusRepository.findAll();
 	}
 	
 	@Override
@@ -45,16 +46,17 @@ public class DailyAccountStatusServiceImpl implements DailyAccountStatusService{
 	}
 
 	@Override
-	public DailyAccountStatus updateDailyAccountStatus(Long accountId, DailyAccountStatus dailyAccountStatus) {
+	public DailyAccountStatus updateDailyAccountStatus(Long accountId, DailyAccountStatus dailyAccountStatus, Date date) {
 		Account account = accountService.getAccount(accountId);
 		DailyAccountStatus temp = dailyAccountStatusRepository.findOne(dailyAccountStatus.getId());
 		temp.setAccount(account);
-		temp.setCurrentAmmount(dailyAccountStatus.getCurrentAmmount());
+		temp.setCurrentAmount(dailyAccountStatus.getCurrentAmount());
 		temp.setDate(dailyAccountStatus.getDate());
 		temp.setNumberOfChanges(dailyAccountStatus.getNumberOfChanges());
-		temp.setPreviousAmmount(dailyAccountStatus.getPreviousAmmount());
+		temp.setPreviousAmount(dailyAccountStatus.getPreviousAmount());
 		temp.setTransferExpenses(dailyAccountStatus.getTransferExpenses());
 		temp.setTransferInFavor(dailyAccountStatus.getTransferInFavor());
+		temp.setDate(date);
 		return dailyAccountStatusRepository.save(temp);
 	}
 
@@ -65,7 +67,7 @@ public class DailyAccountStatusServiceImpl implements DailyAccountStatusService{
 	
 	@Override
 	@Transactional(readOnly = true)
-	public Collection<DailyAccountStatus> searchDailyAccountStatuses(DailyAccountStatus dailyAccountStatus) {
+	public Collection<DailyAccountStatus> searchDailyAccountStatuses(Long accountId, DailyAccountStatus dailyAccountStatus, Date date) {
 		return null;
 	}
 	

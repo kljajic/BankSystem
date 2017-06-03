@@ -1,7 +1,7 @@
 var paymentTypeController = angular.module('bankApp.paymentTypeController', []);
 
 paymentTypeController.controller('paymentTypeController',['$rootScope','$scope','$location','$http',
-		'paymentTypeService',function($rootScope,$scope,$location,$http,paymentTypeService) {
+		'paymentTypeService',function($rootScope,$scope,$location,$http,paymentTypeService, ngNotifay) {
 	
 	$scope.action = {};
 	$scope.paymentTypes = [];
@@ -10,7 +10,6 @@ paymentTypeController.controller('paymentTypeController',['$rootScope','$scope',
 	$scope.mode = {};
 	$scope.mode.current = "Rezim izmene";
 	
-
 	$scope.getAllPaymentTypes = function() {
 		paymentTypeService.getAllPaymentTypes().then(function(response) {
 			if (response.data != null) {
@@ -21,8 +20,6 @@ paymentTypeController.controller('paymentTypeController',['$rootScope','$scope',
 	
 	$scope.getAllPaymentTypes();
 
-	$scope.paymentType = {};
-	$scope.selectedPaymentType = {};
 	$scope.setSelected = function(paymentType) {
 		if ($scope.selectedPaymentType == paymentType) {
 			$scope.selectedPaymentType = {};
@@ -35,16 +32,19 @@ paymentTypeController.controller('paymentTypeController',['$rootScope','$scope',
 		$scope.action = "firstClicked";
 		$scope.setParameters($scope.paymentTypes[0]);
 	}
+	
 	$scope.lastClicked = function() {
 		$scope.action = "lastClicked";
 		$scope.setParameters($scope.paymentTypes[$scope.paymentTypes.length - 1]);
 	}
+	
 	$scope.nextClicked = function() {
 		$scope.action = "nextClicked";
-		var n = $scope.paymentTypes.indexOf($scope.selectedPaymenType) + 1;
+		var n = $scope.paymentTypes.indexOf($scope.selectedPaymentType) + 1;
 		n = n % $scope.paymentTypes.length;
 		$scope.setParameters($scope.paymentTypes[n]);
 	}
+	
 	$scope.prevClicked = function() {
 		$scope.action = "prevClicked";
 		var n = $scope.paymentTypes.indexOf($scope.selectedPaymentType);
@@ -53,10 +53,14 @@ paymentTypeController.controller('paymentTypeController',['$rootScope','$scope',
 		}
 		$scope.setParameters($scope.paymentTypes[n - 1]);
 	}
+	
 	$scope.addClicked = function() {
 		$scope.action = "addClicked";
 		$scope.mode.current = "Rezim dodavanja";
+		$scope.paymentType={};
+		$scope.selectedPaymentType={};
 	}
+	
 	$scope.searchClicked = function() {
 		$scope.action = "searchClicked";
 		$scope.mode.current = "Rezim pretrage";
@@ -76,10 +80,10 @@ paymentTypeController.controller('paymentTypeController',['$rootScope','$scope',
 			},
 			function(isConfirm){
 			  if (isConfirm) {
-				  countryService.deleteCountry($scope.country.id).then(function(response){
-						var index=$scope.countries.indexOf($scope.selectedCountry);
-						$scope.previous();
-						$scope.countries.splice(index,1);
+				  paymentTypeService.deletePaymentType($scope.selectedPaymentType.id).then(function(response){
+						var index=$scope.paymentTypes.indexOf($scope.selectedPaymentType);
+						$scope.prevClicked();
+						$scope.paymentTypes.splice(index,1);
 					});
 				  swal("Deleted!", "Your data has been deleted.", "success");
 			  } else {
@@ -88,21 +92,20 @@ paymentTypeController.controller('paymentTypeController',['$rootScope','$scope',
 			});
 	}
 
-	$scope.paymentType = {};
 	$scope.submitAction = function(paymentType) {
 		if ($scope.action == "addClicked") {
-			paymentTypeService.addPaymentType(paymentType).then(function(response) {
+			paymentTypeService.createPaymentType(paymentType).then(function(response) {
 				$scope.paymentTypes.push(response.data);
 				$scope.selectedPaymentType=response.data;
-				$scope.paymentType={};
+				$scope.paymentType=response.data;
 			});
 		} else if ($scope.action == "searchClicked") {
-			paymentTypeService.searchPaymentTypes($scope.exchangeList).then(function(response) {
+			paymentTypeService.searchPaymentTypes($scope.paymentType).then(function(response) {
 				$scope.paymentTypes = response.data;
 			});
 		} else {
 			if (Object.keys($scope.selectedPaymentType).length > 0) {
-				paymentTypeService.editPaymentType(paymentType).then(
+				paymentTypeService.updatePaymentType(paymentType).then(
 						function(response) {
 							var index=$scope.paymentTypes.indexOf($scope.selectedPaymentType);
 							$scope.paymentTypes.splice(index,1);
@@ -119,8 +122,6 @@ paymentTypeController.controller('paymentTypeController',['$rootScope','$scope',
 		}
 	}
 	
-	
-
 	$scope.rollbackAction = function() {
 		$scope.action = "editClicked"
 		$scope.mode.current = "Rezim izmene";
@@ -131,6 +132,14 @@ paymentTypeController.controller('paymentTypeController',['$rootScope','$scope',
 	$scope.setParameters = function(paymentType){
 		$scope.selectedPaymentType = paymentType;
 		$scope.paymentType = angular.copy(paymentType);
+	}
+	
+	$scope.previousForm = function(){
+		sweetAlert("Oops...", "There are no previous forms for this table!", "error");
+	}
+	
+	$scope.nextForm = function(){
+		
 	}
 	
 }]);

@@ -1,8 +1,8 @@
 package com.controller;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
 
 import javax.validation.Valid;
 
@@ -35,19 +35,19 @@ public class DailyAccountStatusController {
 		this.dailyAccountStatusService = dailyAccountStatusService;
 	}
 	
-	@PostMapping("/add/{accountId}")
+	@PostMapping("/add/{accountId}/{date}")
 	@ResponseBody
 	@ApiOperation(value = "Add a daily account status.", notes = "Add a single daily account status.", response = DailyAccountStatus.class)
 	public DailyAccountStatus createDailyAccountStatus(@RequestBody @Valid DailyAccountStatus dailyAccountStatus,
-							@PathVariable("accountId") Long accountId){
-		return dailyAccountStatusService.createDailyAccountStatus(accountId, dailyAccountStatus);
+							@PathVariable("accountId") Long accountId, @PathVariable("date") Date date) {
+		return dailyAccountStatusService.createDailyAccountStatus(accountId, dailyAccountStatus, date);
 	}
 	
-	@PostMapping
+	@GetMapping
 	@ResponseBody
 	@ApiOperation(value = "Get daily account statuses.", notes = "Get all daily account statuses.", response = Collection.class)
-	public Collection<DailyAccountStatus> getDailyAccountStatuses(@RequestBody String date) throws ParseException{
-		return dailyAccountStatusService.getDailyAccountStatuses(new SimpleDateFormat("yyyy-MM-dd").parse(date));
+	public Collection<DailyAccountStatus> getDailyAccountStatuses() throws ParseException{
+		return dailyAccountStatusService.getDailyAccountStatuses();
 	}
 	
 	@GetMapping("/{id}")
@@ -57,13 +57,13 @@ public class DailyAccountStatusController {
 		return dailyAccountStatusService.getDailyAccountStatus(id);
 	}
 	
-	@PutMapping("/update/{accountId}")
+	@PutMapping("/update/{accountId}/{date}")
 	@ResponseBody
 	@ApiOperation(value = "Update a daily account status.",
 				notes = "Update a single daily account status.", response = DailyAccountStatus.class)
 	public DailyAccountStatus updateDailyAccountStatus(@RequestBody @Valid DailyAccountStatus dailyAccountStatus,
-								@PathVariable("accountId") Long accountId){
-		return dailyAccountStatusService.updateDailyAccountStatus(accountId, dailyAccountStatus);
+								@PathVariable("accountId") Long accountId, @PathVariable("date") Date date) {
+		return dailyAccountStatusService.updateDailyAccountStatus(accountId, dailyAccountStatus, date);
 	}
 	
 	@DeleteMapping("/delete/{id}")
@@ -76,8 +76,9 @@ public class DailyAccountStatusController {
 	@ResponseBody
 	@ApiOperation(value = "Search daily account statuses.",
 				notes = "Search daily account statuses by fiven fields.", response = DailyAccountStatus.class)
-	public Collection<DailyAccountStatus> searchDailyAccountStatuses(@RequestBody DailyAccountStatus dailyAccountStatus){
-		return dailyAccountStatusService.searchDailyAccountStatuses(dailyAccountStatus);
+	public Collection<DailyAccountStatus> searchDailyAccountStatuses(@RequestBody DailyAccountStatus dailyAccountStatus,
+			@PathVariable("accountId") Long accountId, @PathVariable("date") Date date){
+		return dailyAccountStatusService.searchDailyAccountStatuses(accountId, dailyAccountStatus, date);
 	}
 	
 }
