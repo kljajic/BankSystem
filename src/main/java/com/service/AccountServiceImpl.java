@@ -18,20 +18,32 @@ public class AccountServiceImpl implements AccountService {
 	
 	@Override
 	public Account createAccount(Account a) {
-		// TODO Auto-generated method stub
-		return null;
+		return accountRepository.save(a);
 	}
 
 	@Override
 	public Account updateAccount(Account a) {
-		// TODO Auto-generated method stub
-		return null;
+		Account account = accountRepository.findOne(a.getId());
+		if(account != null){
+			account.setAccountNumber(a.getAccountNumber());
+			account.setActive(a.isActive());
+			account.setBank(a.getBank());
+			account.setOpeningDate(a.getOpeningDate());
+			return accountRepository.save(a);
+		} else {
+			return null;
+		}
 	}
 
 	@Override
 	public Account deleteAccount(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		Account account = accountRepository.findOne(id);
+		if(account != null){
+			account.setActive(false);
+			return accountRepository.save(account);
+		} else {
+			return null;
+		}
 	}
 
 	@Override
@@ -47,6 +59,11 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public Account getAccount(Long id) {
 		return accountRepository.findOne(id);
+	}
+
+	@Override
+	public ArrayList<Account> getAllAccountsForBank(Long bankId) {
+		return accountRepository.findAccountsByBankIdOrderByOpeningDateAsc(bankId);
 	}
 
 }

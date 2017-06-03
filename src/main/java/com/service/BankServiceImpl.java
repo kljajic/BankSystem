@@ -28,8 +28,15 @@ public class BankServiceImpl implements BankService {
 
 	@Override
 	public Bank deleteBank(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		Bank b = bankRepository.findOne(id);
+		if(b != null){
+			bankRepository.delete(b);
+			return b;
+		} else {
+			return null;
+		}
+		
+		
 	}
 
 	@Override

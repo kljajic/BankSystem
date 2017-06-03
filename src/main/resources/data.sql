@@ -43,11 +43,19 @@ insert into payment_type(id, payment_type_name) values(2, 'Cekovi');
 insert into payment_type(id, payment_type_name) values(3, 'Kredit');
 insert into payment_type(id, payment_type_name) values(4, 'Transfer novca');
 
+insert into user(id, email, name, password, surname) values (1, 'mir@gmail.com', 'Mirko', 'mirko', 'Mikac');
+insert into user(id, email, name, password, surname) values (2, 'mar@gmail.com', 'Marko', 'marko', 'Kljajic');
+insert into user(id, email, name, password, surname) values (3, 'ste@gmail.com', 'Stefan', 'stefan', 'Varajic');
+insert into user(id, email, name, password, surname) values (4, 'dar@gmail.com', 'Darko', 'darko', 'Tacic');
 
-insert into account(account_id,account_num,account_date,account_active,bank_bank_id) values(1,'333-111-333','2017-10-15',true,1);
-insert into account(account_id,account_num,account_date,account_active,bank_bank_id) values(2,'222-111-444','2017-10-16',true,1);
-insert into account(account_id,account_num,account_date,account_active,bank_bank_id) values(3,'666-111-333','2017-10-17',true,2);
-insert into account(account_id,account_num,account_date,account_active,bank_bank_id) values(4,'666-111-333','2017-10-17',true,2);
+insert into client(id,address,date_of_birth) values (1,'Bulevar narodnog fronta 2','1994-10-15');
+insert into client(id,address,date_of_birth) values (2,'Bulevar narodnog fronta 20','1994-10-15');
+insert into client(id,address,date_of_birth) values (3,'Bulevar narodnog fronta 200','1994-10-15');
+
+
+insert into account(account_id,account_num,account_date,account_active,bank_bank_id,client_id) values(1,'333-111-333','2017-10-15',true,1,1);
+insert into account(account_id,account_num,account_date,account_active,bank_bank_id,client_id) values(2,'222-111-444','2017-10-16',true,1,2);
+insert into account(account_id,account_num,account_date,account_active,bank_bank_id,client_id) values(3,'666-111-333','2017-10-17',true,2,3);
 
 insert into daily_account_status(id, date,account_account_id, previous_ammount, transfer_expenses, number_of_changes, transfer_in_favor, current_ammount)
 values(1, '2017-10-16', 1, 50000, 15000, 1, 0, 35000);
@@ -64,10 +72,6 @@ insert into analytical_statement(id, ammount, approval_autorization_number, appr
 	   		  '\"Racunovodstvena praksa\" Njegoseva 19, 11000 Beograd', '355-1000466-07', 'Uplata poreza na promet proizvoda', 'Poreska uprava',
 	   		  '840-714121843-73', false, false, 1, 2 , 4, 1);
 	   		  
-insert into user(id, email, name, password, surname) values (1, 'mir@gmail.com', 'Mirko', 'mirko', 'Mikac');
-insert into user(id, email, name, password, surname) values (2, 'mar@gmail.com', 'Marko', 'marko', 'Kljajic');
-insert into user(id, email, name, password, surname) values (3, 'ste@gmail.com', 'Stefan', 'stefan', 'Varajic');
-insert into user(id, email, name, password, surname) values (4, 'dar@gmail.com', 'Darko', 'darko', 'Tacic');
 
 insert into role(id, name) values (1, 'BANK_ADMIN');
 insert into role(id, name) values (2, 'BANK_MANAGER');

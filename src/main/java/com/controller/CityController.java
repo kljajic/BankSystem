@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.model.City;
-import com.model.user.Permission;
 import com.service.CityService;
 
 import io.swagger.annotations.Api;

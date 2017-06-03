@@ -18,8 +18,10 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.model.user.Client;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -49,6 +51,7 @@ public class Account implements Serializable {
 	@Column(name = "ACCOUNT_NUM")
 	private String accountNumber;
 	
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm a z")
 	@Column(name = "ACCOUNT_DATE")
 	private Date openingDate;
 	
@@ -57,6 +60,10 @@ public class Account implements Serializable {
 	
 	@ManyToOne
 	private Bank bank;
+	
+	@ManyToOne
+	private Client client;
+	
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy="account")
 	private Set<RevokedAccount> revokedAccounts;
