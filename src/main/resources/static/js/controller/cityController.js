@@ -43,23 +43,17 @@ cityController.controller('cityController', function($scope, $location,
 
 	$scope.firstClicked = function() {
 		$scope.action = "firstClicked";
-		$scope.selectedCity = $scope.cities[0];
-		$scope.city.name = $scope.selectedCity.name;
-		$scope.city.id = $scope.selectedCity.id;
+		$scope.setParameters($scope.cities[0]);
 	}
 	$scope.lastClicked = function() {
 		$scope.action = "lastClicked";
-		$scope.selectedCity = $scope.cities[$scope.cities.length - 1];
-		$scope.city.name = $scope.selectedCity.name;
-		$scope.city.id = $scope.selectedCity.id;
+		$scope.setParameters($scope.cities[$scope.cities.length - 1]);
 	}
 	$scope.nextClicked = function() {
 		$scope.action = "nextClicked";
 		var n = $scope.cities.indexOf($scope.selectedCity) + 1;
 		n = n % $scope.cities.length;
-		$scope.selectedCity = $scope.cities[n];
-		$scope.city.name = $scope.selectedCity.name;
-		$scope.city.id = $scope.selectedCity.id;
+		$scope.setParameters($scope.cities[n]);
 	}
 	$scope.prevClicked = function() {
 		$scope.action = "prevClicked";
@@ -67,9 +61,7 @@ cityController.controller('cityController', function($scope, $location,
 		if (n == 0 || n == -1) {
 			n = $scope.cities.length;
 		}
-		$scope.selectedCity = $scope.cities[n - 1];
-		$scope.city.name = $scope.selectedCity.name;
-		$scope.city.id = $scope.selectedCity.id;
+		$scope.setParameters($scope.cities[n - 1]);
 	}
 	$scope.addClicked = function() {
 		$scope.action = "addClicked";
@@ -119,7 +111,7 @@ cityController.controller('cityController', function($scope, $location,
 	
 
 	$scope.rollbackAction = function() {
-		$scope.action = "editCountry"
+		$scope.action = "editCity"
 		$scope.mode.current = "Rezim izmene";
 		$scope.city = {};
 		$scope.selectedCountry = {};

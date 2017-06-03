@@ -11,5 +11,7 @@ app.config(function($routeProvider) {
 		templateUrl : "html/currencyExchange.html"
 	}).when("/cities", {
 		templateUrl : "html/city.html"
+	}).when("/exchangeLists", {
+		templateUrl : "html/exchangeList.html"
 	});
 });

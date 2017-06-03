@@ -1,0 +1,119 @@
+<div ng-cloak ng-controller="exchangeListController">
+
+	<div class="toolbar">
+		<ul>
+			<li><a id="search" ng-click="searchClicked()"><img
+					src="images/search.gif" /></a></li>
+			<li><a href="#" id="refresh"><img src="images/refresh.gif" /></a></li>
+			<li><a href="#" id="pickup"><img
+					src="images/zoom-pickup.gif" /></a></li>
+			<li><a href="#" id="help"><img src="images/help.gif" /></a></li>
+			<li><a id="first" ng-click="firstClicked()"><img
+					src="images/first.gif" /></a></li>
+			<li><a id="prev" ng-click="prevClicked()"><img
+					src="images/prev.gif" /></a></li>
+			<li><a id="next" ng-click="nextClicked()"><img
+					src="images/next.gif" /></a></li>
+			<li><a id="last" ng-click="lastClicked()"><img
+					src="images/last.gif" /></a></li>
+			<li><a id="add" ng-click="addClicked()"><img
+					src="images/add.gif" /></a></li>
+			<li><a id="remove" ng-click="removeClicked(selectedExchangeList)"><img
+					src="images/remove.gif" /></a></li>
+			<li><a id="nextform" ng-click="chain(selectedCity)"><img
+					src="images/nextform.gif" /></a></li>
+		</ul>
+	</div>
+
+	{{ mode.current }}
+
+	<div class="table">
+		<table>
+			<tr class="header">
+				<th>Datum</th>
+				<th>Broj kursne liste</th>
+				<th>Primenjuje se od</th>
+				<th>Banka</th>
+			</tr>
+			<tr ng-repeat="exchangeList in exchangeLists" ng-click="setSelected(exchangeList)"
+				ng-class="{'alert alert-info' : selectedExchangeList===exchangeList}">
+				<td class="date">{{ exchangeList.dateView }}</td>
+				<td class="number">{{ exchangeList.numberOfExchangeList }}</td>
+				<td class="usedSince">{{ exchangeList.usedSinceView }}</td>
+				<td class="bank">{{ exchangeList.bank.name}}</td>
+			</tr>
+		</table>
+	</div>
+
+	<div class="panel">
+		<p>
+			<input ng-value="exchangeList.id" type="hidden" name="${field.name}"
+				id="${field.id}" /> <input type="text" name="someData"
+				ng-model="exchangeList.id" style="display: none;" />
+		<p>
+			<label for="${field.id}">Datum</label> <input
+				ng-model="exchangeList.date" id="dateDatePicker" ng-model="exchangeList.dateView" type="date" name="${field.name}"
+				id="${field.id}" />
+		</p>
+		<p>
+			<label for="${field.id}">Broj kursne liste</label> <input
+				ng-model="exchangeList.numberOfExchangeList" type="text" name="${field.name}"
+				id="${field.id}" />
+		</p>
+		<p>
+			<label for="${field.id}">Primenjuje se od</label> <input
+				ng-model="exchangeList.usedSince" id="usedSinceDatePicker" ng-model="exchangeList.usedSinceView" type="date" name="${field.name}"
+				id="${field.id}" />
+		</p>
+		<p>
+			<input ng-value="exchangeList.bank.id" type="hidden" name="${field.name)"
+				id="${field.id}" /> <label for="${field.id}">Banka</label> <select
+				ng-options="{{bankOptions}}" ng-model="selectedBank"><option
+					value="" ng-if="true"></option></select> <input
+				ng-click="showBanks(selectedBank)" type="button"
+				class="btn btn-md btn-default pulled-left" value="..."
+				style="margin-left: 6em" />
+		</p>
+		<div id="formActions">
+			<input ng-click="submitAction(exchangeList)" type="submit" value="Potvrda"
+				style="margin-left: 6em" class="btn btn-lg btn-default pulled-left" />
+			<input ng-click="rollbackAction()" type="button" value="Rollback"
+				style="margin-left: 6em" class="btn btn-lg btn-default pulled-left" />
+		</div>
+	</div>
+
+	<md-dialog class="modal" id="bankModal" tabindex="-1"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1>Banke</h1>
+			</div>
+			<div class="modal-body">
+				<form validate class="simple-form">
+					<table class="centered">
+						<tr class="header">
+							<th>PIB</th>
+							<th>Naziv</th>
+							<th>Adresa</th>
+						</tr>
+						<tr ng-repeat="bank in banks"
+							ng-click="setModalSelectedBank(bank)"
+							ng-class="{'alert alert-info' : selectedModalBank===bank}">
+							<td class="pib">{{ bank.pib}}</td>
+							<td class="naziv"> {{ bank.name }}</td>
+							<td class="adresa"> {{ bank.address }}</td>
+						</tr>
+					</table>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<input id="btnConfirm" type="submit"
+					class="btn btn-default pulled-left" ng-click="confirmBank()"
+					value="Izaberi" />
+			</div>
+		</div>
+	</div>
+	</md-dialog>
+
+</div>

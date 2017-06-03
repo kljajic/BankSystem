@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
@@ -26,8 +27,7 @@ public class ExchangeList {
 	private Date date;
 	
 	@Column(nullable = false)
-	@Min(3)
-	@Max(3)
+	@Digits(integer=3, fraction = 0)
 	private int numberOfExchangeList;
 	
 	@Column(nullable = false)
@@ -36,6 +36,26 @@ public class ExchangeList {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, targetEntity=CurrencyExchange.class, mappedBy = "exchangeList")
 	private Set<CurrencyExchange> currencyExchanges;
 	
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	public void setNumberOfExchangeList(int numberOfExchangeList) {
+		this.numberOfExchangeList = numberOfExchangeList;
+	}
+
+	public void setUsedSince(Date usedSince) {
+		this.usedSince = usedSince;
+	}
+
+	public void setBank(Bank bank) {
+		this.bank = bank;
+	}
+
 	//polje banke
 	@ManyToOne(optional = false)
 	private Bank bank;
