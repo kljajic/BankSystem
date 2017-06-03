@@ -1,6 +1,7 @@
 package com.controller;
 
 import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,16 +30,18 @@ public class AnalyticalStatementController {
 		this.analyticalStatementService = analyticalStatementService;
 	}
 	
-	@PostMapping("/create/{currencyId}/{paymentTypeId}/{cityId}/{dailyAccountStatusId}")
+	@PostMapping("/create/{currencyId}/{paymentTypeId}/{cityId}/{dailyAccountStatusId}/{dateOfReceipt}/{currencyDate}")
 	@ResponseBody
 	@ApiOperation(value = "Create a analytical statement.", notes = "Create a single analytical statement.", response = AnalyticalStatement.class)
 	public AnalyticalStatement createAnalyticalStatement(@PathVariable("currencyId") String currencyId,
 														 @PathVariable("paymentTypeId") String paymentTypeId,
 														 @PathVariable("cityId") String cityId,
 														 @PathVariable("dailyAccountStatusId") Long dailyAccountStatusId,
+														 @PathVariable("dateOfReceipt") Date dateOfReceipt,
+														 @PathVariable("currencyDate") Date currencyDate,
 														 @RequestBody AnalyticalStatement analyticalStatement){
 		return analyticalStatementService.createAnalyticalStatement(currencyId, paymentTypeId, cityId,
-																	dailyAccountStatusId, analyticalStatement);
+																	dailyAccountStatusId, dateOfReceipt, currencyDate, analyticalStatement);
 	}
 	
 	@GetMapping
@@ -55,16 +58,18 @@ public class AnalyticalStatementController {
 		return analyticalStatementService.getAnalyticalStatement(id);
 	}
 	
-	@PutMapping("/update/{currencyId}/{paymentTypeId}/{cityId}/{dailyAccountStatusId}")
+	@PutMapping("/update/{currencyId}/{paymentTypeId}/{cityId}/{dailyAccountStatusId}/{dateOfReceipt}/{currencyDate}")
 	@ResponseBody
 	@ApiOperation(value = "Update a analytical statement.", notes = "Update a single analytical statement.", response = AnalyticalStatement.class)
 	public AnalyticalStatement updateAnalyticalStatement(@PathVariable("currencyId") String currencyId,
 														 @PathVariable("paymentTypeId") String paymentTypeId,
 														 @PathVariable("cityId") String cityId,
 														 @PathVariable("dailyAccountStatusId") Long dailyAccountStatusId,
+														 @PathVariable("dateOfReceipt") Date dateOfReceipt,
+														 @PathVariable("currencyDate") Date currencyDate,
 														 @RequestBody AnalyticalStatement analyticalStatement){
 		return analyticalStatementService.updateAnalyticalStatement(currencyId, paymentTypeId, cityId,
-																	dailyAccountStatusId, analyticalStatement);
+																	dailyAccountStatusId, dateOfReceipt, currencyDate, analyticalStatement);
 	}
 	
 	@DeleteMapping("/delete/{analyticalStatementId}")

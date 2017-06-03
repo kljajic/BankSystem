@@ -1,0 +1,306 @@
+<div ng-cloak ng-controller="analyticalStatementController">
+
+	<div class="toolbar">
+		<ul>
+			<li><a id="search" ng-click="searchClicked()"><img
+					src="images/search.gif" /></a></li>
+			<li><a ng-click="getAllAnalyticalStatements()" id="refresh"><img src="images/refresh.gif" /></a></li>
+			<li><a id="pickup" ng-click="previousForm()"><img
+					src="images/zoom-pickup.gif" /></a></li>
+			<li><a href="#" id="help"><img src="images/help.gif" /></a></li>
+			<li><a id="first" ng-click="firstClicked()"><img
+					src="images/first.gif" /></a></li>
+			<li><a id="prev" ng-click="prevClicked()"><img
+					src="images/prev.gif" /></a></li>
+			<li><a id="next" ng-click="nextClicked()"><img
+					src="images/next.gif" /></a></li>
+			<li><a id="last" ng-click="lastClicked()"><img
+					src="images/last.gif" /></a></li>
+			<li><a id="add" ng-click="addClicked()"><img
+					src="images/add.gif" /></a></li>
+			<li><a id="remove" ng-click="removeClicked()"><img
+					src="images/remove.gif" /></a></li>
+			<li><a id="nextform" ng-click="nextForm(selectedAnalyticalStatement)"><img
+					src="images/nextform.gif" /></a></li>
+		</ul>
+	</div>
+
+	{{ mode.current }}
+
+	<div class="table">
+		<table>
+			<tr class="header">
+				<th>Originator</th>
+				<th>Purpose</th>
+				<th>Recipient</th>
+				<th>Date of receipt</th>
+				<th>Currency date</th>
+				<th>Originator account</th>
+				<th>Model</th>
+				<th>Debit authorization number</th>
+				<th>Recipient account</th>
+				<th>Approval model</th>
+				<th>Approval authorization number</th>
+				<th>Urgently</th>
+				<th>Amount</th>
+			</tr>
+			<tr ng-repeat="analyticalStatement in analyticalStatements" ng-click="setSelected(analyticalStatement)"
+				ng-class="{'alert alert-info' : selectedAnalyticalStatement===analyticalStatement}">
+				<td>{{ analyticalStatement.originator }}</td>
+				<td>{{ analyticalStatement.purpose }}</td>
+				<td>{{ analyticalStatement.recipient }}</td>
+				<td>{{ analyticalStatement.dateOfReceipt }}</td>
+				<td>{{ analyticalStatement.currencyDate }}</td>
+				<td>{{ analyticalStatement.originatorAccount }}</td>
+				<td>{{ analyticalStatement.model }}</td>
+				<td>{{ analyticalStatement.debitAuthorizationNumber }}</td>
+				<td>{{ analyticalStatement.recipientAccount }}</td>
+				<td>{{ analyticalStatement.approvalModel }}</td>
+				<td>{{ analyticalStatement.approvalAuthorizationNumber }}</td>
+				<td>{{ analyticalStatement.urgently }}</td>	
+				<td>{{ analyticalStatement.amount }}</td>	
+			</tr>
+		</table>
+	</div>
+
+	<div class="panel">
+		<p>
+			<input ng-value="analyticalStatement" type="hidden"/> 
+			<input type="text" ng-model="analyticalStatement" style="display: none;" />
+		</p>
+		<p>
+			<input ng-value="analyticalStatement.dailyAccountStatus.id" type="hidden" name="${field.name)"
+				id="${field.id}" /><label for="${field.id}">Daily account status</label> <select
+				ng-options="{{dailyAccountStatusOptions}}" ng-model="selectedDailyAccountStatus"></select> 
+				<input ng-click="showDailyAccountStatuses()" type="button"
+				class="btn btn-md btn-default pulled-left" value="..."
+				style="margin-left: 6em" />
+		</p>
+		<p>
+			<input ng-value="analyticalStatement.placeOfAcceptance.id" type="hidden" name="${field.name)"
+				id="${field.id}" /><label for="${field.id}">Place of acceptance</label> <select
+				ng-options="{{cityOptions}}" ng-model="selectedCity"></select> 
+				<input ng-click="showCities()" type="button"
+				class="btn btn-md btn-default pulled-left" value="..."
+				style="margin-left: 6em" />
+		</p>
+		<p>
+			<input ng-value="analyticalStatement.paymentType.id" type="hidden" name="${field.name)"
+				id="${field.id}" /><label for="${field.id}">Payment type</label> <select
+				ng-options="{{paymentTypeOptions}}" ng-model="selectedPaymentType"></select> 
+				<input ng-click="showPaymentTypes()" type="button"
+				class="btn btn-md btn-default pulled-left" value="..."
+				style="margin-left: 6em" />
+		</p>
+		<p>
+			<input ng-value="analyticalStatement.currency.id" type="hidden" name="${field.name)"
+				id="${field.id}" /><label for="${field.id}">Currency</label> <select
+				ng-options="{{currencyOptions}}" ng-model="selectedCurrency"></select> 
+				<input ng-click="showCurrencies()" type="button"
+				class="btn btn-md btn-default pulled-left" value="..."
+				style="margin-left: 6em" />
+		</p>
+		<p>
+			<label for="${field.id}">Originator</label> 
+			<input ng-model="analyticalStatement.originator" type="text"/>
+		</p>
+		<p>
+			<label for="${field.id}">Purpose</label> 
+			<input ng-model="analyticalStatement.purpose" type="text"/>
+		</p>
+		<p>
+			<label for="${field.id}">Recipient</label> 
+			<input ng-model="analyticalStatement.recipient" type="text"/>
+		</p>
+		<p>
+			<label for="${field.id}">Date of receipt</label> 
+			<input id="dateOfReceipt" ng-model="analyticalStatement.dateOfReceipt" type="date"/>
+		</p>
+		<p>
+			<label for="${field.id}">Currency date</label> 
+			<input id="currencyDate" ng-model="analyticalStatement.currencyDate" type="date"/>
+		</p>
+		<p>
+			<label for="${field.id}">Originator account</label> 
+			<input ng-model="analyticalStatement.originatorAccount" type="text"/>
+		</p>
+		<p>
+			<label for="${field.id}">Model</label> 
+			<input ng-model="analyticalStatement.model" type="number"/>
+		</p>
+		<p>
+			<label for="${field.id}">Debit authorization number</label> 
+			<input ng-model="analyticalStatement.debitAuthorizationNumber" type="text"/>
+		</p>
+		<p>
+			<label for="${field.id}">Recipient account</label> 
+			<input ng-model="analyticalStatement.recipientAccount" type="text"/>
+		</p>
+		<p>
+			<label for="${field.id}">Approval model</label> 
+			<input ng-model="analyticalStatement.approvalModel" type="text"/>
+		</p>
+		<p>
+			<label for="${field.id}">Approval authorization number</label> 
+			<input ng-model="analyticalStatement.approvalAuthorizationNumber" type="text"/>
+		</p>
+		<p>
+			<label for="${field.id}">Urgently</label> 
+			<input ng-model="analyticalStatement.urgently" type="text"/>
+		</p>
+		<p>
+			<label for="${field.id}">Amount</label> 
+			<input ng-model="analyticalStatement.amount" type="number"/>
+		</p>
+		<div id="formActions">
+			<input ng-click="submitAction(analyticalStatement)" type="submit" value="Submit"
+				style="margin-left: 6em" class="btn btn-lg btn-default pulled-left" />
+			<input ng-click="rollbackAction()" type="button" value="Rollback"
+				style="margin-left: 6em" class="btn btn-lg btn-default pulled-left" />
+		</div>
+	</div>
+	
+	<md-dialog class="modal" id="dailyAccountStatusModal" tabindex="-1"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1>Daily account statuses</h1>
+			</div>
+			<div class="modal-body">
+				<form validate class="simple-form">
+					<table class="centered">
+						<tr class="header">
+							<th>Account number</th>
+							<th>Date</th>
+							<th>Previous amount</th>
+							<th>Transfer in favor</th>
+							<th>Number of changes</th>
+							<th>Transfer expenses</th>
+							<th>Current amount</th>
+							
+						</tr>
+						<tr ng-repeat="dailyAccountStatus in dailyAccountStatuses"
+							ng-click="setModalSelectedDailyAccountStatus(dailyAccountStatus)"
+							ng-class="{'alert alert-info' : selectedModalDailyAccountStatus===dailyAccountStatus}">
+							<td>{{ dailyAccountStatus.account.accountNumber }}</td>
+							<td>{{ dailyAccountStatus.date }}</td>
+							<td>{{ dailyAccountStatus.previousAmount }}</td>
+							<td>{{ dailyAccountStatus.transferInFavor }}</td>
+							<td>{{ dailyAccountStatus.numberOfChanges }}</td>
+							<td>{{ dailyAccountStatus.transferExpenses }}</td>
+							<td>{{ dailyAccountStatus.currentAmount }}</td>
+						</tr>
+					</table>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<input id="btnConfirm" type="submit"
+					class="btn btn-default pulled-left" ng-click="confirmDailyAccountStatus()"
+					value="Izaberi" />
+			</div>
+		</div>
+	</div>
+	</md-dialog>
+	
+	<md-dialog class="modal" id="cityModal" tabindex="-1"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1>Cities</h1>
+			</div>
+			<div class="modal-body">
+				<form validate class="simple-form">
+					<table class="centered">
+						<tr class="header">
+							<th>Name</th>
+							<th>PTT number</th>
+							<th>Country name</th>
+						</tr>
+						<tr ng-repeat="city in cities"
+							ng-click="setModalSelectedCity(city)"
+							ng-class="{'alert alert-info' : selectedModalCity===city}">
+							<td>{{ city.name }}</td>
+							<td>{{ city.pttNumber }}</td>
+							<td>{{ city.country.name }}</td>
+						</tr>
+					</table>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<input id="btnConfirm" type="submit"
+					class="btn btn-default pulled-left" ng-click="confirmCity()"
+					value="Izaberi" />
+			</div>
+		</div>
+	</div>
+	</md-dialog>
+	
+	<md-dialog class="modal" id="paymentTypeModal" tabindex="-1"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1>Payment types</h1>
+			</div>
+			<div class="modal-body">
+				<form validate class="simple-form">
+					<table class="centered">
+						<tr class="header">
+							<th>Payment type name</th>
+						</tr>
+						<tr ng-repeat="paymentType in paymentTypes"
+							ng-click="setModalSelectedPaymentType(paymentType)"
+							ng-class="{'alert alert-info' : selectedModalPaymentType === paymentType}">
+							<td>{{ paymentType.paymentTypeName }}</td>
+						</tr>
+					</table>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<input id="btnConfirm" type="submit"
+					class="btn btn-default pulled-left" ng-click="confirmPaymentType()"
+					value="Izaberi" />
+			</div>
+		</div>
+	</div>
+	</md-dialog>
+	
+	<md-dialog class="modal" id="currencyModal" tabindex="-1"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1>Payment types</h1>
+			</div>
+			<div class="modal-body">
+				<form validate class="simple-form">
+					<table class="centered">
+						<tr class="header">
+							<th>Official code</th>
+							<th>Name</th>
+							<th>Domicilna</th>
+							<th>Country name</th>
+						</tr>
+						<tr ng-repeat="currency in currencies"
+							ng-click="setModalSelectedCurrency(currency)"
+							ng-class="{'alert alert-info' : selectedModalCurrency === currency}">
+							<td>{{ currency.officialCode }}</td>
+							<td>{{ currency.name }}</td>
+							<td>{{ currency.domicilna }}</td>
+							<td>{{ currency.country.name }}</td>
+						</tr>
+					</table>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<input id="btnConfirm" type="submit"
+					class="btn btn-default pulled-left" ng-click="confirmCurrency()"
+					value="Izaberi" />
+			</div>
+		</div>
+	</div>
+	</md-dialog>
+
+</div>

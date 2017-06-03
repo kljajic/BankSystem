@@ -64,8 +64,8 @@ values(2, '2017-05-28', 2, 10000, 0, 1, 13500, 23500);
 insert into daily_account_status(id, date,account_account_id, previous_amount, transfer_expenses, number_of_changes, transfer_in_favor, current_amount)
 values(3, '2017-05-28', 3, 10000, 10000, 2, 13500, 13500);
 
-insert into analytical_statement(id, ammount, approval_autorization_number, approval_model, currency_date, date_of_receipt, 
-								 debit_autorization_number, error_type, model, originator, originator_account, purpose, recipient,
+insert into analytical_statement(id, amount, approval_authorization_number, approval_model, currency_date, date_of_receipt, 
+								 debit_authorization_number, error_type, model, originator, originator_account, purpose, recipient,
 								 recipient_account, uplata, urgently, currency_id, daily_account_status_id, payment_type_id,
 								 place_of_acceptance_id) 
 	   value (1, 10000.00, '123456789', '97', '2015-05-29', '2015-05-29', '100018356', 'IZVRSEN_NALOG', '97',

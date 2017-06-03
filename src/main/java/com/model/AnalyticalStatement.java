@@ -20,6 +20,8 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -41,11 +43,11 @@ import lombok.NoArgsConstructor;
 	"currencyDate",
 	"originatorAccount",
 	"model",
-	"debitAutorizationNumber",
+	"debitAuthorizationNumber",
 	"recipientAccount",
 	"approvalModel",
-	"approvalAutorizationNumber",
-	"ammount",
+	"approvalAuthorizationNumber",
+	"amount",
 	"currency",
 	"urgently",
 	"direction"
@@ -82,12 +84,14 @@ public class AnalyticalStatement {
 	private String recipient;
 	
 	@XmlElement(name="dateOfReceipt", required=true)
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm a z")
 	@Column
 	@NotNull
 	@ApiModelProperty(value = "Analtyical statement's date of receipt.", required = true)
 	private Date dateOfReceipt;
 	
 	@XmlElement(name="currencyDate", required=true)
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm a z")
 	@Column
 	@NotNull
 	@ApiModelProperty(value = "Currency date.", required = true)
@@ -105,11 +109,11 @@ public class AnalyticalStatement {
 	@ApiModelProperty(value = "Analtyical statement's model.")
 	private short model;
 	
-	@XmlElement(name="debitAutorizationNumber", required=true)
+	@XmlElement(name="debitAuthorizationNumber", required=true)
 	@Column
 	@Size(min = 0, max = 20)
 	@ApiModelProperty(value = "Debit autorization number.")
-	private String debitAutorizationNumber;
+	private String debitAuthorizationNumber;
 	
 	@XmlElement(name="recipientAccount", required=true)
 	@Column
@@ -123,11 +127,11 @@ public class AnalyticalStatement {
 	@ApiModelProperty(value = "Approval model.")
 	private short approvalModel;
 	
-	@XmlElement(name="approvalAutorizationNumber", required=true)
+	@XmlElement(name="approvalAuthorizationNumber", required=true)
 	@Column
 	@Size(min = 0, max = 20)
-	@ApiModelProperty(value = "Approval autorization number.")
-	private String approvalAutorizationNumber;
+	@ApiModelProperty(value = "Approval authorization number.")
+	private String approvalAuthorizationNumber;
 	
 	@XmlElement(name="urgently", required=true)
 	@Column
@@ -135,12 +139,12 @@ public class AnalyticalStatement {
 	@ApiModelProperty(value = "Urgent analtyical statement.", required = true)
 	private boolean urgently;
 	
-	@XmlElement(name="ammount", required=true)
+	@XmlElement(name="amount", required=true)
 	@Column
 	@NotNull
 	@Digits(integer = 15, fraction = 2)
-	@ApiModelProperty(value = "Ammount.", required = true)
-	private double ammount;
+	@ApiModelProperty(value = "Amount.", required = true)
+	private double amount;
 	
 	@Enumerated(EnumType.STRING)
 	@ApiModelProperty(value = "Analtyical statement's error type.", required = true)

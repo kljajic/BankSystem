@@ -1,6 +1,7 @@
 package com.service;
 
 import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,13 +34,16 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 
 	@Override
 	public AnalyticalStatement createAnalyticalStatement(String currencyId, String paymentTypeId, String cityId, 
-														 Long dailyAccountStatusId, AnalyticalStatement analyticalStatement) {
+														 Long dailyAccountStatusId, Date dateOfReceipt,
+														  Date currencyDate, AnalyticalStatement analyticalStatement) {
 		if(currencyId != null && !currencyId.trim().equals("NOT_ENTERED"))
 			analyticalStatement.setCurrency(currencyService.getCurrency(new Long(currencyId)));
 		if(paymentTypeId != null && !paymentTypeId.trim().equals("NOT_ENTERED"))
 			analyticalStatement.setPaymentType(paymentTypeService.getPaymentType(new Long(paymentTypeId)));
 		if(cityId != null && !cityId.trim().equals("NOT_ENTERED"))
 			analyticalStatement.setPlaceOfAcceptance(cityService.getCity(new Long(cityId)));
+		analyticalStatement.setDateOfReceipt(dateOfReceipt);
+		analyticalStatement.setCurrencyDate(currencyDate);
 		analyticalStatement.setDailyAccountStatus(dailyAccountStatusService.getDailyAccountStatus(dailyAccountStatusId));
 		return analyticalStatementRepository.save(analyticalStatement);
 	}
@@ -56,10 +60,10 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 
 	@Override
 	public AnalyticalStatement updateAnalyticalStatement(String currencyId, String paymentTypeId, String cityId, Long dailyAccountStatusId, 
-														 AnalyticalStatement analyticalStatement) {
+														 Date dateOfReceipt, Date currencyDate, AnalyticalStatement analyticalStatement) {
 		AnalyticalStatement temp = analyticalStatementRepository.findOne(analyticalStatement.getId());
-		temp.setAmmount(analyticalStatement.getAmmount());
-		temp.setApprovalAutorizationNumber(analyticalStatement.getApprovalAutorizationNumber());
+		temp.setAmount(analyticalStatement.getAmount());
+		temp.setApprovalAuthorizationNumber(analyticalStatement.getApprovalAuthorizationNumber());
 		temp.setApprovalModel(analyticalStatement.getApprovalModel());
 		if(currencyId != null && !currencyId.trim().equals("NOT_ENTERED"))
 			temp.setCurrency(currencyService.getCurrency(new Long(currencyId)));
@@ -67,10 +71,10 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 			temp.setPaymentType(paymentTypeService.getPaymentType(new Long(paymentTypeId)));
 		if(cityId != null && !cityId.trim().equals("NOT_ENTERED"))
 			temp.setPlaceOfAcceptance(cityService.getCity(new Long(cityId)));
-		temp.setCurrencyDate(analyticalStatement.getCurrencyDate());
+		temp.setCurrencyDate(currencyDate);
 		temp.setDailyAccountStatus(dailyAccountStatusService.getDailyAccountStatus(dailyAccountStatusId));
-		temp.setDateOfReceipt(analyticalStatement.getDateOfReceipt());
-		temp.setDebitAutorizationNumber(analyticalStatement.getDebitAutorizationNumber());
+		temp.setDateOfReceipt(dateOfReceipt);
+		temp.setDebitAuthorizationNumber(analyticalStatement.getDebitAuthorizationNumber());
 		temp.setErrorType(analyticalStatement.getErrorType());
 		temp.setModel(analyticalStatement.getModel());
 		temp.setOriginator(analyticalStatement.getOriginator());

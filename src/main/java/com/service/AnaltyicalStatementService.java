@@ -1,6 +1,7 @@
 package com.service;
 
 import java.util.Collection;
+import java.util.Date;
 
 import com.model.AnalyticalStatement;
 
@@ -9,7 +10,9 @@ public interface AnaltyicalStatementService {
 	AnalyticalStatement createAnalyticalStatement(String currencyId, 
 												  String paymentTypeId, 
 												  String cityId, 
-												  Long dailyAccountStatusId, 
+												  Long dailyAccountStatusId,
+												  Date dateOfReceipt,
+												  Date currencyDate,
 												  AnalyticalStatement analyticalStatement);
 	
 	Collection<AnalyticalStatement> getAnalyticalStatements();
@@ -19,7 +22,9 @@ public interface AnaltyicalStatementService {
 	AnalyticalStatement updateAnalyticalStatement(String currencyId,
 												  String paymentTypeId, 
 												  String cityId, 
-												  Long dailyAccountStatusId, 
+												  Long dailyAccountStatusId,
+												  Date dateOfReceipt,
+												  Date currencyDate,
 			  									  AnalyticalStatement analyticalStatement);
 	
 	void deleteAnalyticalStatement(Long id);
