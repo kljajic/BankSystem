@@ -13,7 +13,7 @@ public interface ExchangeListService {
 	
 	public void removeExchangeList(Long id);
 	
-	public ExchangeList editEL(Long id, Date date, int numberOfExchangeList, Date usedSince);
+	public ExchangeList editExchangeList(ExchangeList el);
 
 	public ArrayList<ExchangeList> searchEL(Date date, int numberOfExchangeList, Date usedSince);
 

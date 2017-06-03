@@ -34,9 +34,10 @@ public class ExchangeListServiceImpl implements ExchangeListService {
 	}
 
 	@Override
-	public ExchangeList editEL(Long id, Date date, int numberOfExchangeList, Date usedSince) {
-		// TODO Auto-generated method stub
-		return exchangeListRepository.editEL(id, date, numberOfExchangeList, usedSince);
+	public ExchangeList editExchangeList(ExchangeList el) {
+		exchangeListRepository.delete(el.getId());
+		return exchangeListRepository.save(el);
+		
 	}
 
 	@Override
