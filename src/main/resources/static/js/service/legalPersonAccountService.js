@@ -12,15 +12,27 @@ legalPersonAccountService.factory('legalPersonAccountService', function($http){
 		return $http.post('/accounts/delete/' + legalPersonAccount.id + "/" + transferAccount);
 	};
 	
-	temp.addLegalPersonAccount = function(legalPersonAccount, openingDate, bankId){
+	temp.getAllClients = function(){
+		return $http.get('/clients');
+	};
+	
+	temp.addLegalPersonAccount = function(legalPersonAccount, openingDate, bankId, clientId, currencyId){
 		var dT = new Date(openingDate);
 		var jsonLegalPersonAccount = JSON.stringify({
+			accountNumber : legalPersonAccount.accountNumber,
 			openingDate : dT.valueOf(),
 			bank : {
 				id : bankId
-			}
+			},
+			client : {
+				id : clientId
+			},
+			currency : {
+				id : currencyId
+			},
+			active : true
 		});
-		return $http.post('/accounts/add/', jsonLegalPersonAccount);
+		return $http.post('/accounts/', jsonLegalPersonAccount);
 	};
 	
 	

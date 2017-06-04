@@ -42,7 +42,7 @@
 				ng-click="setSelected(legalPersonAccount)"
 				ng-class="{'alert alert-info' : selectedLegalPersonAccount===legalPersonAccount}">
 				<td>{{ legalPersonAccount.accountNumber }}</td>
-				<td>{{ legalPersonAccount.openingDateView }}</td>
+				<td>{{ legalPersonAccount.openingDate.substring(0, 10) }}</td>
 				<td>{{ legalPersonAccount.activeView }}</td>
 				<td>{{ legalPersonAccount.client.name }} {{
 					legalPersonAccount.client.surname }}</td>
@@ -65,8 +65,7 @@
 		</p>
 		<p>
 			<label for="${field.id}">Datum otvaranja</label> <input
-				id=openingDateDatePicker
-				ng-model="legalPersonAccount.openingDateView" type="date"
+				ng-model="legalPersonAccount.openingDate" type="string"
 				name="${field.name}" id="${field.id}" />
 		</p>
 
@@ -83,7 +82,7 @@
 			<select ng-options="{{bankOptions}}" ng-model="selectedBank"><option
 					value="" ng-if="true"></option></select> <input
 				ng-click="showBanks(selectedBank)" type="button"
-				class="btn btn-md btn-default pulled-left" value="..."
+				class="btn btn-sm btn-default pulled-left" value="..."
 				style="margin-left: 6em" />
 		</p>
 
@@ -93,7 +92,16 @@
 			<select ng-options="{{currencyOptions}}" ng-model="selectedCurrency"><option
 					value="" ng-if="true"></option></select> <input
 				ng-click="showCurrencies(selectedCurrency)" type="button"
-				class="btn btn-md btn-default pulled-left" value="..."
+				class="btn btn-sm btn-default pulled-left" value="..."
+				style="margin-left: 6em" />
+		</p>
+		<p>
+			<input ng-value="legalPersonAccount.client.id" type="hidden"
+				name="${field.name)" id="${field.id}" /> <label for="${field.id}">Klijent</label>
+			<select ng-options="{{clientOptions}}" ng-model="selectedClient"><option
+					value="" ng-if="true"></option></select> <input
+				ng-click="showClients(selectedClient)" type="button"
+				class="btn btn-sm btn-default pulled-left" value="..."
 				style="margin-left: 6em" />
 		</p>
 		<div id="formActions">
@@ -175,7 +183,7 @@
 		</div>
 	</div>
 	</md-dialog>
-	
+
 	<md-dialog class="modal" id="deleteModal" tabindex="-1"
 		aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
@@ -185,6 +193,7 @@
 			</div>
 			<div class="modal-body">
 				<form validate class="simple-form">
+					<label for="${field.id}">Transfer account</label>
 					<input type="text" ng-model="transferAccount">
 				</form>
 			</div>
@@ -196,5 +205,40 @@
 		</div>
 	</div>
 	</md-dialog>
-	
+
+	<md-dialog class="modal" id="clientModal" tabindex="-1"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1>Klijenti</h1>
+			</div>
+			<div class="modal-body">
+				<form validate class="simple-form">
+					<table class="centered">
+						<tr class="header">
+							<th>Ime</th>
+							<th>Prezime</th>
+							<th>Email</th>
+							<th>Adresa</th>
+						</tr>
+						<tr ng-repeat="client in clients"
+							ng-click="setModalSelectedClient(client)"
+							ng-class="{'alert alert-info' : selectedModalClient===client}">
+							<td class="ime">{{ client.name}}</td>
+							<td class="prezime">{{ client.surname }}</td>
+							<td class="email">{{ client.email }}</td>
+							<td class="adresa">{{ client.address }}</td>
+						</tr>
+					</table>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<input id="btnConfirm" type="submit"
+					class="btn btn-default pulled-left" ng-click="confirmClient()"
+					value="Izaberi" />
+			</div>
+		</div>
+	</div>
+	</md-dialog>
 </div>

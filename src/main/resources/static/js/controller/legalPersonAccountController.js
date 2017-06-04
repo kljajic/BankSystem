@@ -6,13 +6,18 @@ legalPersonAccountController.controller('legalPersonAccountController', function
 	
 	$scope.action = {};
 	$scope.legalPersonAccounts = [];
+	$scope.legalPersonAccount= {};
 	$scope.banks = [];
 	$scope.bankOptions = "bank.name for bank in banks";
-	$scope.legalPersonAccount= {};
 	$scope.selectedBank = {};
 	$scope.currencies = [];
 	$scope.currencyOptions = "currency.officialCode for currency in currencies";
 	$scope.selectedCurrency = {};
+	$scope.clients = [];
+	$scope.clientOptions = "client.name + space + client.surname for client in clients";
+	$scope.selectedClient = {};
+	$scope.space = " ";
+	
 	
 	$scope.mode = {};
 	$scope.mode.current = "Rezim izmene";
@@ -23,7 +28,6 @@ legalPersonAccountController.controller('legalPersonAccountController', function
 			if (data.data != null) {
 				$scope.legalPersonAccounts = data.data;
 				for(var i = 0;i < $scope.legalPersonAccounts.length;i++){
-					$scope.legalPersonAccounts[i].openingDateView = moment(new Date($scope.legalPersonAccounts[i].openingDate)).format("YYYY MM DD");
 					if($scope.legalPersonAccounts[i].active == true){
 						$scope.legalPersonAccounts[i].activeView = "AKTIVAN";
 					} else {
@@ -50,10 +54,19 @@ legalPersonAccountController.controller('legalPersonAccountController', function
 		});
 	}
 	
+	$scope.getAllClients = function() {
+		legalPersonAccountService.getAllClients().then(function(data) {
+			if (data.data != null) {
+				$scope.clients = data.data;
+			}
+		});
+	}
+	
 	
 	$scope.getAllLegalPersonAccounts();
-	$scope.getAllCurrencies();
 	$scope.getAllBanks();
+	$scope.getAllCurrencies();
+	$scope.getAllClients();
 
 	$scope.legalPersonAccount = {};
 	$scope.selectedLegalPersonAccount = {};
@@ -106,9 +119,9 @@ legalPersonAccountController.controller('legalPersonAccountController', function
 	$scope.legalPersonAccount = {};
 	$scope.submitAction = function(legalPersonAccount) {
 		if ($scope.action == "addClicked") {
-			/*legalPersonAccountService.addLegalPersonAccount(legalPersonAccount, $("#dateDatePicker").val(), $("#usedSinceDatePicker").val(), $scope.selectedBank.id).then(function(response) {
+			legalPersonAccountService.addLegalPersonAccount(legalPersonAccount, $("#openingDateDatePicker").val(), $scope.selectedBank.id, $scope.selectedClient.id, $scope.selectedCurrency.id).then(function(response) {
 				$scope.getAllLegalPersonAccounts();
-			});*/
+			});
 		} else if ($scope.action == "searchClicked") {
 			//exchangeListService.searchExchangeLists($scope.exchangeList).then(function(response) {
 				//$scope.exchangeLists = response.data;
@@ -163,21 +176,34 @@ legalPersonAccountController.controller('legalPersonAccountController', function
 		$scope.selectedModalCurrency = currency;
 	}
 	
+	$scope.showClients = function(client){
+		$("#clientModal").modal('show');
+		$scope.setModalSelectedClient(client);
+	}
+	
+	
+	$scope.setModalSelectedClient = function(client){
+		$scope.selectedModalClient = client;
+	}
+	
+	
 	$scope.selectedStatus = {};
 	
 	$scope.setParameters = function(legalPersonAccount){
 		$scope.selectedLegalPersonAccount = legalPersonAccount;
 		$scope.legalPersonAccount = angular.copy(legalPersonAccount);
+		
+		if(legalPersonAccount.active == true){
+			$scope.selectedStatus = "Aktivan";
+		} else {
+			$scope.selectedStatus = "Neaktivan";
+		}
+		
 		for(i=0;i<$scope.banks.length;i++){
 			if($scope.banks[i].id == legalPersonAccount.bank.id){
 				$scope.selectedBank = $scope.banks[i];
 				break;  
 			}
-		}
-		if(legalPersonAccount.active == true){
-			$scope.selectedStatus = "Aktivan";
-		} else {
-			$scope.selectedStatus = "Neaktivan";
 		}
 		
 		for(i=0;i<$scope.currencies.length;i++){
@@ -186,6 +212,14 @@ legalPersonAccountController.controller('legalPersonAccountController', function
 				break;  
 			}
 		}
+		
+		for(i=0;i<$scope.clients.length;i++){
+			if($scope.clients[i].id == legalPersonAccount.client.id){
+				$scope.selectedClient = $scope.clients[i];
+				break;  
+			}
+		}
+		
 		var openingDate = $scope.getDateForPicker(legalPersonAccount.openingDateView, 'YYYY MM DD');
 		$('#openingDateDatePicker').val(openingDate);
 	}
@@ -210,6 +244,12 @@ legalPersonAccountController.controller('legalPersonAccountController', function
 		$scope.selectedCurrency = $scope.selectedModalCurrency;
 		$("#currencyModal").modal('hide');
 		$scope.selectedModalCurrency = {};
+	}
+	
+	$scope.confirmClient = function(){
+		$scope.selectedClient = $scope.selectedModalClient;
+		$("#clientModal").modal('hide');
+		$scope.selectedModalClient = {};
 	}
 	
 	
