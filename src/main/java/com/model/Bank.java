@@ -46,7 +46,7 @@ public class Bank implements Serializable {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, targetEntity = ExchangeList.class, mappedBy="bank")
 	private Set<ExchangeList> exchangeLists;
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy="bank")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy="bank", orphanRemoval = true, targetEntity = Account.class)
 	private Set<Account> accounts;
 	
 

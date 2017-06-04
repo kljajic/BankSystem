@@ -122,9 +122,9 @@ legalPersonAccountController.controller('legalPersonAccountController', function
 				$scope.getAllLegalPersonAccounts();
 			});
 		} else if ($scope.action == "searchClicked") {
-			//exchangeListService.searchExchangeLists($scope.exchangeList).then(function(response) {
-				//$scope.exchangeLists = response.data;
-			//});
+			legalPersonAccountService.searchLegalPersonAccounts(legalPersonAccount, $scope.selectedStatus, $scope.selectedBank, $scope.selectedClient, $scope.selectedCurrency, $("#openingDateDatePicker").val()).then(function(response) {
+				$scope.legalPersonAccounts = response.data;
+			});
 		} else {
 			if (Object.keys($scope.selectedLegalPersonAccount).length > 0) {
 				legalPersonAccountService.editLegalPersonAccount(legalPersonAccount,$scope.selectedStatus, $("#openingDateDatePicker").val(), $scope.selectedBank.id, $scope.selectedClient.id, $scope.selectedCurrency.id).then(

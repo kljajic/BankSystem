@@ -1,22 +1,26 @@
-var legalPersonAccountService = angular.module('bankApp.legalPersonAccountService', []);
+var legalPersonAccountService = angular.module(
+		'bankApp.legalPersonAccountService', []);
 
-legalPersonAccountService.factory('legalPersonAccountService', function($http){
-	
+legalPersonAccountService.factory('legalPersonAccountService', function($http) {
+
 	var temp = {};
-	
-	temp.getAllLegalPersonAccounts = function(){
+
+	temp.getAllLegalPersonAccounts = function() {
 		return $http.get('/accounts');
 	};
-	
-	temp.deleteLegalPersonAccount = function(legalPersonAccount, transferAccount){
-		return $http.post('/accounts/delete/' + legalPersonAccount.id + "/" + transferAccount);
+
+	temp.deleteLegalPersonAccount = function(legalPersonAccount,
+			transferAccount) {
+		return $http.post('/accounts/delete/' + legalPersonAccount.id + "/"
+				+ transferAccount);
 	};
-	
-	temp.getAllClients = function(){
+
+	temp.getAllClients = function() {
 		return $http.get('/clients');
 	};
-	
-	temp.addLegalPersonAccount = function(legalPersonAccount, openingDate, bankId, clientId, currencyId){
+
+	temp.addLegalPersonAccount = function(legalPersonAccount, openingDate,
+			bankId, clientId, currencyId) {
 		var dT = new Date(openingDate);
 		var jsonLegalPersonAccount = JSON.stringify({
 			accountNumber : legalPersonAccount.accountNumber,
@@ -34,18 +38,21 @@ legalPersonAccountService.factory('legalPersonAccountService', function($http){
 		});
 		return $http.post('/accounts/', jsonLegalPersonAccount);
 	};
-	
-	
-	temp.editLegalPersonAccount = function(legalPersonAccount, status, openingDate, bankId, currencyId, clientId){
+
+	temp.editLegalPersonAccount = function(legalPersonAccount, status,
+			openingDate, bankId, currencyId, clientId) {
 		var dT = new Date(openingDate);
 		dT = dT.getTime();
 		var active = true;
-		if(status == "Aktivan"){
+		if (status == "Aktivan") {
 			active = true;
-		} else if (status == "Neaktivan"){
+		} else if (status == "Neaktivan") {
 			active = false;
 		} else {
 			active = legalPersonAccount.active;
+		}
+		if (openingDate == null) {
+			dT = legalPersonAccount.openingDate;
 		}
 		var jsonLegalPersonAccount = JSON.stringify({
 			id : legalPersonAccount.id,
@@ -62,24 +69,74 @@ legalPersonAccountService.factory('legalPersonAccountService', function($http){
 				id : currencyId
 			}
 		});
-		
+
 		return $http.put('/accounts/edit/', jsonLegalPersonAccount);
 	};
-	
-	
-	temp.getAllBanks = function(){
+
+	temp.getAllBanks = function() {
 		return $http.get('/banks');
 	}
-	
-	temp.searchLegalPersonAccounts = function(legalPersonAccount){
-		return;
+
+	temp.searchLegalPersonAccounts = function(legalPersonAccount, status, bank,
+			client, currency, openingDate) {
+		var dT = new Date(openingDate);
+		var bankName; var clientSurname; var clientName; var officialCodeName; var active;
+		dT = dT.getTime();
+		if (status != null) {
+
+			if (status == "Aktivan") {
+				active = true;
+			} else if (status == "Neaktivan") {
+				active = false;
+			}
+		} else {
+			active = null;
+		}
+		if(legalPersonAccount.bank != null){
+			bankName = legalPersonAccount.bank.name;
+		} else {
+			bankName = "";
+		}
+		
+		if(legalPersonAccount.client != null){
+			clientName = legalPersonAccount.client.name;
+			clientSurname = legalPersonAccount.client.surname;
+		} else {
+			clientName = "";
+			clientSurname = "";
+		}
+		
+		if(legalPersonAccount.currency != null){
+			officialCodeName = legalPersonAccount.currency.officialCode;
+		} else {
+			officialCodeName = "";
+		}
+		
+
+		var jsonLegalPersonAccount = JSON.stringify({
+			openingDate : dT,
+			active : active,
+			accountNumber : legalPersonAccount.accountNumber,
+			bank : {
+				name : bankName
+			},
+			client : {
+				name : clientName,
+				surname : clientSurname
+			},
+			currency : {
+				officialCode : officialCodeName
+			}
+		});
+
+		return $http.post('/accounts/search', jsonLegalPersonAccount);
+
 	};
-	
-	temp.getAllCurrencies = function(){
+
+	temp.getAllCurrencies = function() {
 		return $http.get('/currencies/getAllCurrencies')
 	}
-	
-	
+
 	return temp;
-	
+
 });

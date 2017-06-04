@@ -1,7 +1,6 @@
 package com.repository;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Set;
 
@@ -9,7 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
-import com.model.Country;
 import com.model.ExchangeList;
 
 public interface ExchangeListRepository extends JpaRepository<ExchangeList, Long> {

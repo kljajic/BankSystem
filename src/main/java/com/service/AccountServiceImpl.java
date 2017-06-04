@@ -1,6 +1,8 @@
 package com.service;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -66,6 +68,12 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public ArrayList<Account> getAllAccountsForBank(Long bankId) {
 		return accountRepository.findAccountsByBankIdOrderByOpeningDateAsc(bankId);
+	}
+
+	@Override
+	public Collection<Account> search(String accountNumber, Date openingMin, Date openingMax, String bankName,
+			String name, String surname, String currency) {
+		return accountRepository.search(accountNumber, openingMin, openingMax, bankName, name, surname, currency);
 	}
 	
 }
