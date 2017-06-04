@@ -47,7 +47,7 @@ public class Currency {
 	@ManyToOne(optional = false)
 	private Country country;
 	
-	@OneToMany(mappedBy = "currency", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "currency", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<AnalyticalStatement> analyticalStatement = new HashSet<>();
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, targetEntity = Account.class, mappedBy="currency")
@@ -91,6 +91,36 @@ public class Currency {
 	@JsonProperty
 	public void setAnalyticalStatement(Set<AnalyticalStatement> analyticalStatement) {
 		this.analyticalStatement = analyticalStatement;
+	}
+
+	@JsonIgnore
+	public Set<CurrencyExchange> getPrimaryCurrencyExchanges() {
+		return primaryCurrencyExchanges;
+	}
+
+	@JsonProperty
+	public void setPrimaryCurrencyExchanges(Set<CurrencyExchange> primaryCurrencyExchanges) {
+		this.primaryCurrencyExchanges = primaryCurrencyExchanges;
+	}
+
+	@JsonIgnore
+	public Set<CurrencyExchange> getAccordingTocurrencyExchanges() {
+		return accordingTocurrencyExchanges;
+	}
+
+	@JsonProperty
+	public void setAccordingTocurrencyExchanges(Set<CurrencyExchange> accordingTocurrencyExchanges) {
+		this.accordingTocurrencyExchanges = accordingTocurrencyExchanges;
+	}
+
+	@JsonIgnore
+	public Set<Account> getLegalPersonAccounts() {
+		return legalPersonAccounts;
+	}
+
+	@JsonProperty
+	public void setLegalPersonAccounts(Set<Account> legalPersonAccounts) {
+		this.legalPersonAccounts = legalPersonAccounts;
 	}
 	
 }

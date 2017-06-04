@@ -139,18 +139,18 @@ analyticalStatementController.controller('analyticalStatementController',['$root
 																			$scope.selectedCurrency = {};
 	$scope.submitAction = function(analyticalStatement) {
 		if ($scope.action == "addClicked") {
-			analyticalStatementService.createAnalyticalStatement($scope.selectedDailyAccountStatus.id, $scope.selectedCity.id, $scope.selectedPaymentType.id, $scope.selectedCurrency, $scope.dateOfReceipt, $scope.currencyDate, analyticalStatement).then(function(response) {
+			analyticalStatementService.createAnalyticalStatement($scope.selectedDailyAccountStatus.id, $scope.selectedCity.id, $scope.selectedPaymentType.id, $scope.selectedCurrency.id, $scope.dateOfReceipt, $scope.currencyDate, analyticalStatement).then(function(response) {
 				$scope.analyticalStatements.push(response.data);
 				$scope.selectedAnalyticalStatement = response.data;
 				$scope.analyticalStatement = response.data;
 			});
 		} else if ($scope.action == "searchClicked") {
-			analyticalStatementService.searchAnalyticalStatement($scope.selectedDailyAccountStatus.id, $scope.selectedCity.id, $scope.selectedPaymentType.id, $scope.selectedCurrency, $scope.dateOfReceipt, $scope.currencyDate, analyticalStatement).then(function(response) {
+			analyticalStatementService.searchAnalyticalStatement($scope.selectedDailyAccountStatus.id, $scope.selectedCity.id, $scope.selectedPaymentType.id, $scope.selectedCurrency.id, $scope.dateOfReceipt, $scope.currencyDate, analyticalStatement).then(function(response) {
 				$scope.analyticalStatements = response.data;
 			});
 		} else {
 			if (Object.keys($scope.selectedAnalyticalStatement).length > 0) {
-				analyticalStatementService.updateAnalyticalStatement($scope.selectedDailyAccountStatus.id, $scope.selectedCity.id, $scope.selectedPaymentType.id, $scope.selectedCurrency, $scope.dateOfReceipt, $scope.currencyDate, analyticalStatement).then(
+				analyticalStatementService.updateAnalyticalStatement($scope.selectedDailyAccountStatus.id, $scope.selectedCity.id, $scope.selectedPaymentType.id, $scope.selectedCurrency.id, $scope.dateOfReceipt, $scope.currencyDate, analyticalStatement).then(
 						function(response) {
 							var index = $scope.analyticalStatements.indexOf($scope.selectedAnalyticalStatement);
 							$scope.analyticalStatements.splice(index,1);
@@ -171,7 +171,7 @@ analyticalStatementController.controller('analyticalStatementController',['$root
 		$scope.action = "editClicked"
 		$scope.mode.current = "Rezim izmene";
 		$scope.analyticalStatement = {};
-		$scope.getAnalyticalStatements();
+		$scope.getAllAnalyticalStatements();
 	}
 	
 	$scope.setParameters = function(analyticalStatement){
@@ -203,6 +203,8 @@ analyticalStatementController.controller('analyticalStatementController',['$root
 		}
 		$('#dateOfReceipt').val($scope.getDateForPicker(analyticalStatement.dateOfReceipt, 'YYYY-MM-DD'));
 		$('#currencyDate').val($scope.getDateForPicker(analyticalStatement.currencyDate, 'YYYY-MM-DD'));
+		$scope.dateOfReceipt = new Date($('#dateOfReceipt').val());
+		$scope.currencyDate = new Date($('#currencyDate').val());
 	}
 	
 	$scope.getDateForPicker = function(date, format){
@@ -271,11 +273,22 @@ analyticalStatementController.controller('analyticalStatementController',['$root
 	}
 	
 	$scope.previousForm = function(){
-		sweetAlert("Oops...", "There are no previous forms for this table!", "error");
+		$("#previousFormsModal").modal('show');
+	}
+	
+	$scope.selectedModalPrevousForm = {};
+	$scope.setModalSelectedPreviousForm = function(previousForm){
+		$scope.selectedModalPrevousForm = previousForm;
+	}
+	
+	$scope.confirmPreviousForm = function(){
+		$("#previousFormsModal").modal('hide');
+		$location.path('/'+$scope.selectedModalPrevousForm);
+		$scope.selectedModalPrevousForm = {};
 	}
 	
 	$scope.nextForm = function(){
-		
+		sweetAlert("Oops...", "There are no next forms for this table!", "error");
 	}
 	
 }]);

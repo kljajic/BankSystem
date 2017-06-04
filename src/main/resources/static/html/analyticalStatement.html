@@ -70,32 +70,40 @@
 		</p>
 		<p>
 			<input ng-value="analyticalStatement.dailyAccountStatus.id" type="hidden" name="${field.name)"
-				id="${field.id}" /><label for="${field.id}">Daily account status</label> <select
-				ng-options="{{dailyAccountStatusOptions}}" ng-model="selectedDailyAccountStatus"></select> 
+				id="${field.id}" /><label for="${field.id}">Daily account status</label> 
+				<select ng-options="{{dailyAccountStatusOptions}}" ng-model="selectedDailyAccountStatus">
+					<option selected value="NOT_ENTERED">Not entered</option>
+				</select> 
 				<input ng-click="showDailyAccountStatuses()" type="button"
 				class="btn btn-md btn-default pulled-left" value="..."
 				style="margin-left: 6em" />
 		</p>
 		<p>
 			<input ng-value="analyticalStatement.placeOfAcceptance.id" type="hidden" name="${field.name)"
-				id="${field.id}" /><label for="${field.id}">Place of acceptance</label> <select
-				ng-options="{{cityOptions}}" ng-model="selectedCity"></select> 
+				id="${field.id}" /><label for="${field.id}">Place of acceptance</label>
+				<select ng-options="{{cityOptions}}" ng-model="selectedCity">
+					<option selected value="NOT_ENTERED">Not entered</option>
+				</select> 
 				<input ng-click="showCities()" type="button"
 				class="btn btn-md btn-default pulled-left" value="..."
 				style="margin-left: 6em" />
 		</p>
 		<p>
 			<input ng-value="analyticalStatement.paymentType.id" type="hidden" name="${field.name)"
-				id="${field.id}" /><label for="${field.id}">Payment type</label> <select
-				ng-options="{{paymentTypeOptions}}" ng-model="selectedPaymentType"></select> 
+				id="${field.id}" /><label for="${field.id}">Payment type</label>
+				<select ng-options="{{paymentTypeOptions}}" ng-model="selectedPaymentType">
+					<option selected value="NOT_ENTERED">Not entered</option>
+				</select> 
 				<input ng-click="showPaymentTypes()" type="button"
 				class="btn btn-md btn-default pulled-left" value="..."
 				style="margin-left: 6em" />
 		</p>
 		<p>
 			<input ng-value="analyticalStatement.currency.id" type="hidden" name="${field.name)"
-				id="${field.id}" /><label for="${field.id}">Currency</label> <select
-				ng-options="{{currencyOptions}}" ng-model="selectedCurrency"></select> 
+				id="${field.id}" /><label for="${field.id}">Currency</label>
+				<select ng-options="{{currencyOptions}}" ng-model="selectedCurrency">
+					<option value="NOT_ENTERED">Nothing selected</option>
+				</select> 
 				<input ng-click="showCurrencies()" type="button"
 				class="btn btn-md btn-default pulled-left" value="..."
 				style="margin-left: 6em" />
@@ -114,11 +122,11 @@
 		</p>
 		<p>
 			<label for="${field.id}">Date of receipt</label> 
-			<input id="dateOfReceipt" ng-model="analyticalStatement.dateOfReceipt" type="date"/>
+			<input id="dateOfReceipt" ng-model="dateOfReceipt" type="date"/>
 		</p>
 		<p>
 			<label for="${field.id}">Currency date</label> 
-			<input id="currencyDate" ng-model="analyticalStatement.currencyDate" type="date"/>
+			<input id="currencyDate" ng-model="currencyDate" type="date"/>
 		</p>
 		<p>
 			<label for="${field.id}">Originator account</label> 
@@ -197,7 +205,7 @@
 			<div class="modal-footer">
 				<input id="btnConfirm" type="submit"
 					class="btn btn-default pulled-left" ng-click="confirmDailyAccountStatus()"
-					value="Izaberi" />
+					value="Choose" />
 			</div>
 		</div>
 	</div>
@@ -231,7 +239,7 @@
 			<div class="modal-footer">
 				<input id="btnConfirm" type="submit"
 					class="btn btn-default pulled-left" ng-click="confirmCity()"
-					value="Izaberi" />
+					value="Choose" />
 			</div>
 		</div>
 	</div>
@@ -261,7 +269,7 @@
 			<div class="modal-footer">
 				<input id="btnConfirm" type="submit"
 					class="btn btn-default pulled-left" ng-click="confirmPaymentType()"
-					value="Izaberi" />
+					value="Choose" />
 			</div>
 		</div>
 	</div>
@@ -297,7 +305,52 @@
 			<div class="modal-footer">
 				<input id="btnConfirm" type="submit"
 					class="btn btn-default pulled-left" ng-click="confirmCurrency()"
-					value="Izaberi" />
+					value="Choose" />
+			</div>
+		</div>
+	</div>
+	</md-dialog>
+	
+	<md-dialog class="modal" id="previousFormsModal" tabindex="-1"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1>Previous forms</h1>
+			</div>
+			<div class="modal-body">
+				<form validate class="simple-form">
+					<table class="centered">
+						<tr class="header">
+							<th>Name</th>
+						</tr>
+						<tr
+							ng-click="setModalSelectedPreviousForm('dailyAccountStatuses')"
+							ng-class="{'alert alert-info' : selectedModalPrevousForm == 'dailyAccountStatuses'}">
+							<td>Daily account status</td>
+						</tr>
+						<tr
+							ng-click="setModalSelectedPreviousForm('cities')"
+							ng-class="{'alert alert-info' : selectedModalPrevousForm == 'cities'}">
+							<td>City</td>
+						</tr>
+						<tr
+							ng-click="setModalSelectedPreviousForm('paymentTypes')"
+							ng-class="{'alert alert-info' : selectedModalPrevousForm == 'paymentTypes'}">
+							<td>Payment type</td>
+						</tr>
+						<tr
+							ng-click="setModalSelectedPreviousForm('currencies')"
+							ng-class="{'alert alert-info' : selectedModalPrevousForm == 'currencies'}">
+							<td>Currency</td>
+						</tr>
+					</table>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<input id="btnConfirm" type="submit"
+					class="btn btn-default pulled-left" ng-click="confirmPreviousForm()"
+					value="Choose" />
 			</div>
 		</div>
 	</div>

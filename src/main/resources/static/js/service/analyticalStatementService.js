@@ -11,7 +11,7 @@ analyticalStatementService.factory('analyticalStatementService', function($http)
 		});
 	}
 	
-	temp.createAnalyticalStatement = function(currencyId, paymentTypeId, cityId, dailyAccountStatusId, analyticalStatement, dateOfReceipt, currencyDate){
+	temp.createAnalyticalStatement = function(dailyAccountStatusId, cityId, paymentTypeId, currencyId, dateOfReceipt, currencyDate, analyticalStatement){
 		return $http({
 			method : 'POST',
 			url: '../analyticalStatements/create/' + currencyId + '/' + paymentTypeId + '/' + cityId + '/' + dailyAccountStatusId + '/' + dateOfReceipt + '/' + currencyDate,
@@ -31,7 +31,7 @@ analyticalStatementService.factory('analyticalStatementService', function($http)
 		});
 	}
 	
-	temp.updateAnalyticalStatement = function(currencyId, paymentTypeId, cityId, dailyAccountStatusId, analyticalStatement, dateOfReceipt, currencyDate){
+	temp.updateAnalyticalStatement = function(dailyAccountStatusId, cityId, paymentTypeId, currencyId, dateOfReceipt, currencyDate, analyticalStatement){
 		return $http({
 			method : 'PUT',
 			url: '../analyticalStatements/update/' + currencyId + '/' + paymentTypeId + '/' + cityId + '/' + dailyAccountStatusId + '/' + dateOfReceipt + '/' + currencyDate,

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -55,7 +56,7 @@ public class City implements Serializable{
 	@ManyToOne
 	private Country country;
 	
-	@OneToMany(mappedBy = "placeOfAcceptance", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "placeOfAcceptance", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<AnalyticalStatement> analyticalStatements = new HashSet<>();
 	
 	@JsonIgnore

@@ -1,7 +1,7 @@
 var dailyAccountStatusController = angular.module('bankApp.dailyAccountStatusController', []);
 
 dailyAccountStatusController.controller('dailyAccountStatusController',['$rootScope','$scope','$location','$http',
-		'dailyAccountStatusService',function($rootScope,$scope,$location,$http,dailyAccountStatusService) {
+		'dailyAccountStatusService',function($rootScope,$scope,$location,$http,dailyAccountStatusService, ngNotify) {
 	
 	$scope.action = {};
 	$scope.dailyAccountStatuses = [];
@@ -150,6 +150,7 @@ dailyAccountStatusController.controller('dailyAccountStatusController',['$rootSc
 			}
 		}
 		$('#date').val($scope.getDateForPicker(dailyAccountStatus.date, 'YYYY-MM-DD'));
+		$scope.date = new Date($('#date').val());
 	}
 	
 	$scope.getDateForPicker = function(date, format){
@@ -173,7 +174,7 @@ dailyAccountStatusController.controller('dailyAccountStatusController',['$rootSc
 	}
 	
 	$scope.previousForm = function(){
-		sweetAlert("Oops...", "There are no previous forms for this table!", "error");
+		$location.path('/accounts');
 	}
 	
 	$scope.nextForm = function(){
