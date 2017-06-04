@@ -1,7 +1,7 @@
 var cityController = angular.module('bankApp.cityController', []);
 
 cityController.controller('cityController', function($scope, $location,
-		$window, $compile, cityService, countryService, ngNotify) {
+		$window, $compile, $routeParams, cityService, countryService, ngNotify) {
 
 	$scope.action = {};
 	$scope.cities = [];
@@ -11,11 +11,22 @@ cityController.controller('cityController', function($scope, $location,
 	$scope.selectedCountry = {};
 	$scope.mode = {};
 	$scope.mode.current = "Rezim izmene";
-
+	
 	$scope.getAllCities = function() {
 		cityService.getAllCities().then(function(data) {
-			if (data.data != null) {
-				$scope.cities = data.data;
+			if($routeParams.param > 0){
+				var temp = [];
+				for(var i = 0; i < data.data.length; i++){
+					if(data.data[i].country.id == $routeParams.param){
+						temp.push(data.data[i]);
+					}
+				}
+				$scope.cities = temp;
+				$scope.selectedCountry = $scope.countries[$routeParams.param-1];
+			} else {
+				if (data.data != null) {
+					$scope.cities = data.data;
+				}
 			}
 		});
 	}

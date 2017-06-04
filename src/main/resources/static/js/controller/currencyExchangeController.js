@@ -25,6 +25,10 @@ currencyExchangeController.controller('currencyExchangeController', function($sc
 		currencyExchangeService.getAllExchangeLists().then(function(response){
 			if(response.data != null){
 				$scope.exchangeLists = response.data;
+				for(var i = 0;i < $scope.exchangeLists.length;i++){
+					$scope.exchangeLists[i].dateView = moment($scope.exchangeLists[i].date).format("DD MMM YYYY");
+					$scope.exchangeLists[i].usedSinceView = moment($scope.exchangeLists[i].usedSince).format("DD MMM YYYY");
+				}
 			}
 		});
 	}
@@ -122,7 +126,7 @@ currencyExchangeController.controller('currencyExchangeController', function($sc
 			if(cex.exchangeList == null || typeof cex.exchangeList.numberOfExchangeList == 'undefined' || cex.exchangeList.numberOfExchangeList == ""){
 				$scope.cex.exchangeList = {};
 				$scope.cex.exchangeList.numberOfExchangeList = {};
-				cex.exchangeList.numberOfExchangeList = 123;
+				cex.exchangeList.numberOfExchangeList = -1;
 			}
 			if(cex.primaryCurrency == null || typeof cex.primaryCurrency.officialCode == 'undefined' || cex.primaryCurrency.officialCode == ""){
 				$scope.cex.primaryCurrency = {};
@@ -134,19 +138,22 @@ currencyExchangeController.controller('currencyExchangeController', function($sc
 				$scope.cex.accordingToCurrency.officialCode = {};
 				cex.accordingToCurrency.officialCode = "AHA";
 			}
-			if(typeof cex.buyRate == 'undefined' || cex.buyRate == ""){
-				cex.buyRate = 454916231.8487;
+			if(cex.buyRate == null || typeof cex.buyRate == 'undefined' || cex.buyRate == ""){
+				cex.buyRate = -1;
 			}
-			if(typeof cex.sellRate == 'undefined' || cex.sellRate == ""){
-				cex.sellRate = 454916231.8487;
+			if(cex.sellRate == null || typeof cex.sellRate == 'undefined' || cex.sellRate == ""){
+				cex.sellRate = -1;
 			}
-			if(typeof cex.sellRate == 'undefined' || cex.sellRate == ""){
-				cex.sellRate = 454916231.8487;
+			if(cex.middleRate == null || typeof cex.middleRate == 'undefined' || cex.middleRate == ""){
+				cex.middleRate = -1;
 			}
 			
 			
-			currencyExchangeService.searchCexes(cex.buyRate, cex.sellRate, cex.middleRate, cex.exchangeList.numberOfExchangeList, cex.primaryCurrency.officialCode, cex.accordingToCurrency.officialCode).then(function(response){
+			currencyExchangeService.searchCexes(cex.buyRate, cex.middleRate, cex.sellRate, cex.exchangeList.numberOfExchangeList, cex.primaryCurrency.officialCode, cex.accordingToCurrency.officialCode).then(function(response){
 				$scope.cexes=response.data;
+				$scope.cex.buyRate = "";
+				$scope.cex.middleRate = "";
+				$scope.cex.sellRate = "";
 			});
 		}
 		else{
@@ -178,5 +185,57 @@ currencyExchangeController.controller('currencyExchangeController', function($sc
 		$scope.selectedCex = {};
 		refreshView();
 	}
+	
+	$scope.showExchangeLists = function(cex){
+		$('#combozoomModalExchangeLists').modal('show');
+		$scope.selectedExchangeList = cex.exchangeList;
+		$scope.setSelectedExchangeList = function(exchangeList) {
+			if ($scope.selectedExchangeList == exchangeList) {
+				$scope.selectedExchangeList = {};
+			} else {
+				$scope.selectedExchangeList = exchangeList;
+			}
+		}
+		
+		$scope.confirmExchangeList = function(){
+			$scope.cex.exchangeList = findExchangeListForSelect($scope.selectedExchangeList.id);
+			$('#combozoomModalExchangeLists').modal('hide');
+		}
+	}
+	
+	$scope.showPrimaryCurrency = function(cex){
+		$('#combozoomModalPrimaryCurrency').modal('show');
+		$scope.selectedPrimaryCurrency = cex.primaryCurrency;
+		$scope.setSelectedPrimaryCurrency = function(currency) {
+			if ($scope.selectedPrimaryCurrency == currency) {
+				$scope.selectedPrimaryCurrency = {};
+			} else {
+				$scope.selectedPrimaryCurrency = currency;
+			}
+		}
+		
+		$scope.confirmPrimaryCurrency = function(){
+			$scope.cex.primaryCurrency = findCurrencyForSelect($scope.selectedPrimaryCurrency.id);
+			$('#combozoomModalPrimaryCurrency').modal('hide');
+		}
+	}
+	
+	$scope.showAccordingToCurrency = function(cex){
+		$('#combozoomModalAccordingToCurrency').modal('show');
+		$scope.selectedAccordingToCurrency = cex.accordingToCurrency;
+		$scope.setSelectedAccordingToCurrency = function(currency) {
+			if ($scope.selectedAccordingToCurrency == currency) {
+				$scope.selectedAccordingToCurrency = {};
+			} else {
+				$scope.selectedAccordingToCurrency = currency;
+			}
+		}
+		
+		$scope.confirmAccordingToCurrency = function(){
+			$scope.cex.accordingToCurrency = findCurrencyForSelect($scope.selectedAccordingToCurrency.id);
+			$('#combozoomModalAccordingToCurrency').modal('hide');
+		}
+	}
+	
 	
 });

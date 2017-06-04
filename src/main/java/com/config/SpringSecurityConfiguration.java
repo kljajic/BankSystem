@@ -31,8 +31,8 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.//authorizeRequests().antMatchers("/**").permitAll().and().csrf().disable();
-		authorizeRequests()
+		http.authorizeRequests().antMatchers("/**").permitAll().and().csrf().disable();
+		/*authorizeRequests()
 			.antMatchers("/public/**", "/", "/swagger-ui.html").permitAll()
 			.antMatchers("/banks/**", "/countries/**", "/cities/**","/accounts/**").hasAuthority("BANK_ADMIN")
 			.antMatchers("/banks/**", "/accounts/**", "/").hasAuthority("BANK_STAFF")
@@ -46,7 +46,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 			.and().logout()
 			.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 			.logoutSuccessUrl("/").and().exceptionHandling()
-			.accessDeniedPage("/access-denied");
+			.accessDeniedPage("/access-denied");*/
 	}
 	
 }

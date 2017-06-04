@@ -1,6 +1,7 @@
 var currencyController = angular.module('bankApp.currencyController' ,[]);
 
-currencyController.controller('currencyController', function($scope, $location, $window, $compile, currencyService, countryService){
+currencyController.controller('currencyController', function($scope, $location, $window, $compile, $routeParams,
+		currencyService, countryService){
 	
 	$scope.action = {};
 	$scope.currencies = {};
@@ -8,8 +9,19 @@ currencyController.controller('currencyController', function($scope, $location, 
 	
 	function refreshView(){
 		currencyService.getAllCurrencies().then(function(response){
-			if(response.data != null){
-				$scope.currencies = response.data;
+			if($routeParams.param > 0){
+				var temp = [];
+				for(var i = 0; i < response.data.length; i++){
+					if(response.data[i].country.id == $routeParams.param){
+						temp.push(response.data[i]);
+					}
+				}
+				$scope.currencies = temp;
+				$scope.currency.country = findCountryForSelect($routeParams.param);
+			} else{
+				if(response.data != null){
+					$scope.currencies = response.data;
+				}
 			}
 		});
 		countryService.getAllCountries().then(function(response){

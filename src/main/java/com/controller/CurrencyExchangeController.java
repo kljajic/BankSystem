@@ -56,10 +56,29 @@ public class CurrencyExchangeController {
 	@ResponseBody
 	public ArrayList<CurrencyExchange> searchCE(@PathVariable ("buyRate") Double buyRate, @PathVariable ("middleRate") Double middleRate, @PathVariable ("sellRate") Double sellRate, @PathVariable ("exchangeList") int exchangeList, @PathVariable ("primaryCurrency") String primaryCurrency, @PathVariable ("accordingToCurrency") String accordingToCurrency){
 		
+		if(buyRate == -1){
+			buyRate = (double) 1000000000;
+		}
+		if(middleRate == -1){
+			middleRate = (double) 1000000000;
+		}
+		if(sellRate == -1){
+			sellRate = (double) 1000000000;
+		}
+		if(exchangeList == -1){
+			exchangeList = 1000;
+		}
 		if(primaryCurrency.equals("AHA"))
 			primaryCurrency = "";
 		if(accordingToCurrency.equals("AHA"))
 			accordingToCurrency = "";
+		
+		System.out.println(buyRate);
+		System.out.println(sellRate);
+		System.out.println(middleRate);
+		System.out.println(exchangeList);
+		System.out.println(primaryCurrency);
+		System.out.println(accordingToCurrency);
 		
 		ArrayList<CurrencyExchange> cel = currencyExchangeServiceImpl.searchCurrencyExchange(buyRate, middleRate, sellRate, exchangeList, primaryCurrency, accordingToCurrency);
 		return cel;

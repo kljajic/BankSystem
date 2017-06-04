@@ -51,9 +51,9 @@ public class CurrencyController {
 		return c;
 	}
 	
-	@RequestMapping(path="/searchCurrencies/{name}/{officialCode}/{countryName}/{domicilna}", method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(path="/searchCurrencies/{officialCode}/{name}/{countryName}/{domicilna}", method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ArrayList<Currency> searchCurrencies(@PathVariable ("name") String name, @PathVariable ("officialCode") String officialCode, @PathVariable("countryName") String countryName, @PathVariable("domicilna") boolean domicilna){
+	public ArrayList<Currency> searchCurrencies(@PathVariable ("officialCode") String officialCode, @PathVariable ("name") String name, @PathVariable("countryName") String countryName, @PathVariable("domicilna") boolean domicilna){
 		
 		if(name.equals("AHA"))
 			name = "";

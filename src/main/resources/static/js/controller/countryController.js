@@ -108,6 +108,24 @@ countryController.controller('countryController', function($scope, $location, $w
 			}
 		});
 	}
+
+	$scope.radioButtons = {};
+	$scope.nextClicked2 = function(selectedCountry){
+		if(Object.keys($scope.selectedCountry).length > 0){
+			$('#modalNextMechanism').modal('show');
+			$scope.confirmNextMechanism = function(){
+				if($scope.radioButtons.group == 'cities'){
+					$location.path('/cities/').search({param: selectedCountry.id});
+				} else if($scope.radioButtons.group == 'currencies'){
+					$location.path('/currencies/').search({param: selectedCountry.id});
+				}
+				
+				$('#modalNextMechanism').modal('hide');
+			}
+		} else {
+			alert("selektuj!");
+		}
+	}
 	
 	
 });

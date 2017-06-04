@@ -69,13 +69,13 @@
 					<label for = "${field.primaryCurrency}">Osnovna valuta</label>
 					<select ng-model="cex.primaryCurrency" ng-options="c.officialCode for c in currencies"
 					><option value="" ng-if=true><option></select>
-					<button ng-click="showCurrencies(cex)" type="submit">...</button>
+					<button ng-click="showPrimaryCurrency(cex)" type="submit">...</button>
 				</p>
 				<p>
 					<label for = "${field.accordingToCurrency}">Prema valuti</label>
 					<select ng-model="cex.accordingToCurrency" ng-options="c.officialCode for c in currencies"
 					><option value="" ng-if=true><option></select>
-					<button ng-click="showCurrencies(cex)" type="submit">...</button>
+					<button ng-click="showAccordingToCurrency(cex)" type="submit">...</button>
 				</p>
 				
 				<div id = "formActions">
@@ -85,6 +85,122 @@
 				
 	</p>
 </div>
+
+<md-dialog class="modal" id="combozoomModalExchangeLists" tabindex="-1"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title" id="myModalLabel">
+					<i class="text-muted fa fa-shopping-cart"></i>Kursne liste<strong></strong>
+				</h4>
+			</div>
+			<div class="modal-body">
+				<form validate class="simple-form">
+					<table>
+						 <tr class="header">
+						 	<th>Datum</th>
+							<th>Broj kursne liste</th>
+							<th>Primenjuje se od</th>
+							<th>Banka</th>
+						 </tr>
+						 <tr ng-repeat="exchangeList in exchangeLists" ng-click="setSelectedExchangeList(exchangeList)"
+							ng-class="{'alert alert-info' : selectedExchangeList===exchangeList}">
+							<td class="date">{{ exchangeList.dateView }}</td>
+							<td class="number">{{ exchangeList.numberOfExchangeList }}</td>
+							<td class="usedSince">{{ exchangeList.usedSinceView }}</td>
+							<td class="bank">{{ exchangeList.bank.name}}</td>
+						</tr>
+
+					</table>
+
+					<input id="btnConfirm" type="submit"
+						class="btn btn-default pulled-right"
+						ng-click="confirmExchangeList()" value="Potvrdi" />
+
+				</form>
+			</div>
+		</div>
+	</div>
+</md-dialog>
+
+<md-dialog class="modal" id="combozoomModalPrimaryCurrency" tabindex="-1"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title" id="myModalLabel">
+					<i class="text-muted fa fa-shopping-cart"></i>Valute<strong></strong>
+				</h4>
+			</div>
+			<div class="modal-body">
+				<form validate class="simple-form">
+					<table>
+						 <tr class="header">
+						 	<th>Zvanican Kod</th>
+						 	<th>Naziv</th>
+						 	<th>Domicilna</th>
+						 	<th>Drzava</th>
+						 </tr>
+						 <tr ng-repeat="currency in currencies" ng-click="setSelectedPrimaryCurrency(currency)" ng-class="{'alert alert-info' : selectedPrimaryCurrency===currency}">
+						 	<td class="officialCode">{{ currency.officialCode }}</td>
+						 	<td class="name">{{ currency.name }}</td>
+						 	<td class="domicilna">{{ currency.domicilna }}</td>
+						 	<td class="country">{{ currency.country.name }}</td>
+						 </tr>
+
+					</table>
+
+					<input id="btnConfirm" type="submit"
+						class="btn btn-default pulled-right"
+						ng-click="confirmPrimaryCurrency()" value="Potvrdi" />
+
+				</form>
+			</div>
+		</div>
+	</div>
+</md-dialog>
+
+
+<md-dialog class="modal" id="combozoomModalAccordingToCurrency" tabindex="-1"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title" id="myModalLabel">
+					<i class="text-muted fa fa-shopping-cart"></i>Valute<strong></strong>
+				</h4>
+			</div>
+			<div class="modal-body">
+				<form validate class="simple-form">
+					<table>
+						 <tr class="header">
+						 	<th>Zvanican Kod</th>
+						 	<th>Naziv</th>
+						 	<th>Domicilna</th>
+						 	<th>Drzava</th>
+						 </tr>
+						 <tr ng-repeat="currency in currencies" ng-click="setSelectedAccordingToCurrency(currency)" ng-class="{'alert alert-info' : selectedAccordingToCurrency===currency}">
+						 	<td class="officialCode">{{ currency.officialCode }}</td>
+						 	<td class="name">{{ currency.name }}</td>
+						 	<td class="domicilna">{{ currency.domicilna }}</td>
+						 	<td class="country">{{ currency.country.name }}</td>
+						 </tr>
+
+					</table>
+
+					<input id="btnConfirm" type="submit"
+						class="btn btn-default pulled-right"
+						ng-click="confirmAccordingToCurrency()" value="Potvrdi" />
+
+				</form>
+			</div>
+		</div>
+	</div>
+</md-dialog>
 
 
 </div>
