@@ -28,6 +28,8 @@ public class AccountServiceImpl implements AccountService {
 			account.setAccountNumber(a.getAccountNumber());
 			account.setActive(a.isActive());
 			account.setBank(a.getBank());
+			account.setClient(a.getClient());
+			account.setCurrency(a.getCurrency());
 			account.setOpeningDate(a.getOpeningDate());
 			return accountRepository.save(a);
 		} else {
@@ -65,5 +67,5 @@ public class AccountServiceImpl implements AccountService {
 	public ArrayList<Account> getAllAccountsForBank(Long bankId) {
 		return accountRepository.findAccountsByBankIdOrderByOpeningDateAsc(bankId);
 	}
-
+	
 }

@@ -1,6 +1,8 @@
 package com.service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,9 +43,8 @@ public class ExchangeListServiceImpl implements ExchangeListService {
 	}
 
 	@Override
-	public ArrayList<ExchangeList> searchEL(Date date, int numberOfExchangeList, Date usedSince) {
-		// TODO Auto-generated method stub
-		return exchangeListRepository.searchEL(date, numberOfExchangeList, usedSince);
+	public Collection<ExchangeList> searchEL(int elNumberMin, int elNumberMax, Date dateMin, Date dateMax,
+			Date usedSinceMin, Date usedSinceMax, String bankName) {
+		return exchangeListRepository.search(elNumberMin, elNumberMax, dateMin, dateMax, usedSinceMin, usedSinceMax, bankName);
 	}
-
 }

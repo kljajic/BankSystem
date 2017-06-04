@@ -51,11 +51,30 @@ exchangeListService.factory('exchangeListService', function($http){
 		return $http.get('/banks');
 	}
 	
-	temp.searchExchangeLists = function(exchangeList){
-		return;
+	temp.searchExchangeLists = function(exchangeList, date, since, bank){
+		var dT = new Date(date);
+		var sT = new Date(since);
+		var number = -1;
+		var bname = "";
+		if(exchangeList.numberOfExchangeList != undefined || exchangeList.numberOfExchangeList != null){
+			number = exchangeList.numberOfExchangeList;
+		}
+		if(bank != null || bank != undefined){
+			if(bank.name != null || bank.name != undefined){
+				bname = bank.name;
+			}
+		} 
+		
+		var jsonExchangeList = JSON.stringify({
+			date : dT.valueOf(),
+			numberOfExchangeList : number,
+			usedSince : sT.valueOf(),
+			bank : {
+				name : bname
+			}
+		});
+		return $http.post('/exchangeListController/search/', jsonExchangeList);
 	};
 	
-	
 	return temp;
-	
 });

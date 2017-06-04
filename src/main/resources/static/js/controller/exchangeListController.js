@@ -96,9 +96,15 @@ exchangeListController.controller('exchangeListController', function($scope,
 				$scope.getAllExchangeLists();
 			});
 		} else if ($scope.action == "searchClicked") {
-			//exchangeListService.searchExchangeLists($scope.exchangeList).then(function(response) {
-				//$scope.exchangeLists = response.data;
-			//});
+			exchangeListService.searchExchangeLists(exchangeList, $("#dateDatePicker").val(), $("#usedSinceDatePicker").val(), $scope.selectedBank).then(function(response) {
+				if(response.data != null){
+					$scope.exchangeLists = response.data;
+					for(var i = 0;i < $scope.exchangeLists.length;i++){
+						$scope.exchangeLists[i].dateView = moment($scope.exchangeLists[i].date).format("DD MMM YYYY");
+						$scope.exchangeLists[i].usedSinceView = moment($scope.exchangeLists[i].usedSince).format("DD MMM YYYY");
+					}
+				}
+			});
 		} else {
 			if (Object.keys($scope.selectedExchangeList).length > 0) {
 				exchangeListService.editExchangeList(exchangeList, $("#dateDatePicker").val(), $("#usedSinceDatePicker").val(), $scope.selectedBank.id).then(

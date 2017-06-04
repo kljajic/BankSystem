@@ -36,18 +36,34 @@ legalPersonAccountService.factory('legalPersonAccountService', function($http){
 	};
 	
 	
-	temp.editExchangeList = function(legalPersonAccount, openingDate, bankId){
-		var dT = new Date(date);
-		var sT = new Date(since);
+	temp.editLegalPersonAccount = function(legalPersonAccount, status, openingDate, bankId, currencyId, clientId){
+		var dT = new Date(openingDate);
+		dT = dT.getTime();
+		var active = true;
+		if(status == "Aktivan"){
+			active = true;
+		} else if (status == "Neaktivan"){
+			active = false;
+		} else {
+			active = legalPersonAccount.active;
+		}
 		var jsonLegalPersonAccount = JSON.stringify({
 			id : legalPersonAccount.id,
-			openingDate : dT.valueOf(),
+			openingDate : dT,
+			active : active,
+			accountNumber : legalPersonAccount.accountNumber,
 			bank : {
 				id : bankId
+			},
+			client : {
+				id : clientId
+			},
+			currency : {
+				id : currencyId
 			}
 		});
 		
-		return $http.post('/accounts/edit/', jsonLegalPersonAccount);
+		return $http.put('/accounts/edit/', jsonLegalPersonAccount);
 	};
 	
 	

@@ -1,6 +1,9 @@
 package com.controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -10,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.service.ExchangeListServiceImpl;
 import com.model.ExchangeList;
+import com.service.ExchangeListServiceImpl;
 
 @RequestMapping("/exchangeListController")
 @RestController
@@ -48,6 +51,58 @@ public class ExchangeListController {
 		return el;
 	}
 	
-	//search...
-	
+	@RequestMapping(path="/search/", method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public Collection<ExchangeList> search(@RequestBody ExchangeList el){
+		int elNumberMin = 0; int elNumberMax = 2147483647;
+		if(el.getNumberOfExchangeList() != -1){
+			elNumberMin = el.getNumberOfExchangeList();
+			elNumberMax = el.getNumberOfExchangeList();
+		}
+
+		Calendar cal = Calendar.getInstance();
+		cal.set(1900, 1, 1);
+		Date dateMin = cal.getTime();
+		cal.set(2100, 12, 31);
+		Date dateMax = cal.getTime();
+		if(el.getDate() != null){
+			cal.setTime(el.getDate());
+			cal.set(Calendar.HOUR, 0);
+			cal.set(Calendar.MINUTE, 0);
+			cal.set(Calendar.SECOND, 0);
+			dateMin = cal.getTime();
+			cal.setTime(el.getDate());
+			cal.set(Calendar.HOUR, 23);
+			cal.set(Calendar.MINUTE, 59);
+			cal.set(Calendar.SECOND, 59);
+			dateMax = cal.getTime();
+		}
+		
+		cal.set(1900, 1, 1);
+		Date usedSinceMin = cal.getTime();
+		cal.set(2100, 12, 31);
+		Date usedSinceMax = cal.getTime();
+		
+		if(el.getUsedSince() != null){
+			cal.setTime(el.getUsedSince());
+			cal.set(Calendar.HOUR, 0);
+			cal.set(Calendar.MINUTE, 0);
+			cal.set(Calendar.SECOND, 0);
+			usedSinceMin = cal.getTime();
+			cal.setTime(el.getUsedSince());
+			cal.set(Calendar.HOUR, 23);
+			cal.set(Calendar.MINUTE, 59);
+			cal.set(Calendar.SECOND, 59);
+			usedSinceMax = cal.getTime();
+		}
+		
+		
+		String bankName = "";
+		if(el.getBank().getName() != null){
+			bankName = el.getBank().getName();
+		}
+		
+		bankName = "%" + bankName + "%";
+		
+		return exchangeListServiceImpl.searchEL(elNumberMin, elNumberMax, dateMin, dateMax, usedSinceMin, usedSinceMax, bankName);
+	}
 }

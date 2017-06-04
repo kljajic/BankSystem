@@ -1,6 +1,8 @@
 package com.service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 
 import com.model.ExchangeList;
@@ -15,7 +17,7 @@ public interface ExchangeListService {
 	
 	public ExchangeList editExchangeList(ExchangeList el);
 
-	public ArrayList<ExchangeList> searchEL(Date date, int numberOfExchangeList, Date usedSince);
+	public Collection<ExchangeList> searchEL(int elNumberMin, int elNumberMax, Date dateMin, Date dateMax, Date usedSinceMin, Date usedSinceMax, String bankName);
 
 	
 }

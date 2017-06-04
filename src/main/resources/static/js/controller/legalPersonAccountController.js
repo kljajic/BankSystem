@@ -18,7 +18,6 @@ legalPersonAccountController.controller('legalPersonAccountController', function
 	$scope.selectedClient = {};
 	$scope.space = " ";
 	
-	
 	$scope.mode = {};
 	$scope.mode.current = "Rezim izmene";
 	
@@ -128,11 +127,10 @@ legalPersonAccountController.controller('legalPersonAccountController', function
 			//});
 		} else {
 			if (Object.keys($scope.selectedLegalPersonAccount).length > 0) {
-				/*
-				legalPersonAccountService.editLegalPersonAccount(legalPersonAccount, $("#dateDatePicker").val(), $("#usedSinceDatePicker").val(), $scope.selectedBank.id).then(
+				legalPersonAccountService.editLegalPersonAccount(legalPersonAccount,$scope.selectedStatus, $("#openingDateDatePicker").val(), $scope.selectedBank.id, $scope.selectedClient.id, $scope.selectedCurrency.id).then(
 						function(response) {
 							$scope.getAllLegalPersonAccounts();
-						});*/
+				});
 			} else {
 				ngNotify.set('Selektujte naseljeno mesto prvo!' , {
 					type : 'error',
@@ -142,8 +140,6 @@ legalPersonAccountController.controller('legalPersonAccountController', function
 			}
 		}
 	}
-	
-	
 
 	$scope.rollbackAction = function() {
 		$scope.action = "editBank"
@@ -151,8 +147,9 @@ legalPersonAccountController.controller('legalPersonAccountController', function
 		$scope.legalPersonAccount= {};
 		$scope.selectedBank = {};
 		$scope.selectedCurrency = {};
+		$scope.selectedClient = {};
 		$scope.getAllLegalPersonAccounts();
-		$("#openingDateDatePickerr").val(new Date());
+		$("#openingDateDatePicker").val(new Date());
 	}
 	
 	
@@ -219,20 +216,9 @@ legalPersonAccountController.controller('legalPersonAccountController', function
 				break;  
 			}
 		}
-		
-		var openingDate = $scope.getDateForPicker(legalPersonAccount.openingDateView, 'YYYY MM DD');
-		$('#openingDateDatePicker').val(openingDate);
+		$("#openingDateDatePicker").val(legalPersonAccount.openingDate.substring(0, 10));
 	}
  	$scope.transferAccount = "";
-	
-	$scope.getDateForPicker = function(date, format){
-		var check = moment(date, format);
-		var month = check.format('MM');
-		var day   = check.format('DD');
-		var year  = check.format('YYYY');
-		var today = year+"-"+(month)+"-"+(day);
-		return today;
-	}
 	
 	$scope.confirmBank = function(){
 		$scope.selectedBank = $scope.selectedModalBank;
