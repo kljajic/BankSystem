@@ -1,0 +1,155 @@
+<div ng-cloak ng-controller="bankController">
+
+	<div class="toolbar">
+		<ul>
+			<li><a id="search" ng-click="searchClicked()"><img
+					src="images/search.gif" /></a></li>
+			<li><a ng-click="rollbackAction()" id="refresh"><img src="images/refresh.gif" /></a></li>
+			<li><a ng-click="previousForm()" id= 'pickup'><img
+					src="images/zoom-pickup.gif" /></a></li>
+			<li><a href="#" id="help"><img src="images/help.gif" /></a></li>
+			<li><a id="first" ng-click="firstClicked()"><img
+					src="images/first.gif" /></a></li>
+			<li><a id="prev" ng-click="prevClicked()"><img
+					src="images/prev.gif" /></a></li>
+			<li><a id="next" ng-click="nextClicked()"><img
+					src="images/next.gif" /></a></li>
+			<li><a id="last" ng-click="lastClicked()"><img
+					src="images/last.gif" /></a></li>
+			<li><a id="add" ng-click="addClicked()"><img
+					src="images/add.gif" /></a></li>
+			<li><a id="remove" ng-click="removeClicked(selectedBank)"><img
+					src="images/remove.gif" /></a></li>
+			<li><a id="nextform" ng-click="chain(selectedBank)"><img
+					src="images/nextform.gif" /></a></li>
+		</ul>
+	</div>
+
+	{{ mode.current }}
+
+	<div class="table-responsive">
+		<table class = "table">
+			<tr class="header">
+				<th>Naziv</th>
+				<th>PIB</th>
+				<th>Adresa</th>
+				<th>Email</th>
+				<th>Web</th>
+				<th>Telefon</th>
+				<th>Fax</th>
+				<th>Swift kod</th>
+				<th>Transakcioni nalog</th>
+				<th>Country</th>
+				
+			</tr>
+			<tr ng-repeat="bank in banks" ng-click="setSelected(bank)"
+				ng-class="{'alert alert-info' : selectedBank===bank}">
+				<td>{{ bank.name }}</td>
+				<td>{{ bank.pib}}</td>
+				<td>{{ bank.address }}</td>
+				<td>{{ bank.email}}</td>
+				<td>{{ bank.web}}</td>
+				<td>{{ bank.telephone}}</td>
+				<td>{{ bank.fax}}</td>
+				<td>{{ bank.swift}}</td>
+				<td>{{ bank.transactionAccount}}</td>
+				<td>{{ bank.country.name}}</td>
+				
+			</tr>
+		</table>
+	</div>
+
+	<div class="panel">
+		<p>
+			<input ng-value="bank.id" type="hidden" name="${field.name}"
+				id="${field.id}" /> <input type="text" name="someData"
+				ng-model="bank.id" style="display: none;" />
+		<p>
+			<label for="${field.id}">Naziv:</label> <input ng-model="bank.name"
+				type="text" name="${field.name}" id="${field.id}" />
+		</p>
+		
+		<p>
+			<label for="${field.id}">PIB:</label> <input ng-model="bank.pib"
+				type="text" name="${field.name}" id="${field.id}" />
+		</p>
+		<p>
+			<label for="${field.id}">Adresa:</label> <input
+				ng-model="bank.address" type="text" name="${field.name}"
+				id="${field.id}" />
+		</p>
+		<p>
+			<label for="${field.id}">Email:</label> <input ng-model="bank.email"
+				type="text" name="${field.name}" id="${field.id}" />
+		</p>
+		<p>
+			<label for="${field.id}">Web:</label> <input ng-model="bank.web"
+				type="text" name="${field.name}" id="${field.id}" />
+		</p>
+		<p>
+			<label for="${field.id}">Telefon:</label> <input ng-model="bank.telephone"
+				type="text" name="${field.name}" id="${field.id}" />
+		</p>
+		<p>
+			<label for="${field.id}">Fax:</label> <input ng-model="bank.fax"
+				type="text" name="${field.name}" id="${field.id}" />
+		</p>
+		<p>
+			<label for="${field.id}">Swift kod:</label> <input ng-model="bank.swift"
+				type="text" name="${field.name}" id="${field.id}" />
+		</p>
+		<p>
+			<label for="${field.id}">Transakcioni nalog:</label> <input ng-model="bank.transactionAccount"
+				type="text" name="${field.name}" id="${field.id}" />
+		</p>
+		<p>
+			<input ng-value="bank.country.id" type="hidden" name="${field.name)"
+				id="${field.id}" /> <label for="${field.id}">Drzava:</label> <select
+				ng-options="{{countryOptions}}" ng-model="selectedCountry" id="selectField"><option
+					value="" ng-if="true"></option></select> <input
+				ng-click="showCountries(selectedCountry)" type="button"
+				class="btn btn-sm btn-default pulled-left" value="..."
+				style="margin-left: 3em" />
+		</p>
+		<div id="formActions">
+			<input ng-click="submitAction(bank)" type="submit" value="Potvrda"
+				style="margin-left: 6em" class="btn btn-lg btn-default pulled-left" />
+			<input ng-click="rollbackAction()" type="button" value="Rollback"
+				style="margin-left: 6em" class="btn btn-lg btn-default pulled-left" />
+		</div>
+	</div>
+	
+	<md-dialog class="modal" id="countryModal" tabindex="-1"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1>Drzave</h1>
+			</div>
+			<div class="modal-body">
+				<form validate class="simple-form">
+					<table class="table">
+						<tr class="header">			
+							<th>ID</th>
+							<th>Naziv</th>
+						</tr>
+						<tr ng-repeat="country in countries"
+							ng-click="setModalSelectedCountry(country)"
+							ng-class="{'alert alert-info' : selectedModalCountry===country}">
+							<td class="naziv">{{ country.id }}</td>
+							<td class="naziv">{{ country.name }}</td>
+						</tr>
+					</table>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<input id="btnConfirm" type="submit"
+					class="btn btn-default pulled-left" ng-click="confirmCountry()"
+					value="Izaberi" />
+			</div>
+		</div>
+	</div>
+	</md-dialog>
+
+
+</div>

@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
@@ -48,6 +49,9 @@ public class Bank implements Serializable {
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy="bank", orphanRemoval = true, targetEntity = Account.class)
 	private Set<Account> accounts;
+	
+	@ManyToOne
+	private Country country;
 	
 
 	@Column(name = "BANK_PIB", nullable = false, length = 10)

@@ -36,12 +36,13 @@ public class BankController {
 		}
 	}
 	
-	@RequestMapping (method=RequestMethod.POST,
+	@RequestMapping (value="/{countryId}",
+					method=RequestMethod.POST,
 					consumes = MediaType.APPLICATION_JSON_VALUE,
 					produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<Bank> createBank(@RequestBody @Valid Bank b){
-		Bank bank = bankServiceImpl.createBank(b);
+	public ResponseEntity<Bank> createBank(@RequestBody @Valid Bank b, @PathVariable ("countryId") Long countryId){
+		Bank bank = bankServiceImpl.createBank(b,countryId);
 		if(bank != null){
 			return  new ResponseEntity<Bank>(bank,HttpStatus.CREATED);
 		} else {
@@ -49,12 +50,29 @@ public class BankController {
 		}
 	}
 	
-	@RequestMapping (method=RequestMethod.PUT,
+	@RequestMapping (value="/search/{countryId}",
+				method=RequestMethod.POST,
+				consumes = MediaType.APPLICATION_JSON_VALUE,
+				produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ResponseEntity<ArrayList<Bank>> searchBanks(@RequestBody @Valid Bank b, @PathVariable ("countryId") Long countryId){
+		ArrayList<Bank> banks = bankServiceImpl.searchBanks(b,countryId);
+		if(banks != null){
+			return  new ResponseEntity<ArrayList<Bank>>(banks,HttpStatus.CREATED);
+		} else {
+			return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	
+	
+	@RequestMapping (value="/{countryId}",
+					method=RequestMethod.PUT,
 					consumes = MediaType.APPLICATION_JSON_VALUE,
 					produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<Bank> updateBank(@RequestBody @Valid Bank b){
-		Bank bank = bankServiceImpl.updateBank(b);
+	public ResponseEntity<Bank> updateBank(@RequestBody @Valid Bank b, @PathVariable ("countryId") Long countryId){
+		Bank bank = bankServiceImpl.updateBank(b,countryId);
 		if(bank != null){
 			return  new ResponseEntity<Bank>(bank,HttpStatus.OK);
 		} else {
