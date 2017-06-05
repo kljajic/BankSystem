@@ -38,6 +38,9 @@ public class Country {
 	
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, targetEntity = City.class, mappedBy="country")
 	private Set<City> cities;
+	
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, targetEntity = Bank.class, mappedBy="country")
+	private Set<Bank> banks;
 
 	public Country() {
 		super();

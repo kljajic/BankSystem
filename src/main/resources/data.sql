@@ -8,14 +8,14 @@ insert into currency(name, official_code, domicilna, country_id) values ('Rublja
 insert into currency(name, official_code, domicilna, country_id) values ('Lira', 'LIR', true, 3);
 insert into currency(name, official_code, domicilna, country_id) values ('Sol', 'SOL', true, 4);
 
-insert into bank(bank_id,bank_pib,bank_name,bank_address,bank_email,bank_web,bank_tel,bank_fax,bank_act,bank_swt,bank_tr_acc)
-values(73,'993456789','Banka banka','Bulevear fronta 20','bankan@mail.rs','www.bankan.com','021/555-333','232-444',true,'23345678','222-111-333');
+insert into bank(bank_id,bank_pib,bank_name,bank_address,bank_email,bank_web,bank_tel,bank_fax,bank_act,bank_swt,bank_tr_acc,country_id)
+values(73,'993456789','Banka banka','Bulevear fronta 20','bankan@mail.rs','www.bankan.com','021/555-333','232-444',true,'23345678','222-111-333',3);
 
-insert into bank(bank_id,bank_pib,bank_name,bank_address,bank_email,bank_web,bank_tel,bank_fax,bank_act,bank_swt,bank_tr_acc)
-values(1,'123456789','Komercijalna banka','Bulvear nardonog fronta 20','komercijalna@mail.rs','www.komercijalna.com','024/555-111','444-444',true,'12345678','333-111-333');
+insert into bank(bank_id,bank_pib,bank_name,bank_address,bank_email,bank_web,bank_tel,bank_fax,bank_act,bank_swt,bank_tr_acc,country_id)
+values(1,'123456789','Komercijalna banka','Bulvear nardonog fronta 20','komercijalna@mail.rs','www.komercijalna.com','024/555-111','444-444',true,'12345678','333-111-333',1);
 
-insert into bank(bank_id,bank_pib,bank_name,bank_address,bank_email,bank_web,bank_tel,bank_fax,bank_act,bank_swt,bank_tr_acc)
-values(2,'123456789','Erste banka','Bulvear nardonog fronta 100','erstelna@mail.rs','www.erste.com','024/555-111','123-123',true,'12345678','888-555-444');
+insert into bank(bank_id,bank_pib,bank_name,bank_address,bank_email,bank_web,bank_tel,bank_fax,bank_act,bank_swt,bank_tr_acc,country_id)
+values(2,'123456789','Erste banka','Bulvear nardonog fronta 100','erstelna@mail.rs','www.erste.com','024/555-111','123-123',true,'12345678','888-555-444',2);
 
 insert into exchange_list(date, number_of_exchange_list, used_since, bank_bank_id) 
 values('2017-10-15', 123, '2017-10-1', 1);
