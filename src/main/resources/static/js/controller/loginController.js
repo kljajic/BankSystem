@@ -7,7 +7,7 @@ loginController.controller('loginController', function($scope, $location, $windo
 	
 	$scope.login = function(logParams){
 		loginService.login(logParams).then(function(response){
-			$location.path('/');
+			$location.path('/countries');
 		});
 	}
 	

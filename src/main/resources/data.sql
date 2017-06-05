@@ -43,10 +43,10 @@ insert into payment_type(id, payment_type_name) values(2, 'Cekovi');
 insert into payment_type(id, payment_type_name) values(3, 'Kredit');
 insert into payment_type(id, payment_type_name) values(4, 'Transfer novca');
 
-insert into user(id, email, name, password, surname) values (1, 'mir@gmail.com', 'Mirko', 'mirko', 'Mikac');
-insert into user(id, email, name, password, surname) values (2, 'mar@gmail.com', 'Marko', 'marko', 'Kljajic');
-insert into user(id, email, name, password, surname) values (3, 'ste@gmail.com', 'Stefan', 'stefan', 'Varajic');
-insert into user(id, email, name, password, surname) values (4, 'dar@gmail.com', 'Darko', 'darko', 'Tacic');
+insert into user(id, email, name, password, surname) values (1, 'mir@gmail.com', 'Mirko', '$2a$10$.BJjJ3CVqWoSukqyxqx0z.zVm79kcWDcIdDbfYKM/BcI4rdIn2Nn.', 'Mikac');
+insert into user(id, email, name, password, surname) values (2, 'mar@gmail.com', 'Marko', '$2a$10$.BJjJ3CVqWoSukqyxqx0z.zVm79kcWDcIdDbfYKM/BcI4rdIn2Nn.', 'Kljajic');
+insert into user(id, email, name, password, surname) values (3, 'ste@gmail.com', 'Stefan', '$2a$10$.BJjJ3CVqWoSukqyxqx0z.zVm79kcWDcIdDbfYKM/BcI4rdIn2Nn.', 'Varajic');
+insert into user(id, email, name, password, surname) values (4, 'dar@gmail.com', 'Darko', '$2a$10$.BJjJ3CVqWoSukqyxqx0z.zVm79kcWDcIdDbfYKM/BcI4rdIn2Nn.', 'Tacic');
 
 insert into client(id,address,date_of_birth) values (1,'Bulevar narodnog fronta 2','1994-10-15');
 insert into client(id,address,date_of_birth) values (2,'Bulevar narodnog fronta 20','1994-10-15');
@@ -97,21 +97,19 @@ insert into privilege(id, name) values (4, 'editCountry');
 insert into privilege(id, name) values (5, 'searchCountries');
 
 insert into users_roles (user_id, role_id) values (1, 1);
-insert into users_roles (user_id, role_id) values (1, 2);
-insert into users_roles (user_id, role_id) values (1, 3);
 insert into users_roles (user_id, role_id) values (2, 2);
-insert into users_roles (user_id, role_id) values (2, 4);
-insert into users_roles (user_id, role_id) values (3, 4);
-insert into users_roles (user_id, role_id) values (4, 2);
+insert into users_roles (user_id, role_id) values (3, 2);
+insert into users_roles (user_id, role_id) values (4, 3);
 
 insert into roles_privileges(role_id, privilege_id) values(1, 1);
 insert into roles_privileges(role_id, privilege_id) values(1, 2);
 insert into roles_privileges(role_id, privilege_id) values(1, 3);
+insert into roles_privileges(role_id, privilege_id) values(1, 4);
 
+insert into roles_privileges(role_id, privilege_id) values(2, 1);
 insert into roles_privileges(role_id, privilege_id) values(2, 2);
 insert into roles_privileges(role_id, privilege_id) values(2, 3);
 
 insert into roles_privileges(role_id, privilege_id) values(3, 1);
-insert into roles_privileges(role_id, privilege_id) values(3, 1);
+insert into roles_privileges(role_id, privilege_id) values(3, 5);
 
-insert into roles_privileges(role_id, privilege_id) values(4, 1);
