@@ -1,6 +1,7 @@
 var countryController = angular.module('bankApp.countryController', []);
 
-countryController.controller('countryController', function($scope, $location, $window, $compile, countryService){
+countryController.controller('countryController', function($scope, $location, $window,
+		$compile, countryService){
 	
 	$scope.action = {};
 	$scope.countries = {};
@@ -63,13 +64,35 @@ countryController.controller('countryController', function($scope, $location, $w
 	$scope.removeClicked = function(country){
 		$scope.action = "removeClicked";
 		if(Object.keys(country).length > 0){
-			countryService.deleteCountry(country).then(function(response){
-				countryService.getAllCountries().then(function(response){
-					if(response.data != null){
-						$scope.countries = response.data;
-					}
+			swal({
+				  title: "Da li ste sigurni?",
+				  text: "Necete uspeti da vratite ovo.",
+				  type: "warning",
+				  showCancelButton: true,
+				  confirmButtonColor: "#DD6B55",
+				  confirmButtonText: "Da, obrisi.",
+				  cancelButtonText: "Ponisti",
+				  closeOnConfirm: false,
+				  closeOnCancel: false
+				},
+				function(isConfirm){
+				  if (isConfirm) {
+					  countryService.deleteCountry(country).then(function(response){
+							countryService.getAllCountries().then(function(response){
+								if(response.data != null){
+									$scope.countries = response.data;
+								}
+							});
+						});
+					  swal("Obrisano!", "Uspesno ste obrisali.", "success");
+				  } else {
+				    swal("Ponisteno", "Ponistili ste operaciju brisanja.", "error");
+				  }
 				});
-			});
+			
+			
+		} else {
+			swal({ title:"Selektujte drzavu.", type:"error" });
 		}
 	}
 	
@@ -93,7 +116,7 @@ countryController.controller('countryController', function($scope, $location, $w
 					});
 				});
 			} else {
-				alert("SELEKTUJ");
+				swal({ title:"Selektujte drzavu ili operaciju.", type:"error" });
 			}
 		}
 	}
@@ -123,7 +146,7 @@ countryController.controller('countryController', function($scope, $location, $w
 				$('#modalNextMechanism').modal('hide');
 			}
 		} else {
-			alert("selektuj!");
+			swal({ title:"Selektujte drzavu.", type:"error" });
 		}
 	}
 	

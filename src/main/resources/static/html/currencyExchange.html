@@ -61,19 +61,19 @@
 				
 				<p>
 					<label for = "${field.exchangeList}">Broj kursne liste</label>
-					<select ng-model="cex.exchangeList" ng-options="el.numberOfExchangeList for el in exchangeLists"
-					><option value="" ng-if=true><option></select>
+					<select id="" ng-model="cex.exchangeList" ng-options="el.numberOfExchangeList for el in exchangeLists"
+					><option value="selectFieldExchangeList" ng-if=true><option></select>
 					<button ng-click="showExchangeLists(cex)" type="submit">...</button>
 				</p>
 				<p>
 					<label for = "${field.primaryCurrency}">Osnovna valuta</label>
-					<select ng-model="cex.primaryCurrency" ng-options="c.officialCode for c in currencies"
+					<select id="selectFieldPrimary" ng-model="cex.primaryCurrency" ng-options="c.officialCode for c in currencies"
 					><option value="" ng-if=true><option></select>
 					<button ng-click="showPrimaryCurrency(cex)" type="submit">...</button>
 				</p>
 				<p>
 					<label for = "${field.accordingToCurrency}">Prema valuti</label>
-					<select ng-model="cex.accordingToCurrency" ng-options="c.officialCode for c in currencies"
+					<select id="selectFieldAccordingTo" ng-model="cex.accordingToCurrency" ng-options="c.officialCode for c in currencies"
 					><option value="" ng-if=true><option></select>
 					<button ng-click="showAccordingToCurrency(cex)" type="submit">...</button>
 				</p>

@@ -88,7 +88,7 @@
 		<p>
 			<input ng-value="legalPersonAccount.currency.id" type="hidden"
 				name="${field.name)" id="${field.id}" /> <label for="${field.id}">Valuta</label>
-			<select ng-options="{{currencyOptions}}" ng-model="selectedCurrency"><option
+			<select id="selectFieldCurrency" ng-options="{{currencyOptions}}" ng-model="selectedCurrency"><option
 					value="" ng-if="true"></option></select> <input
 				ng-click="showCurrencies(selectedCurrency)" type="button"
 				class="btn btn-sm btn-default pulled-left" value="..."

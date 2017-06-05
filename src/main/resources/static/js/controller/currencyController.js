@@ -17,10 +17,13 @@ currencyController.controller('currencyController', function($scope, $location, 
 					}
 				}
 				$scope.currencies = temp;
+				$('#selectField').prop('disabled', 'disabled');
 				$scope.currency.country = findCountryForSelect($routeParams.param);
+				$scope.selectedCountry = findCountryForSelect($routeParams.param);
 			} else{
 				if(response.data != null){
 					$scope.currencies = response.data;
+					$('#selectField').removeAttr('disabled');
 				}
 			}
 		});
@@ -133,24 +136,42 @@ currencyController.controller('currencyController', function($scope, $location, 
 		else{
 			if(Object.keys($scope.selectedCurrency).length > 0){
 				currencyService.editCurrency(currency).then(function(response){
-					alert("izmenjeno");
 					refreshView();
 				});
 			} else {
-				alert("SELEKTUJ");
+				swal({ title:"Selektujte valutu ili operaciju.", type:"error" });
 			}
 		}
 	}
 	
 	$scope.removeClicked = function(currency){
 		$scope.action = "removeClicked";
-		alert(currency.id);
 		$scope.currency = {};
 		$scope.selectedCurrency = {};
 		if(Object.keys(currency).length > 0){
-			currencyService.deleteCurrency(currency).then(function(response){
-				refreshView();
-			});
+			swal({
+				  title: "Da li ste sigurni?",
+				  text: "Necete uspeti da vratite ovo.",
+				  type: "warning",
+				  showCancelButton: true,
+				  confirmButtonColor: "#DD6B55",
+				  confirmButtonText: "Da, obrisi.",
+				  cancelButtonText: "Ponisti",
+				  closeOnConfirm: false,
+				  closeOnCancel: false
+				},
+				function(isConfirm){
+				  if (isConfirm) {
+						currencyService.deleteCurrency(currency).then(function(response){
+							refreshView();
+						});
+					  swal("Obrisano!", "Uspesno ste obrisali.", "success");
+				  } else {
+				    swal("Ponisteno", "Ponistili ste operaciju brisanja.", "error");
+				  }
+				});
+		} else {
+			swal({ title:"Selektujte valutu.", type:"error" });
 		}
 	}
 	
@@ -175,6 +196,24 @@ currencyController.controller('currencyController', function($scope, $location, 
 		$scope.confirmCountry = function(){
 			$scope.currency.country = findCountryForSelect($scope.selectedCountry.id);
 			$('#combozoomModalCountries').modal('hide');
+		}
+	}
+	
+	$scope.nextClicked2 = function(selectedCurrency){
+		if(Object.keys($scope.selectedCurrency).length > 0 ){
+		$('#modalNextMechanism').modal('show');
+			$scope.confirmNextMechanism = function(){
+				if($scope.radioButtons.group == 'primaryCurrency'){
+					$location.path('/currencyExchanges/').search({paramPrimary: selectedCurrency.id});
+				} else if($scope.radioButtons.group == 'accordingToCurrency'){
+					$location.path('/currencyExchanges/').search({paramAccordingTo: selectedCurrency.id});
+				} else if($scope.radioButtons.group == 'account'){
+					$location.path('/accounts/').search({param : selectedCurrency.id});
+				}
+				$('#modalNextMechanism').modal('hide');
+			}
+		} else {
+			swal({ title:"Selektujte drzavu.", type:"error" });
 		}
 	}
 	

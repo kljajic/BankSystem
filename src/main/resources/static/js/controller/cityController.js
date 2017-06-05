@@ -22,10 +22,13 @@ cityController.controller('cityController', function($scope, $location,
 					}
 				}
 				$scope.cities = temp;
+				$('#selectField').prop('disabled', 'disabled');
 				$scope.selectedCountry = $scope.countries[$routeParams.param-1];
+				
 			} else {
 				if (data.data != null) {
 					$scope.cities = data.data;
+					$('selectField').removeAttr('disabled');
 				}
 			}
 		});

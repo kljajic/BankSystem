@@ -2,7 +2,7 @@ var legalPersonAccountController = angular.module('bankApp.legalPersonAccountCon
 		[]);
 
 legalPersonAccountController.controller('legalPersonAccountController', function($scope,
-		$location, $window, $compile, legalPersonAccountService, ngNotify, exchangeListService) {
+		$location, $window, $compile, $routeParams,legalPersonAccountService, ngNotify, exchangeListService) {
 	
 	$scope.action = {};
 	$scope.legalPersonAccounts = [];
@@ -24,15 +24,29 @@ legalPersonAccountController.controller('legalPersonAccountController', function
 
 	$scope.getAllLegalPersonAccounts = function() {
 		legalPersonAccountService.getAllLegalPersonAccounts().then(function(data) {
-			if (data.data != null) {
-				$scope.legalPersonAccounts = data.data;
-				for(var i = 0;i < $scope.legalPersonAccounts.length;i++){
-					if($scope.legalPersonAccounts[i].active == true){
-						$scope.legalPersonAccounts[i].activeView = "AKTIVAN";
-					} else {
-						$scope.legalPersonAccounts[i].activeView = "NEAKTIVAN";
+			if($routeParams.param > 0){
+				var temp = [];
+				for(var i = 0; i<data.data.length; i++){
+					if(data.data[i].currency.id === $routeParams.param > 0){
+						temp.push(data.data[i]);
 					}
 				}
+				$scope.legalPersonAccounts = temp;
+				$('#selectFieldCurrency').prop('disabled', 'disabled');
+				$scope.selectedCurrency = $scope.currencies[$routeParams.param - 1];
+			} 
+			else{
+				if (data.data != null) {
+					$scope.legalPersonAccounts = data.data;
+					for(var i = 0;i < $scope.legalPersonAccounts.length;i++){
+						if($scope.legalPersonAccounts[i].active == true){
+							$scope.legalPersonAccounts[i].activeView = "AKTIVAN";
+						} else {
+							$scope.legalPersonAccounts[i].activeView = "NEAKTIVAN";
+						}
+					}
+				}
+				$('#selectFieldCurrency').removeAttr('disabled');
 			}
 		});
 	}

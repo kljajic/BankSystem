@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.Digits;
 
 @Entity
 public class CurrencyExchange {
@@ -13,13 +14,16 @@ public class CurrencyExchange {
 	@Id
 	private Long id;
 	
-	@Column(nullable = false, columnDefinition="Decimal(9,4)")
+	@Column(nullable = false)
+	@Digits(fraction = 4, integer = 13)
 	private Double buyRate;
 	
-	@Column(nullable = false, columnDefinition="Decimal(9,4)")
+	@Column(nullable = false)
+	@Digits(fraction = 4, integer = 13)
 	private Double middleRate;
 	
-	@Column(nullable = false, columnDefinition="Decimal(9,4)")
+	@Column(nullable = false)
+	@Digits(fraction = 4, integer = 13)
 	private Double sellRate;
 	
 	@ManyToOne(optional = false)

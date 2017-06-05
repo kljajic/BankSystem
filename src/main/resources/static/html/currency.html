@@ -55,7 +55,7 @@
 				</p>
 				<p>
 					<label for = "${field.country}">Drzava</label>
-					<select ng-model="currency.country" ng-options="c.name for c in countries"
+					<select id="selectField" ng-model="currency.country" ng-options="c.name for c in countries"
 					><option value="" ng-if=true><option></select>
 					<button ng-click="showCountries(currency)" type="submit">...</button>
 				</p>
@@ -92,6 +92,41 @@
 					<input id="btnConfirm" type="submit"
 						class="btn btn-default pulled-right"
 						ng-click="confirmCountry()" value="Potvrdi" />
+
+				</form>
+			</div>
+		</div>
+	</div>
+</md-dialog>
+
+<md-dialog class="modal" id="modalNextMechanism" tabindex="-1"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title" id="myModalLabel">
+					<i class="text-muted fa fa-shopping-cart"></i>Next mehanizam<strong></strong>
+				</h4>
+			</div>
+			<div class="modal-body">
+				<form validate class="simple-form">
+				    <label>
+				    	<input type="radio" ng-model="radioButtons.group" value="primaryCurrency">
+				    	Osnovna valuta
+				  	</label><br/>
+				  	<label>
+				    	<input type="radio" ng-model="radioButtons.group" value="accordingToCurrency">
+				    	Prema valuti
+				  	</label><br/>
+				  	<label>
+				    	<input type="radio" ng-model="radioButtons.group" value="account">
+				    	Racuni pravnih lica
+				  	</label><br/>
+
+					<input id="btnConfirm" type="submit"
+						class="btn btn-default pulled-right"
+						ng-click="confirmNextMechanism()" value="Potvrdi" />
 
 				</form>
 			</div>

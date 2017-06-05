@@ -1,6 +1,7 @@
 var currencyExchangeController = angular.module('bankApp.currencyExchangeController', []);
 
-currencyExchangeController.controller('currencyExchangeController', function($scope, $location, $window, $compile, currencyExchangeService, currencyService){
+currencyExchangeController.controller('currencyExchangeController', function($scope, $location, $window, 
+		$compile, $routeParams, currencyExchangeService, currencyService){
 	
 	$scope.action = {};
 	$scope.cexes = {};
@@ -13,8 +14,35 @@ currencyExchangeController.controller('currencyExchangeController', function($sc
 	
 	function refreshView(){
 		currencyExchangeService.getAllCexes().then(function(response){
-			if(response.data != null){
-				$scope.cexes = response.data;
+			if($routeParams.paramPrimary > 0){
+				var temp = [];
+				for(var i = 0; i < response.data.length; i++){
+					if(response.data[i].primaryCurrency.id === $routeParams.paramPrimary){
+						temp.push(response.data[i]);
+					}
+				}
+				$scope.cexes = temp;
+				$('#selectFieldPrimary').prop('disabled', 'disabled');
+				$scope.cex.primaryCurrency = findCurrencyForSelect($routeParams.paramPrimary);
+				$scope.selectedPrimaryCurrency = findCurrencyForSelect($routeParams.paramPrimary);
+			} else if($routeParams.paramAccordingTo > 0){
+				var temp = [];
+				for(var i = 0; i < response.data.length; i++){
+					if(response.data[i].accordingToCurrency.id === $routeParams.paramAccordingTo){
+						temp.push(response.data[i]);
+					}
+				}
+				$scope.cexes = temp;
+				$('#selectFieldAccordingTo').prop('disabled', 'disabled');
+				$scope.cex.accordingToCurrency = findCurrencyForSelect($routeParams.paramAccordingTo);
+				$scope.selectedAccordingToCurrency = findCurrencyForSelect($routeParams.paramAccordingTo);
+			}
+			else {
+				if(response.data != null){
+					$scope.cexes = response.data;
+					$('#selectFieldPrimary').removeAttr('disabled');
+					$('#selectFieldAccordingTo').removeAttr('disabled');
+				}
 			}
 		});
 		currencyService.getAllCurrencies().then(function(response){
@@ -159,11 +187,10 @@ currencyExchangeController.controller('currencyExchangeController', function($sc
 		else{
 			if(Object.keys($scope.selectedCex).length > 0){
 				currencyExchangeService.editCex(cex).then(function(response){
-					alert("izmenjeno");
 					refreshView();
 				});
 			} else {
-				alert("SELEKTUJ");
+				swal({ title:"Selektujte kurs u valuti ili operaciju.", type:"error" });
 			}
 		}
 	}
@@ -173,9 +200,29 @@ currencyExchangeController.controller('currencyExchangeController', function($sc
 		$scope.cex = {};
 		$scope.selectedCex = {};
 		if(Object.keys(cex).length > 0){
-			currencyExchangeService.deleteCex(cex).then(function(response){
-				refreshView();
-			});
+			swal({
+				  title: "Da li ste sigurni?",
+				  text: "Necete uspeti da vratite ovo.",
+				  type: "warning",
+				  showCancelButton: true,
+				  confirmButtonColor: "#DD6B55",
+				  confirmButtonText: "Da, obrisi.",
+				  cancelButtonText: "Ponisti",
+				  closeOnConfirm: false,
+				  closeOnCancel: false
+				},
+				function(isConfirm){
+				  if (isConfirm) {
+						currencyExchangeService.deleteCex(cex).then(function(response){
+							refreshView();
+						});
+					  swal("Obrisano!", "Uspesno ste obrisali.", "success");
+				  } else {
+				    swal("Ponisteno", "Ponistili ste operaciju brisanja.", "error");
+				  }
+				});
+		} else {
+			swal({ title:"Selektujte kurs u valuti.", type:"error" });
 		}
 	}
 	
