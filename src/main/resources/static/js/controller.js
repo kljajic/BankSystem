@@ -8,4 +8,6 @@ var controller = angular.module('bankApp.controller', ['bankApp.countryControlle
                                                        'bankApp.analyticalStatementController',
                                                        'bankApp.legalPersonAccountController',
                                                        'bankApp.loginController'
+                                                       'bankApp.legalPersonAccountController',
+                                                       'bankApp.bankController'
                                                        ]);

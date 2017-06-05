@@ -2,7 +2,7 @@ var app = angular.module("bankApp.route", [ "ngRoute" ]);
 
 app.config(function($routeProvider) {
 	$routeProvider.when("/", {
-		templateUrl : "html/country.html"
+		
 	}).when("/countries", {
 		templateUrl : "html/country.html"
 	}).when("/currencies", {
@@ -23,5 +23,7 @@ app.config(function($routeProvider) {
 		templateUrl : "html/legalPersonAccount.html"
 	}).when("/login", {
 		templateUrl : "html/login.html"
+	}).when("/banks", {
+		templateUrl : "html/bank.html"
 	});
 });

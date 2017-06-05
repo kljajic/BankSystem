@@ -13,7 +13,6 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.model.user.Permission;
 
 
 @Entity
@@ -30,9 +29,12 @@ public class Country {
 	@Size(max = 40)
 	@Column(nullable = false)
 	private String name;
-	
+
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, targetEntity = City.class, mappedBy="country")
 	private Set<City> cities;
+	
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, targetEntity = Bank.class, mappedBy="country")
+	private Set<Bank> banks;
 
 	public Country() {
 		super();
