@@ -13,10 +13,10 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.model.user.Permission;
 
 
 @Entity
-//@Table(uniqueConstraints=@UniqueConstraint(columnNames = {"code"}))
 public class Country {
 	
 	public void setName(String name) {
@@ -30,11 +30,6 @@ public class Country {
 	@Size(max = 40)
 	@Column(nullable = false)
 	private String name;
-	
-	/*@Size(min = 3, max = 3)
-	@Column(nullable = false)
-	String code;
-	*/
 	
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, targetEntity = City.class, mappedBy="country")
 	private Set<City> cities;
@@ -50,10 +45,6 @@ public class Country {
 	public String getName() {
 		return name;
 	}
-
-	/*public String getCode() {
-		return code;
-	}*/
 
 	@JsonIgnore
 	public Set<City> getCities() {

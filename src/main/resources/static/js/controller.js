@@ -6,5 +6,6 @@ var controller = angular.module('bankApp.controller', ['bankApp.countryControlle
                                                        'bankApp.paymentTypeController',
                                                        'bankApp.dailyAccountStatusController',
                                                        'bankApp.analyticalStatementController',
-                                                       'bankApp.legalPersonAccountController'
+                                                       'bankApp.legalPersonAccountController',
+                                                       'bankApp.loginController'
                                                        ]);

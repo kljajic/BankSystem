@@ -21,5 +21,7 @@ app.config(function($routeProvider) {
 		templateUrl : "html/analyticalStatement.html"
 	}).when("/accounts", {
 		templateUrl : "html/legalPersonAccount.html"
+	}).when("/login", {
+		templateUrl : "html/login.html"
 	});
 });

@@ -1,0 +1,45 @@
+<div class="container" ng-cloak ng-controller="loginController">
+    	<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<div class="panel panel-login">
+					<div class="panel-heading">
+						<div class="row">
+							<div>
+								<h3 class="text-xs-center">Dobrodosli</h3>
+							</div>
+						</div>
+						<hr>
+					</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-lg-12">
+								<form id="login-form" role="form" style="display: block;"  >
+									<div class="form-group">
+										<input type="text" name="Email" id="Email" tabindex="1" class="form-control" placeholder="Email" value="" ng-model="logParams.email">
+									</div>
+									<div class="form-group">
+										<input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password" ng-model="logParams.password">
+									</div>
+									<div class="form-group text-center">
+										<label id="errcombination" ng-model="errcombination" name="errcombination">{{errlog}}</label>
+									</div>
+									<div class="form-group">
+										<div class="row">
+											<div class="col-sm-6 col-sm-offset-3">
+												<input ng-click="login(logParams)" type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Log In">
+											</div>
+										</div>
+									</div>
+									
+								</form>
+								
+							<p id="message"></p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>

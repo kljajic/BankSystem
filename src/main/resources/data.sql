@@ -87,13 +87,14 @@ insert into analytical_statement(id, amount, approval_authorization_number, appr
 	   		  '840-714121843-73', false, false, 1, 2 , 4, 2);
 
 insert into role(id, name) values (1, 'BANK_ADMIN');
-insert into role(id, name) values (2, 'BANK_MANAGER');
-insert into role(id, name) values (3, 'BANK_STAFF');
-insert into role(id, name) values (4, 'CLIENT');
+insert into role(id, name) values (2, 'BANK_STAFF');
+insert into role(id, name) values (3, 'CLIENT');
 
-insert into privilege(id, name) values (1, 'READ');
-insert into privilege(id, name) values (2, 'WRITE');
-insert into privilege(id, name) values (3, 'DELETE');
+insert into privilege(id, name) values (1, 'readCountries');
+insert into privilege(id, name) values (2, 'writeCountry');
+insert into privilege(id, name) values (3, 'deleteCountry');
+insert into privilege(id, name) values (4, 'editCountry');
+insert into privilege(id, name) values (5, 'searchCountries');
 
 insert into users_roles (user_id, role_id) values (1, 1);
 insert into users_roles (user_id, role_id) values (1, 2);
