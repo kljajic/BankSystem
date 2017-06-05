@@ -179,5 +179,13 @@ exchangeListController.controller('exchangeListController', function($scope,
 		$scope.selectedModalBank = {};
 	}
 	
+	$scope.chain = function(selectedExchangeList){
+		if(Object.keys($scope.selectedExchangeList).length > 0){
+				$location.path('/currencyExchanges/').search({paramEL: $scope.selectedExchangeList.id});
+		} else {
+			swal({ title:"Selektujte kursnu listu!", type:"error" });
+		}
+	}
+	
 	
 });

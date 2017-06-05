@@ -265,4 +265,12 @@ legalPersonAccountController.controller('legalPersonAccountController', function
 		} 
 	}
 	
+	$scope.chain = function(selectedLegalPersonAccount){
+		if(Object.keys($scope.selectedLegalPersonAccount).length > 0){
+				$location.path('/dailyAccountStatuses/').search({paramAccount: $scope.selectedLegalPersonAccount.id});
+		} else {
+			swal({ title:"Selektujte racun!", type:"error" });
+		}
+	}
+	
 });

@@ -71,7 +71,20 @@ insert into analytical_statement(id, amount, approval_authorization_number, appr
 	   value (1, 10000.00, '123456789', '97', '2015-05-29', '2015-05-29', '100018356', 'IZVRSEN_NALOG', '97',
 	   		  '\"Racunovodstvena praksa\" Njegoseva 19, 11000 Beograd', '355-1000466-07', 'Uplata poreza na promet proizvoda', 'Poreska uprava',
 	   		  '840-714121843-73', false, false, 1, 2 , 4, 1);
-	   		  
+insert into analytical_statement(id, amount, approval_authorization_number, approval_model, currency_date, date_of_receipt, 
+								 debit_authorization_number, error_type, model, originator, originator_account, purpose, recipient,
+								 recipient_account, uplata, urgently, currency_id, daily_account_status_id, payment_type_id,
+								 place_of_acceptance_id) 
+	   value (2, 10000.00, '123456789', '97', '2015-05-29', '2015-05-29', '100018356', 'IZVRSEN_NALOG', '97',
+	   		  '\"Racunovodstvena praksa\" Njegoseva 19, 11000 Beograd', '355-1000466-07', 'Uplata poreza na promet proizvoda', 'Poreska uprava',
+	   		  '840-714121843-73', false, false, 1, 2 , 4, 2);	   		  
+insert into analytical_statement(id, amount, approval_authorization_number, approval_model, currency_date, date_of_receipt, 
+								 debit_authorization_number, error_type, model, originator, originator_account, purpose, recipient,
+								 recipient_account, uplata, urgently, currency_id, daily_account_status_id, payment_type_id,
+								 place_of_acceptance_id) 
+	   value (3, 10000.00, '123456789', '97', '2015-05-29', '2015-05-29', '100018356', 'IZVRSEN_NALOG', '97',
+	   		  '\"Racunovodstvena praksa\" Njegoseva 19, 11000 Beograd', '355-1000466-07', 'Uplata poreza na promet proizvoda', 'Poreska uprava',
+	   		  '840-714121843-73', false, false, 1, 2 , 4, 2);
 
 insert into role(id, name) values (1, 'BANK_ADMIN');
 insert into role(id, name) values (2, 'BANK_MANAGER');

@@ -1,7 +1,7 @@
 var analyticalStatementController = angular.module('bankApp.analyticalStatementController', []);
 
 analyticalStatementController.controller('analyticalStatementController',['$rootScope','$scope','$location','$http',
-		'analyticalStatementService',function($rootScope,$scope,$location,$http,analyticalStatementService) {
+		'analyticalStatementService', '$routeParams',function($rootScope,$scope,$location,$http,analyticalStatementService,$routeParams, $window) {
 	
 	$scope.action = {};
 	$scope.analyticalStatement = [];
@@ -25,9 +25,21 @@ analyticalStatementController.controller('analyticalStatementController',['$root
 	$scope.currencyDate = new Date();
 	
 	$scope.getAllAnalyticalStatements = function() {
-		analyticalStatementService.getAllAnalyticalStatements().then(function(response) {
-			if (response.data != null) {
-				$scope.analyticalStatements = response.data;
+		analyticalStatementService.getAllAnalyticalStatements().then(function(data) {
+			if($routeParams.param > 0){
+				var temp = [];
+				for(var i = 0; i < data.data.length; i++){
+					if(data.data[i].placeOfAcceptance.id == $routeParams.param){
+						temp.push(data.data[i]);
+					}
+				}
+				$scope.analyticalStatements = temp;
+				$scope.selectedCity = $scope.cities[$routeParams.param-1];
+			} else {
+				if (data.data != null) {
+					$scope.analyticalStatements = data.data;
+					$('selectField').removeAttr('disabled');
+				}
 			}
 		});
 	}

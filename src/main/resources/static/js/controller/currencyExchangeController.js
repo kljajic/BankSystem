@@ -36,6 +36,17 @@ currencyExchangeController.controller('currencyExchangeController', function($sc
 				$('#selectFieldAccordingTo').prop('disabled', 'disabled');
 				$scope.cex.accordingToCurrency = findCurrencyForSelect($routeParams.paramAccordingTo);
 				$scope.selectedAccordingToCurrency = findCurrencyForSelect($routeParams.paramAccordingTo);
+			} else if($routeParams.paramEL > 0){
+				var temp = [];
+				for(var i = 0; i < response.data.length; i++){
+					if(response.data[i].exchangeList.id === $routeParams.paramEL){
+						temp.push(response.data[i]);
+					}
+				}
+				$scope.cexes = temp;
+				$('#selectFieldAccordingTo').prop('disabled', 'disabled');
+				$scope.cex.exchangeList = findExchangeListForSelect($routeParams.paramEL);
+				$scope.selectedExchangeList = findExchangeListForSelect($routeParams.paramEL);
 			}
 			else {
 				if(response.data != null){

@@ -1,7 +1,7 @@
 var dailyAccountStatusController = angular.module('bankApp.dailyAccountStatusController', []);
 
 dailyAccountStatusController.controller('dailyAccountStatusController',['$rootScope','$scope','$location','$http',
-		'dailyAccountStatusService',function($rootScope,$scope,$location,$http,dailyAccountStatusService, ngNotify) {
+		'dailyAccountStatusService', 'ngNotify', '$routeParams', '$window',function($rootScope,$scope,$location,$http,dailyAccountStatusService, ngNotify, $routeParams, $window) {
 	
 	$scope.action = {};
 	$scope.dailyAccountStatuses = [];
@@ -14,19 +14,49 @@ dailyAccountStatusController.controller('dailyAccountStatusController',['$rootSc
 	$scope.mode.current = "Rezim izmene";
 	$scope.date = new Date();
 	
-	$scope.getAllDailyAccountStatuses = function() {
-		dailyAccountStatusService.getAllDailyAccountStatuses().then(function(response) {
-			if (response.data != null) {
-				$scope.dailyAccountStatuses = response.data;
-			}
-		});
-	}
-	
 	dailyAccountStatusService.getAllAccounts().then(function(response) {
 		if (response.data != null) {
 			$scope.accounts = response.data;
 		}
 	});
+	
+	$scope.initial = function(){
+		dailyAccountStatusService.getAllAccounts().then(function(response) {
+			if (response.data != null) {
+				$scope.accounts = response.data;
+			}
+		});
+	}
+	$scope.initial();
+	
+	$scope.getAllDailyAccountStatuses = function() {
+		dailyAccountStatusService.getAllDailyAccountStatuses().then(function(data) {
+			if($routeParams.paramAccount > 0){
+				var temp = [];
+				for(var i = 0; i < data.data.length; i++){
+					if(data.data[i].account.id == $routeParams.paramAccount){
+						temp.push(data.data[i]);
+					}
+				}
+				$scope.dailyAccountStatuses = temp;
+				$('#selectField').prop('disabled', 'disabled');
+				$scope.selectedAccount = $scope.findAccount($routeParams.paramAccount);
+				
+			} else {
+				if (data.data != null) {
+					$scope.dailyAccountStatuses = data.data;
+				}
+			}
+		});
+	}
+	
+	$scope.findAccount = function(id){
+		for(var i = 0;i < $scope.accounts.length;i++){
+			if($scope.accounts[i].id == id){
+				return $scope.accounts[i];
+			}
+		}
+	}
 	
 	$scope.getAllDailyAccountStatuses();
 
