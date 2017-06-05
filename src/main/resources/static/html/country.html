@@ -23,11 +23,9 @@
 <div class = "table">
 	<table>
 		 <tr class="header">
-		 	<th>Id</th>
 		 	<th>Naziv</th>
 		 </tr>
 		 <tr ng-repeat="country in countries" ng-click="setSelected(country)" ng-class="{'alert alert-info' : selectedCountry===country}">
-		 	<td class="id">{{ country.id }}</td>
 		 	<td class="naziv">{{ country.name }}</td>
 		 </tr>
 	</table>
@@ -44,8 +42,10 @@
 					<input ng-model="country.name" type = "text" name = "${field.name}" id = "${field.id}"/>
 				</p>
 				<div id = "formActions">
-					<input ng-click="submitAction(country)" type = "submit" value = "Potvrda" style="margin-left:6em"/>
-					<a href = "#/" style="margin-left:1em" ng-click="rollbackAction()">Rollback</a>
+					<input ng-click="submitAction(country)" type = "submit" 
+					value = "Potvrda" style="margin-left:1em"/>
+					<input ng-click="rollbackAction()" type = "submit" 
+					value = "Rollback" style="margin-left:6em"/>
 				</div>			
 				
 	</p>
