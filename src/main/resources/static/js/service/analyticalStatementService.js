@@ -87,7 +87,21 @@ analyticalStatementService.factory('analyticalStatementService', function($http)
 	temp.getAllCurrencies = function(){
 		return $http({
 			method : 'GET',
-			url: '../currencies//getAllCurrencies',
+			url: '../currencies/getAllCurrencies',
+		});
+	}
+	
+	temp.getAnalyticalStatementsByPaymentTypeId = function(id){
+		return $http({
+			method : 'GET',
+			url: '../analyticalStatements/getByPaymentTypeId/'+id,
+		});
+	}
+	
+	temp.getAnalyticalStatementsByDailyAccountStatusId = function(id){
+		return $http({
+			method : 'GET',
+			url: '../analyticalStatements/getByDailyAccountStatusId/'+id,
 		});
 	}
 	

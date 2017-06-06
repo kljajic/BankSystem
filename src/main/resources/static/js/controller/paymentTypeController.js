@@ -139,7 +139,12 @@ paymentTypeController.controller('paymentTypeController',['$rootScope','$scope',
 	}
 	
 	$scope.nextForm = function(){
-		
+		if(Object.keys($scope.selectedPaymentType).length>0){
+			$rootScope.nextPaymentType = $scope.selectedPaymentType;
+			$location.path('/analyticalStatements');
+			return;
+		}
+		sweetAlert("Oops...", "You must select payment type!", "error");
 	}
 	
 }]);

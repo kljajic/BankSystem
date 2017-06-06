@@ -91,5 +91,15 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 	public void deleteAnalyticalStatement(Long id) {
 		analyticalStatementRepository.delete(id);
 	}
+
+	@Override
+	public Collection<AnalyticalStatement> getAnalyticalStatementsByPaymentTypeId(Long id) {
+		return analyticalStatementRepository.findAnalyticalStatementsByPaymentTypeId(id);
+	}
+
+	@Override
+	public Collection<AnalyticalStatement> getAnalyticalStatementsByDailyAccountStatusId(Long id) {
+		return analyticalStatementRepository.findAnalyticalStatementsByDailyAccountStatusId(id);
+	}
 	
 }

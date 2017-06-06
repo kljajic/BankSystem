@@ -208,7 +208,12 @@ dailyAccountStatusController.controller('dailyAccountStatusController',['$rootSc
 	}
 	
 	$scope.nextForm = function(){
-		
+		if(Object.keys($scope.selectedDailyAccountStatus).length>0){
+			$rootScope.nextDailyAccountStatus = $scope.selectedDailyAccountStatus;
+			$location.path('/analyticalStatements');
+			return;
+		}
+		sweetAlert("Oops...", "You must select daily account status!", "error");
 	}
 	
 }]);

@@ -4,8 +4,8 @@ analyticalStatementController.controller('analyticalStatementController',['$root
 		'analyticalStatementService', '$routeParams',function($rootScope,$scope,$location,$http,analyticalStatementService,$routeParams, $window) {
 	
 	$scope.action = {};
-	$scope.analyticalStatement = [];
-	$scope.analyticalStatements = {};
+	$scope.analyticalStatement = {};
+	$scope.analyticalStatements = [];
 	$scope.dailyAccountStatuses = [];
 	$scope.cities = [];
 	$scope.paymentTypes = [];
@@ -23,26 +23,8 @@ analyticalStatementController.controller('analyticalStatementController',['$root
 	$scope.mode.current = "Rezim izmene";
 	$scope.dateOfReceipt = new Date();
 	$scope.currencyDate = new Date();
-	
-	$scope.getAllAnalyticalStatements = function() {
-		analyticalStatementService.getAllAnalyticalStatements().then(function(data) {
-			if($routeParams.param > 0){
-				var temp = [];
-				for(var i = 0; i < data.data.length; i++){
-					if(data.data[i].placeOfAcceptance.id == $routeParams.param){
-						temp.push(data.data[i]);
-					}
-				}
-				$scope.analyticalStatements = temp;
-				$scope.selectedCity = $scope.cities[$routeParams.param-1];
-			} else {
-				if (data.data != null) {
-					$scope.analyticalStatements = data.data;
-					$('selectField').removeAttr('disabled');
-				}
-			}
-		});
-	}
+	$scope.nextPaymentType = false;
+	$scope.nextDailyAccountStatus = false;
 	
 	analyticalStatementService.getAllDailyAccountStatuses().then(function(response) {
 		if (response.data != null) {
@@ -68,6 +50,42 @@ analyticalStatementController.controller('analyticalStatementController',['$root
 		}
 	});
 	
+	$scope.getAllAnalyticalStatements = function() {
+		analyticalStatementService.getAllAnalyticalStatements().then(function(data) {
+			if($routeParams.cityId > 0){
+				var temp = [];
+				for(var i = 0; i < data.data.length; i++){
+					if(data.data[i].placeOfAcceptance.id == $routeParams.cityId){
+						temp.push(data.data[i]);
+					}
+				}
+				$scope.analyticalStatements = temp;
+				$scope.selectedCity = $scope.cities[$routeParams.cityId-1];
+			} else if($rootScope.nextPaymentType != null && $rootScope.nextPaymentType != undefined) {
+				analyticalStatementService.getAnalyticalStatementsByPaymentTypeId($rootScope.nextPaymentType.id).then(function(response){
+					$scope.analyticalStatements = response.data;
+				});
+				$scope.paymentTypes = [];
+				$scope.paymentTypes.push($rootScope.nextPaymentType);
+				$scope.selectedPaymentType = $scope.paymentTypes[0];
+				$scope.nextPaymentType = true;
+			} else if($rootScope.nextDailyAccountStatus != null && $rootScope.nextDailyAccountStatus != undefined) {
+				analyticalStatementService.getAnalyticalStatementsByDailyAccountStatusId($rootScope.nextDailyAccountStatus.id).then(function(response){
+					$scope.analyticalStatements = response.data;
+				});
+				$scope.dailyAccountStatuses = [];
+				$scope.dailyAccountStatuses.push($rootScope.nextDailyAccountStatus);
+				$scope.selectedDailyAccountStatus = $scope.dailyAccountStatuses[0];
+				$scope.nextDailyAccountStatus = true;
+			} else {
+				if (data.data != null) {
+					$scope.analyticalStatements = data.data;
+					$('selectField').removeAttr('disabled');
+				}
+			}
+		});
+	}
+
 	$scope.getAllAnalyticalStatements();
 
 	$scope.setSelected = function(analyticalStatement) {
@@ -109,9 +127,13 @@ analyticalStatementController.controller('analyticalStatementController',['$root
 		$scope.mode.current = "Rezim dodavanja";
 		$scope.analyticalStatement = {};
 		$scope.selectedAnalyticalStatement = {};
-		$scope.selectedDailyAccountStatus = {};
+		if($scope.nextDailyAccountStatus != true){
+			$scope.selectedDailyAccountStatus = {};
+		}
 		$scope.selectedCity = {};
-		$scope.selectedPaymentType = {};
+		if($scope.nextPaymentType != true){
+			$scope.selectedPaymentType = {};
+		}
 		$scope.selectedCurrency = {};
 		$scope.date = new Date();
 	}

@@ -163,7 +163,7 @@ cityController.controller('cityController', function($scope, $location,
 	
 	$scope.chain = function(selectedCountry){
 		if(Object.keys($scope.selectedCountry).length > 0){
-				$location.path('/analyticalStatements/').search({param: $scope.selectedCity.id});
+				$location.path('/analyticalStatements/').search({cityId: $scope.selectedCity.id});
 		} else {
 			swal({ title:"Selektujte grad!", type:"error" });
 		}

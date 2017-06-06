@@ -79,4 +79,18 @@ public class AnalyticalStatementController {
 		analyticalStatementService.deleteAnalyticalStatement(analyticalStatementId);;
 	}
 	
+	@GetMapping("/getByPaymentTypeId/{id}")
+	@ResponseBody
+	@ApiOperation(value = "Get analytical statements by payment type.", notes = "Get analytical statements by given payment type id.", response = Collection.class)
+	public Collection<AnalyticalStatement> getAnalyticalStatementsByPaymentTypeId(@PathVariable("id") Long id){
+		return analyticalStatementService.getAnalyticalStatementsByPaymentTypeId(id);
+	}
+	
+	@GetMapping("/getByDailyAccountStatusId/{id}")
+	@ResponseBody
+	@ApiOperation(value = "Get analytical statements by daily account status.", notes = "Get analytical statements by given daily account status id.", response = Collection.class)
+	public Collection<AnalyticalStatement> getAnalyticalStatementsByDailyAccountStatusId(@PathVariable("id") Long id){
+		return analyticalStatementService.getAnalyticalStatementsByDailyAccountStatusId(id);
+	}
+	
 }

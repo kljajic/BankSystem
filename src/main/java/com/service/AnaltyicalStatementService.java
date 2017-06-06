@@ -28,5 +28,9 @@ public interface AnaltyicalStatementService {
 			  									  AnalyticalStatement analyticalStatement);
 	
 	void deleteAnalyticalStatement(Long id);
+	
+	Collection<AnalyticalStatement> getAnalyticalStatementsByPaymentTypeId(Long id);
+	
+	Collection<AnalyticalStatement> getAnalyticalStatementsByDailyAccountStatusId(Long id);
 
 }
