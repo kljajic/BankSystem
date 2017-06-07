@@ -61,9 +61,9 @@
 				
 				<p>
 					<label for = "${field.exchangeList}">Broj kursne liste</label>
-					<select id="" ng-model="cex.exchangeList" ng-options="el.numberOfExchangeList for el in exchangeLists"
+					<select id="" ng-model="cex.exchangeList" ng-options="el.numberOfExchangeList for el in exchangeLists" ng-disabled="nextExchangeList==true"
 					><option value="selectFieldExchangeList" ng-if=true><option></select>
-					<button ng-click="showExchangeLists(cex)" type="submit">...</button>
+					<button ng-click="showExchangeLists(cex)" type="submit" ng-disabled="nextExchangeList==true">...</button>
 				</p>
 				<p>
 					<label for = "${field.primaryCurrency}">Osnovna valuta</label>

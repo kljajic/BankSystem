@@ -25,6 +25,7 @@ analyticalStatementController.controller('analyticalStatementController',['$root
 	$scope.currencyDate = new Date();
 	$scope.nextPaymentType = false;
 	$scope.nextDailyAccountStatus = false;
+	$scope.nextCity = false;
 	
 	analyticalStatementService.getAllDailyAccountStatuses().then(function(response) {
 		if (response.data != null) {
@@ -60,7 +61,8 @@ analyticalStatementController.controller('analyticalStatementController',['$root
 					}
 				}
 				$scope.analyticalStatements = temp;
-				$scope.selectedCity = $scope.cities[$routeParams.cityId-1];
+				$scope.selectedCity = $scope.findCityFromNext($routeParams.cityId);
+				$scope.nextCity = true;
 			} else if($rootScope.nextPaymentType != null && $rootScope.nextPaymentType != undefined) {
 				analyticalStatementService.getAnalyticalStatementsByPaymentTypeId($rootScope.nextPaymentType.id).then(function(response){
 					$scope.analyticalStatements = response.data;
@@ -85,7 +87,15 @@ analyticalStatementController.controller('analyticalStatementController',['$root
 			}
 		});
 	}
-
+	
+	$scope.findCityFromNext = function(id){
+		for(var i = 0;i < $scope.cities.length;i++){
+			if($scope.cities[i].id == id){
+				return $scope.cities[i];
+			}
+		}
+	}
+	
 	$scope.getAllAnalyticalStatements();
 
 	$scope.setSelected = function(analyticalStatement) {

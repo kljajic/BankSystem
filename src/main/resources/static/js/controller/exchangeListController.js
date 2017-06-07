@@ -83,10 +83,30 @@ exchangeListController.controller('exchangeListController', function($scope,
 		$scope.action = "removeClicked";
 		$scope.mode.current = "Rezim brisanja";
 		if (Object.keys(exchangeList).length > 0) {
-			exchangeListService.deleteExchangeList(exchangeList).then(function(response) {
-				$scope.getAllExchangeLists();
-			});
-		}
+			swal({
+				  title: "Da li ste sigurni?",
+				  text: "Necete uspeti da vratite ovo.",
+				  type: "warning",
+				  showCancelButton: true,
+				  confirmButtonColor: "#DD6B55",
+				  confirmButtonText: "Da, obrisi.",
+				  cancelButtonText: "Ponisti",
+				  closeOnConfirm: false,
+				  closeOnCancel: false
+				},
+				function(isConfirm){
+				  if (isConfirm) {
+					  exchangeListService.deleteExchangeList(exchangeList).then(function(response) {
+							$scope.getAllExchangeLists();
+						});
+					  swal("Obrisano!", "Uspesno ste obrisali.", "success");
+				  } else {
+				    swal("Ponisteno", "Ponistili ste operaciju brisanja.", "error");
+				  }
+				});
+	} else {
+		swal({ title:"Selektujte kursnu listu.", type:"error" });
+	}
 	}
 
 	$scope.exchangeList = {};
@@ -94,6 +114,7 @@ exchangeListController.controller('exchangeListController', function($scope,
 		if ($scope.action == "addClicked") {
 			exchangeListService.addExchangeList(exchangeList, $("#dateDatePicker").val(), $("#usedSinceDatePicker").val(), $scope.selectedBank.id).then(function(response) {
 				$scope.getAllExchangeLists();
+				swal("Uspesno dodavanje", "Uspesno ste dodali kusnu listu", "success");
 			});
 		} else if ($scope.action == "searchClicked") {
 			exchangeListService.searchExchangeLists(exchangeList, $("#dateDatePicker").val(), $("#usedSinceDatePicker").val(), $scope.selectedBank).then(function(response) {
@@ -103,6 +124,7 @@ exchangeListController.controller('exchangeListController', function($scope,
 						$scope.exchangeLists[i].dateView = moment($scope.exchangeLists[i].date).format("DD MMM YYYY");
 						$scope.exchangeLists[i].usedSinceView = moment($scope.exchangeLists[i].usedSince).format("DD MMM YYYY");
 					}
+					swal("Pretraga", "Broj rezultata pretrage: " + response.data.length, "success");
 				}
 			});
 		} else {
@@ -110,6 +132,7 @@ exchangeListController.controller('exchangeListController', function($scope,
 				exchangeListService.editExchangeList(exchangeList, $("#dateDatePicker").val(), $("#usedSinceDatePicker").val(), $scope.selectedBank.id).then(
 						function(response) {
 							$scope.getAllExchangeLists();
+							swal("Uspesna izmena", "Uspesno ste izmenili kusnu listu", "success");
 						});
 			} else {
 				ngNotify.set('Selektujte naseljeno mesto prvo!' , {
@@ -187,5 +210,20 @@ exchangeListController.controller('exchangeListController', function($scope,
 		}
 	}
 	
+	
+	$scope.confirmPreviousForm = function(){
+		$("#previousFormsModal").modal('hide');
+		$location.path('/'+$scope.selectedModalPrevousForm);
+		$scope.selectedModalPrevousForm = {};
+	}
+	
+	$scope.previousForm = function(){
+		$("#previousFormsModal").modal('show');
+	}
+	
+	$scope.selectedModalPrevousForm = {};
+	$scope.setModalSelectedPreviousForm = function(previousForm){
+		$scope.selectedModalPrevousForm = previousForm;
+	}
 	
 });

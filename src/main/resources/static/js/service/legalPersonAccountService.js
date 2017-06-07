@@ -40,7 +40,7 @@ legalPersonAccountService.factory('legalPersonAccountService', function($http) {
 	};
 
 	temp.editLegalPersonAccount = function(legalPersonAccount, status,
-			openingDate, bankId, currencyId, clientId) {
+			openingDate, bankId, clientId, currencyId) {
 		var dT = new Date(openingDate);
 		dT = dT.getTime();
 		var active = true;

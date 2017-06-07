@@ -77,6 +77,14 @@ public class AccountController {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 	}
+	
+	
+	@RequestMapping(value = "serviceRefresh", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ResponseEntity<?> serviceRefresh() {
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
 
 	@RequestMapping(value = "/{bankId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody

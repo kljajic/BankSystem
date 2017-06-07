@@ -59,10 +59,10 @@
 		<p>
 			<input ng-value="dailyAccountStatus.account.id" type="hidden" name="${field.name)"
 				id="${field.id}" /><label for="${field.id}">Account</label> <select
-				ng-options="{{accountOptions}}" ng-model="selectedAccount"><option
+				ng-options="{{accountOptions}}" ng-model="selectedAccount" ng-disabled="nextAccount==true"><option
 					value="" ng-if="true"></option></select> <input
 				ng-click="showAccounts()" type="button"
-				class="btn btn-md btn-default pulled-left" value="..."
+				class="btn btn-sm btn-default pulled-left" value="..." ng-disabled="nextAccount==true"
 				style="margin-left: 6em" />
 		</p>
 		<p>

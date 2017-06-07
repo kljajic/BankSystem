@@ -90,34 +90,78 @@ cityController.controller('cityController', function($scope, $location,
 		$scope.action = "removeClicked";
 		$scope.mode.current = "Rezim brisanja";
 		if (Object.keys(city).length > 0) {
-			cityService.deleteCity(city.id).then(function(response) {
-				$scope.getAllCities();
-			});
-		}
+			swal({
+				  title: "Da li ste sigurni?",
+				  text: "Necete uspeti da vratite ovo.",
+				  type: "warning",
+				  showCancelButton: true,
+				  confirmButtonColor: "#DD6B55",
+				  confirmButtonText: "Da, obrisi.",
+				  cancelButtonText: "Ponisti",
+				  closeOnConfirm: false,
+				  closeOnCancel: false
+				},
+				function(isConfirm){
+				  if (isConfirm) {
+					  cityService.deleteCity(city.id).then(function(response) {
+							$scope.getAllCities();
+						});
+					  swal("Obrisano!", "Uspesno ste obrisali.", "success");
+				  } else {
+				    swal("Ponisteno", "Ponistili ste operaciju brisanja.", "error");
+				  }
+				});
+	} else {
+		swal({ title:"Selektujte grad.", type:"error" });
+	}
 	}
 
 	$scope.city = {};
 	$scope.submitAction = function(city) {
 		if ($scope.action == "addClicked") {
 			cityService.addNewCity(city, $scope.selectedCountry.id).then(function(response) {
-				$scope.cities.push(response.data);
-			});
+				
+				if(response.data != null && response.data != undefined && response.data != ""){
+					swal({
+						  title: "Uspesno dodavanje",
+						  text: "Uspesno ste uneli grad: " + $scope.city.name,
+						  type: "success" 
+					});
+					$scope.cities.push(response.data);
+				} else {
+					swal({
+						  title: "Neuspesno dodavanje",
+						  text: "Popunite sva polja",
+						  type: "warning" 
+					}); 	  
+				}
+				});
 		} else if ($scope.action == "searchClicked") {
 			cityService.searchCities($scope.city, $scope.selectedCountry).then(function(response) {
-				$scope.cities = response.data;
+				if(response.data.length > 0){
+					$scope.cities = response.data;
+				}
+				swal({
+					  title: "Pretraga",
+					  text: "Broj pronadjenih rezultata: " + response.data.length,
+				});
 			});
 		} else {
 			if (Object.keys($scope.selectedCity).length > 0) {
 				cityService.editCity(city, $scope.selectedCountry.id).then(
 						function(response) {
 							$scope.getAllCities();
+							swal({
+								  title: "Uspesno azuriranje",
+								  text: "Uspesno ste azurirali grad",
+								  type: "success" 
+							});
 						});
 			} else {
-				ngNotify.set('Selektujte naseljeno mesto prvo!' , {
-					type : 'error',
-					duration: 3000,
-					theme: 'pitchy'
-				});
+				swal({
+					  title: "Izvrsite selekciju",
+					  text: "Selektujte zeljeni grad",
+					  type: "warning" });
 			}
 		}
 	}
@@ -161,12 +205,27 @@ cityController.controller('cityController', function($scope, $location,
 	}
 	
 	
-	$scope.chain = function(selectedCountry){
-		if(Object.keys($scope.selectedCountry).length > 0){
+	$scope.chain = function(selectedCity){
+		if(Object.keys($scope.selectedCity).length > 0){
 				$location.path('/analyticalStatements/').search({cityId: $scope.selectedCity.id});
 		} else {
 			swal({ title:"Selektujte grad!", type:"error" });
 		}
+	}
+	
+	$scope.confirmPreviousForm = function(){
+		$("#previousFormsModal").modal('hide');
+		$location.path('/'+$scope.selectedModalPrevousForm);
+		$scope.selectedModalPrevousForm = {};
+	}
+	
+	$scope.previousForm = function(){
+		$("#previousFormsModal").modal('show');
+	}
+	
+	$scope.selectedModalPrevousForm = {};
+	$scope.setModalSelectedPreviousForm = function(previousForm){
+		$scope.selectedModalPrevousForm = previousForm;
 	}
 
 });

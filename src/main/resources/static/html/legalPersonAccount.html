@@ -5,7 +5,7 @@
 			<li><a id="search" ng-click="searchClicked()"><img
 					src="images/search.gif" /></a></li>
 			<li><a href="#" id="refresh"><img src="images/refresh.gif" /></a></li>
-			<li><a href="#" id="pickup"><img
+			<li><a ng-click="previousForm()" id="pickup"><img
 					src="images/zoom-pickup.gif" /></a></li>
 			<li><a href="#" id="help"><img src="images/help.gif" /></a></li>
 			<li><a id="first" ng-click="firstClicked()"><img
@@ -240,4 +240,47 @@
 		</div>
 	</div>
 	</md-dialog>
+	
+	
+<md-dialog class="modal" id="previousFormsModal" tabindex="-1"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1>Reference</h1>
+			</div>
+			<div class="modal-body">
+				<form validate class="simple-form">
+					<table class="centered">
+						<tr class="header">
+							<th>Referenca</th>
+						</tr>
+						<tr
+							ng-click="setModalSelectedPreviousForm('banks')"
+							ng-class="{'alert alert-info' : selectedModalPrevousForm == 'banks'}">
+							<td>Banka</td>
+						</tr>
+						<tr
+							ng-click="setModalSelectedPreviousForm('clients')"
+							ng-class="{'alert alert-info' : selectedModalPrevousForm == 'clients'}">
+							<td>Klijent</td>
+						</tr>
+						<tr
+							ng-click="setModalSelectedPreviousForm('currencies')"
+							ng-class="{'alert alert-info' : selectedModalPrevousForm == 'currencies'}">
+							<td>Valuta</td>
+						</tr>
+					</table>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<input id="btnConfirm" type="submit"
+					class="btn btn-default pulled-left" ng-click="confirmPreviousForm()"
+					value="Izaberi" />
+			</div>
+		</div>
+	</div>
+	</md-dialog>
+	
+	
 </div>

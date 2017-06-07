@@ -21,6 +21,7 @@ legalPersonAccountController.controller('legalPersonAccountController', function
 	$scope.mode = {};
 	$scope.mode.current = "Rezim izmene";
 	
+	$scope.references = ['Banks', 'Clients', ''];
 
 	$scope.getAllLegalPersonAccounts = function() {
 		legalPersonAccountService.getAllLegalPersonAccounts().then(function(data) {
@@ -124,9 +125,13 @@ legalPersonAccountController.controller('legalPersonAccountController', function
 	}
 
 	$scope.removeClicked = function(legalPersonAccount) {
-		$scope.action = "removeClicked";
-		$scope.mode.current = "Rezim brisanja";
-		$("#deleteModal").modal('show');
+		if (Object.keys($scope.selectedLegalPersonAccount).length > 0){
+			$scope.action = "removeClicked";
+			$scope.mode.current = "Rezim brisanja";
+			$("#deleteModal").modal('show');
+		} else {
+			swal("Izvrsite selekciju", "Selektujte racun!", "error");
+		}
 	}
 
 	$scope.legalPersonAccount = {};
@@ -146,11 +151,7 @@ legalPersonAccountController.controller('legalPersonAccountController', function
 							$scope.getAllLegalPersonAccounts();
 				});
 			} else {
-				ngNotify.set('Selektujte naseljeno mesto prvo!' , {
-					type : 'error',
-					duration: 3000,
-					theme: 'pitchy'
-				});
+				swal("Izvrsite selekciju", "Selektujte racun!", "error");
 			}
 		}
 	}
@@ -159,6 +160,7 @@ legalPersonAccountController.controller('legalPersonAccountController', function
 		$scope.action = "editBank"
 		$scope.mode.current = "Rezim izmene";
 		$scope.legalPersonAccount= {};
+		$scope.selectedLegalPersonAccount= {};
 		$scope.selectedBank = {};
 		$scope.selectedCurrency = {};
 		$scope.selectedClient = {};
@@ -255,13 +257,34 @@ legalPersonAccountController.controller('legalPersonAccountController', function
 	
 	$scope.confirmDelete = function(){
 		if($scope.transferAccount != null && $scope.transferAccount != ""){
-			if (Object.keys($scope.selectedLegalPersonAccount).length > 0) {
-				legalPersonAccountService.deleteLegalPersonAccount($scope.selectedLegalPersonAccount, $scope.transferAccount).then(function(response) {
-					$scope.getAllLegalPersonAccounts();
-					$scope.transferAccount = "";
-					$("#deleteModal").modal('hide');
-				});
-			}
+			if (Object.keys(selectedLegalPersonAccount).length > 0) {
+				swal({
+					  title: "Da li ste sigurni?",
+					  text: "Necete uspeti da vratite ovo.",
+					  type: "warning",
+					  showCancelButton: true,
+					  confirmButtonColor: "#DD6B55",
+					  confirmButtonText: "Da, obrisi.",
+					  cancelButtonText: "Ponisti",
+					  closeOnConfirm: false,
+					  closeOnCancel: false
+					},
+					function(isConfirm){
+					  if (isConfirm) {
+						  legalPersonAccountService.deleteLegalPersonAccount($scope.selectedLegalPersonAccount, $scope.transferAccount).then(function(response) {
+								$scope.getAllLegalPersonAccounts();
+								$scope.transferAccount = "";
+								$("#deleteModal").modal('hide');
+							});
+						  swal("Obrisano!", "Uspesno ste obrisali.", "success");
+					  } else {
+					    swal("Ponisteno", "Ponistili ste operaciju brisanja.", "error");
+					  }
+					});
+		} else {
+			swal({ title:"Selektujte zeljeni nalog.", type:"error" });
+		}
+			swal({ title:"Unesite racun za transfer!.", type:"error" });
 		} 
 	}
 	
@@ -271,6 +294,21 @@ legalPersonAccountController.controller('legalPersonAccountController', function
 		} else {
 			swal({ title:"Selektujte racun!", type:"error" });
 		}
+	}
+	
+	$scope.confirmPreviousForm = function(){
+		$("#previousFormsModal").modal('hide');
+		$location.path('/'+$scope.selectedModalPrevousForm);
+		$scope.selectedModalPrevousForm = {};
+	}
+	
+	$scope.previousForm = function(){
+		$("#previousFormsModal").modal('show');
+	}
+	
+	$scope.selectedModalPrevousForm = {};
+	$scope.setModalSelectedPreviousForm = function(previousForm){
+		$scope.selectedModalPrevousForm = previousForm;
 	}
 	
 });

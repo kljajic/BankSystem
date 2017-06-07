@@ -56,5 +56,9 @@ cityService.factory('cityService', function($http){
 		return $http.put('/cities/update/' + countryId, jsonCity);
 	};
 	
+	temp.serviceRefresh = function(){
+		return $http.get('/accounts/serviceRefresh');
+	}
+	
 	return temp;
 });

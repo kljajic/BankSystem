@@ -12,6 +12,8 @@ currencyExchangeController.controller('currencyExchangeController', function($sc
 	$scope.cex = {};
 	$scope.selectedCex = {};
 	
+	$scope.nextExchangeList = false;
+	
 	function refreshView(){
 		currencyExchangeService.getAllCexes().then(function(response){
 			if($routeParams.paramPrimary > 0){
@@ -47,6 +49,7 @@ currencyExchangeController.controller('currencyExchangeController', function($sc
 				$('#selectFieldAccordingTo').prop('disabled', 'disabled');
 				$scope.cex.exchangeList = findExchangeListForSelect($routeParams.paramEL);
 				$scope.selectedExchangeList = findExchangeListForSelect($routeParams.paramEL);
+				$scope.nextExchangeList = true;
 			}
 			else {
 				if(response.data != null){
@@ -85,6 +88,7 @@ currencyExchangeController.controller('currencyExchangeController', function($sc
 	findCurrencyForSelect = function(id){
 		for(var i = 0; i < $scope.currencies.length; i++){
 			if($scope.currencies[i].id === id){
+				
 				return $scope.currencies[i];
 			}
 		}
