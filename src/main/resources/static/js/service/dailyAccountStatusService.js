@@ -43,7 +43,7 @@ dailyAccountStatusService.factory('dailyAccountStatusService', function($http){
 	temp.deleteDailyAccountStatus = function(id){
 		return $http({
 			method : 'DELETE',
-			url: '../dailyAccountStatuses/delete/'+id,
+			url: '../dailyAccountStatuses/delete/' + id,
 			headers: {
 				   'Content-Type': 'application/json',
 				   'Accept': 'application/json'
@@ -51,17 +51,16 @@ dailyAccountStatusService.factory('dailyAccountStatusService', function($http){
 		});
 	}
 	
-	temp.searchDailyAccountStatus = function(dailyAccountStatus, date){
+	temp.searchDailyAccountStatuses = function(dailyAccountStatus, accountId, date){
 		return $http({
 			method : 'POST',
-			url: '../dailyAccountStatuses/search/' + date,
+			url: '../dailyAccountStatuses/search/' + accountId + '/' + date,
 			data: {
 				'id': dailyAccountStatus.id,
 				'previousAmount': dailyAccountStatus.previousAmount,
 				'transferInFavor': dailyAccountStatus.transferInFavor,
 				'numberOfChanges': dailyAccountStatus.numberOfChanges,
 				'transferExpenses': dailyAccountStatus.transferExpenses,
-				'account': dailyAccountStatus.account,
 				'currentAmount': dailyAccountStatus.currentAmount
 			}
 		});
@@ -70,7 +69,7 @@ dailyAccountStatusService.factory('dailyAccountStatusService', function($http){
 	temp.getAllAccounts = function(){
 		return $http({
 			method : 'GET',
-			url: '../accounts',
+			url: '../accounts'
 		});
 	}
 	

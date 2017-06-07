@@ -32,7 +32,6 @@ dailyAccountStatusController.controller('dailyAccountStatusController',['$rootSc
 	}
 	
 	$scope.getAllDailyAccountStatuses = function() {
-		$scope.accounts = [];
 		dailyAccountStatusService.getAllDailyAccountStatuses().then(function(data) {
 			if($routeParams.paramAccount > 0){
 				var temp = [];
@@ -135,7 +134,12 @@ dailyAccountStatusController.controller('dailyAccountStatusController',['$rootSc
 				$scope.dailyAccountStatus = response.data;
 			});
 		} else if ($scope.action == "searchClicked") {
-			dailyAccountStatusService.searchDailyAccountStatus(dailyAccountStatus, $scope.selectedAccount.id, $scope.date).then(function(response) {
+			var accountId = -1;
+			if($scope.selectedAccount != null && $scope.selectedAccount.id != undefined)
+				accountId = $scope.selectedAccount.id;
+			if($scope.date == undefined)
+				$scope.data = null;
+			dailyAccountStatusService.searchDailyAccountStatuses(dailyAccountStatus, accountId, $scope.date).then(function(response) {
 				$scope.dailyAccountStatuses = response.data;
 			});
 		} else {

@@ -68,7 +68,33 @@ public class DailyAccountStatusServiceImpl implements DailyAccountStatusService{
 	@Override
 	@Transactional(readOnly = true)
 	public Collection<DailyAccountStatus> searchDailyAccountStatuses(Long accountId, DailyAccountStatus dailyAccountStatus, Date date) {
-		return null;
+		String accountNumber = "";
+		if(accountId != null && accountId >= 0)
+			accountNumber = accountService.getAccount(accountId).getAccountNumber();
+		Double previousAmount = new Double(Double.MAX_VALUE);
+		if(dailyAccountStatus.getPreviousAmount() > 0){
+			previousAmount = dailyAccountStatus.getPreviousAmount();
+		}
+		Double transferInFavor = new Double(Double.MAX_VALUE);
+		if(dailyAccountStatus.getTransferInFavor() > 0){
+			transferInFavor = dailyAccountStatus.getTransferInFavor();
+		}
+		Integer numberOfChanges = new Integer(Integer.MAX_VALUE);
+		if(dailyAccountStatus.getNumberOfChanges() > 0){
+			numberOfChanges = dailyAccountStatus.getNumberOfChanges();
+		}
+		Double transferExpenses = new Double(Double.MAX_VALUE);
+		if(dailyAccountStatus.getTransferExpenses() > 0){
+			transferExpenses = dailyAccountStatus.getTransferExpenses();
+		}
+		Double currentAmount = new Double(Double.MAX_VALUE);
+		if(dailyAccountStatus.getCurrentAmount() > 0){
+			currentAmount = dailyAccountStatus.getCurrentAmount();
+		}
+		if(date == null){
+			date = new Date(Long.MAX_VALUE);
+		}
+		return dailyAccountStatusRepository.searchDailyAccountStatuses(accountNumber, previousAmount, transferInFavor, numberOfChanges, transferExpenses, currentAmount, new Date(Long.MIN_VALUE), date);
 	}
 	
 }

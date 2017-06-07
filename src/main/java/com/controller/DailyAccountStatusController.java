@@ -72,7 +72,7 @@ public class DailyAccountStatusController {
 		dailyAccountStatusService.deleteDailyAccountStatus(id);
 	}
 	
-	@PostMapping("/search")
+	@PostMapping("/search/{accountId}/{date}")
 	@ResponseBody
 	@ApiOperation(value = "Search daily account statuses.",
 				notes = "Search daily account statuses by fiven fields.", response = DailyAccountStatus.class)
