@@ -46,7 +46,7 @@ public class PaymentType implements Serializable{
 	@ApiModelProperty(value = "Payment type's name", required = true)
 	private String paymentTypeName;
 	
-	@OneToMany(mappedBy = "paymentType", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "paymentType", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<AnalyticalStatement> analyticalStatements = new HashSet<>();
 	
 	@JsonIgnore

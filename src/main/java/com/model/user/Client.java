@@ -25,14 +25,13 @@ public class Client extends User {
 	
 	private static final long serialVersionUID = 3025173065489902929L;
 	
-	
 	@Column
 	private String address;
 	
 	@Column
 	private Date dateOfBirth;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "client", cascade=CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "client", cascade=CascadeType.ALL, orphanRemoval = true)
 	private Set<Account> accounts;
 
 	@JsonIgnore

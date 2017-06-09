@@ -3,6 +3,7 @@ package com.model.user;
 import java.io.Serializable;
 import java.util.Collection;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -35,10 +36,11 @@ public class Role implements Serializable {
 	@NotNull
 	private String name;
 		
-	@ManyToMany(mappedBy="roles")
+	@ManyToMany(mappedBy="roles",
+				cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	private Collection<User> users;
 	
-	@ManyToMany
+	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinTable(
 			name="roles_privileges",
 			joinColumns = @JoinColumn(name="role_id", referencedColumnName="id"), 

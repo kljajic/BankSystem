@@ -14,8 +14,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -58,7 +56,7 @@ public class City implements Serializable{
 	@ManyToOne
 	private Country country;
 	
-	@OneToMany(mappedBy = "placeOfAcceptance", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "placeOfAcceptance", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<AnalyticalStatement> analyticalStatements = new HashSet<>();
 	
 	@JsonIgnore

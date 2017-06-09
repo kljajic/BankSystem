@@ -68,7 +68,7 @@ public class Account implements Serializable {
 	private Currency currency;
 	
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy="account")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy="account", orphanRemoval = true)
 	private Set<RevokedAccount> revokedAccounts;
 	
 	@JsonIgnore

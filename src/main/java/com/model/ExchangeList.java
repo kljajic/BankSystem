@@ -13,6 +13,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Digits;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 @Entity
 public class ExchangeList {
@@ -81,5 +84,15 @@ public class ExchangeList {
 	public Date getUsedSince() {
 		return usedSince;
 	}
-	
+
+	@JsonIgnore
+	public Set<CurrencyExchange> getCurrencyExchanges() {
+		return currencyExchanges;
+	}
+
+	@JsonProperty
+	public void setCurrencyExchanges(Set<CurrencyExchange> currencyExchanges) {
+		this.currencyExchanges = currencyExchanges;
+	}
+
 }

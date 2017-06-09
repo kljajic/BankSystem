@@ -1,5 +1,6 @@
 package com.model;
 
+import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -16,11 +17,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @Entity
-public class Country {
+public class Country implements Serializable{
 	
-	public void setName(String name) {
-		this.name = name;
-	}
+	private static final long serialVersionUID = -3785043376020101373L;
 
 	@GeneratedValue
 	@Id
@@ -47,6 +46,10 @@ public class Country {
 	public String getName() {
 		return name;
 	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	@JsonIgnore
 	public Set<City> getCities() {
@@ -57,6 +60,15 @@ public class Country {
 	public void setCities(Set<City> cities) {
 		this.cities = cities;
 	}
-	
+
+	@JsonIgnore
+	public Set<Bank> getBanks() {
+		return banks;
+	}
+
+	@JsonProperty
+	public void setBanks(Set<Bank> banks) {
+		this.banks = banks;
+	}
 	
 }

@@ -3,6 +3,7 @@ package com.model.user;
 import java.io.Serializable;
 import java.util.Collection;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -55,7 +56,7 @@ public class User implements Serializable {
 	@NotEmpty
 	private String password;
 
-	@ManyToMany
+	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinTable(name = "users_roles", 
 				joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), 
 				inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))

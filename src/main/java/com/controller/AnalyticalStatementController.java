@@ -16,10 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.model.AnalyticalStatement;
 import com.service.AnaltyicalStatementService;
-import com.service.CityServiceImpl;
-import com.service.CurrencyServiceImpl;
 import com.service.InterBankServiceImpl;
-import com.service.PaymentTypeServiceImpl;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

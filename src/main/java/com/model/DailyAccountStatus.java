@@ -102,7 +102,7 @@ public class DailyAccountStatus implements Serializable{
 	@XmlElement(name="account", required=true)
 	private Account account;
 	
-	@OneToMany(mappedBy = "dailyAccountStatus", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "dailyAccountStatus", fetch=FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<AnalyticalStatement> analyticalStatements = new HashSet<>();
 	
 	@JsonIgnore

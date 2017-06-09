@@ -47,7 +47,7 @@ public class Currency {
 	@ManyToOne(optional = false)
 	private Country country;
 	
-	@OneToMany(mappedBy = "currency", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "currency", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<AnalyticalStatement> analyticalStatement = new HashSet<>();
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, targetEntity = Account.class, mappedBy="currency")

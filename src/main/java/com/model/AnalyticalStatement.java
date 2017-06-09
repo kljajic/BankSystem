@@ -168,6 +168,4 @@ public class AnalyticalStatement {
 	@XmlElement(name="uplata", required=false)
 	private boolean uplata;
 	
-	
-	
 }

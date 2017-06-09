@@ -52,6 +52,27 @@ analyticalStatementService.factory('analyticalStatementService', function($http)
 		});
 	}
 	
+	temp.searchAnalyticalStatements = function(dailyAccountStatusId, cityId, paymentTypeId, currencyId, dateOfReceipt, currencyDate, analyticalStatement){
+		return $http({
+			method : 'PUT',
+			url: '../analyticalStatements/search/' + currencyId + '/' + paymentTypeId + '/' + cityId + '/' + dailyAccountStatusId + '/' + dateOfReceipt + '/' + currencyDate,
+			data: {
+				'id': analyticalStatement.id,
+				'originator': analyticalStatement.originator,
+				'purpose': analyticalStatement.purpose,
+				'recipient': analyticalStatement.recipient,
+				'originatorAccount': analyticalStatement.originatorAccount,
+				'model': analyticalStatement.model,
+				'debitAuthorizationNumber': analyticalStatement.debitAuthorizationNumber,
+				'recipientAccount': analyticalStatement.recipientAccount,
+				'approvalModel': analyticalStatement.approvalModel,
+				'approvalAuthorizationNumber': analyticalStatement.approvalAuthorizationNumber,
+				'urgently': analyticalStatement.urgently,
+				'amount': analyticalStatement.amount
+			}
+		});
+	}
+	
 	temp.deleteAnalyticalStatement = function(id){
 		return $http({
 			method : 'DELETE',

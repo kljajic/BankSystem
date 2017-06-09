@@ -49,11 +49,13 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public Collection<AnalyticalStatement> getAnalyticalStatements() {
 		return analyticalStatementRepository.findAll();
 	}
 	
 	@Override
+	@Transactional(readOnly = true)
 	public AnalyticalStatement getAnalyticalStatement(Long id) {
 		return analyticalStatementRepository.findOne(id);
 	}
@@ -93,11 +95,13 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public Collection<AnalyticalStatement> getAnalyticalStatementsByPaymentTypeId(Long id) {
 		return analyticalStatementRepository.findAnalyticalStatementsByPaymentTypeId(id);
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public Collection<AnalyticalStatement> getAnalyticalStatementsByDailyAccountStatusId(Long id) {
 		return analyticalStatementRepository.findAnalyticalStatementsByDailyAccountStatusId(id);
 	}
