@@ -105,5 +105,80 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 	public Collection<AnalyticalStatement> getAnalyticalStatementsByDailyAccountStatusId(Long id) {
 		return analyticalStatementRepository.findAnalyticalStatementsByDailyAccountStatusId(id);
 	}
+
+	@Override
+	public Collection<AnalyticalStatement> searchAnalyticalStatements(Long currencyId, Long paymentTypeId,
+			Long cityId, Long dailyAccountStatusId, Date dateOfReceipt, Date currencyDate,
+			AnalyticalStatement analyticalStatement) {
+		String currencyCode = "";
+		if(currencyId != null && currencyId >= 0){
+			currencyCode = currencyService.getCurrency(currencyId).getOfficialCode();
+		}
+		String paymentTypeName = "";
+		if(paymentTypeId != null && paymentTypeId >= 0){
+			paymentTypeName = paymentTypeService.getPaymentType(paymentTypeId).getPaymentTypeName();
+		}
+		String cityPttNumber = "";
+		if(cityId != null && cityId >= 0){
+			cityPttNumber = cityService.getCity(cityId).getPttNumber();
+		}
+		String accountNumber = "";
+		if(dailyAccountStatusId != null && dailyAccountStatusId >= 0){
+			accountNumber = dailyAccountStatusService.getDailyAccountStatus(dailyAccountStatusId).getAccount().getAccountNumber();
+		}
+		String originator = "";
+		if(analyticalStatement.getOriginator() != null && !analyticalStatement.getOriginator().trim().equals("")){
+			originator = analyticalStatement.getOriginator();
+		}
+		String purpose = "";
+		if(analyticalStatement.getPurpose() != null && !analyticalStatement.getPurpose().trim().equals("")){
+			purpose = analyticalStatement.getPurpose();
+		}
+		String recipient = "";
+		if(analyticalStatement.getRecipient() != null && !analyticalStatement.getRecipient().trim().equals("")){
+			recipient = analyticalStatement.getRecipient();
+		}
+		if(dateOfReceipt == null){
+			dateOfReceipt = new Date(Long.MAX_VALUE);
+		}
+		if(currencyDate == null){
+			currencyDate = new Date(Long.MAX_VALUE);
+		}
+		String originatorAccount = "";
+		if(analyticalStatement.getOriginatorAccount() != null && !analyticalStatement.getOriginatorAccount().trim().equals("")){
+			originatorAccount = analyticalStatement.getOriginatorAccount();
+		}
+		Short model = new Short("100");
+		if(analyticalStatement.getModel() >= 0){
+			model = new Short(analyticalStatement.getModel());
+		}
+		String debitAuthorizationNumber = "";
+		if(analyticalStatement.getDebitAuthorizationNumber() != null && !analyticalStatement.getDebitAuthorizationNumber().trim().equals("")){
+			debitAuthorizationNumber = analyticalStatement.getDebitAuthorizationNumber();
+		}
+		String recipientAccount = "";
+		if(analyticalStatement.getRecipientAccount() != null && !analyticalStatement.getRecipientAccount().trim().equals("")){
+			recipientAccount = analyticalStatement.getRecipientAccount();
+		}
+		Short approvalModel = new Short("100");
+		if(analyticalStatement.getApprovalModel() >= 0){
+			approvalModel = new Short(analyticalStatement.getApprovalModel());
+		}
+		String approvalAuthorizationNumber = "";
+		if(analyticalStatement.getApprovalAuthorizationNumber() != null && !analyticalStatement.getApprovalAuthorizationNumber().trim().equals("")){
+			approvalAuthorizationNumber = analyticalStatement.getApprovalAuthorizationNumber();
+		}
+		boolean urgently = analyticalStatement.isUrgently();
+		Double amount = new Double(Double.MAX_VALUE);
+		if(analyticalStatement.getAmount() >= 0){
+			amount = new Double(analyticalStatement.getAmount());
+		}
+		Date minimumDate = new Date(Long.MIN_VALUE);
+		return analyticalStatementRepository.searchAnalyticalStatements(currencyCode, paymentTypeName,
+								cityPttNumber, accountNumber, originator, purpose, recipient,
+								minimumDate, dateOfReceipt, currencyDate, originatorAccount, model,
+								debitAuthorizationNumber, recipientAccount, approvalModel, 
+								approvalAuthorizationNumber, urgently, amount);
+	}
 	
 }

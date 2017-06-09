@@ -32,5 +32,13 @@ public interface AnaltyicalStatementService {
 	Collection<AnalyticalStatement> getAnalyticalStatementsByPaymentTypeId(Long id);
 	
 	Collection<AnalyticalStatement> getAnalyticalStatementsByDailyAccountStatusId(Long id);
+	
+	Collection<AnalyticalStatement> searchAnalyticalStatements(Long currencyId,
+			  Long paymentTypeId, 
+			  Long cityId, 
+			  Long dailyAccountStatusId,
+			  Date dateOfReceipt,
+			  Date currencyDate,
+			  AnalyticalStatement analyticalStatement);
 
 }

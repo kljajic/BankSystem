@@ -189,7 +189,23 @@ analyticalStatementController.controller('analyticalStatementController',['$root
 				$scope.analyticalStatement = response.data;
 			});
 		} else if ($scope.action == "searchClicked") {
-			analyticalStatementService.searchAnalyticalStatement($scope.selectedDailyAccountStatus.id, $scope.selectedCity.id, $scope.selectedPaymentType.id, $scope.selectedCurrency.id, $scope.dateOfReceipt, $scope.currencyDate, analyticalStatement).then(function(response) {
+			var dailyAccountStatusId = -1;
+			if($scope.selectedDailyAccountStatus != null && $scope.selectedDailyAccountStatus.id != undefined)
+				dailyAccountStatusId = $scope.selectedDailyAccountStatus.id;
+			var cityId = -1;
+			if($scope.selectedCity != null && $scope.selectedCity.id != undefined)
+				cityId = $scope.selectedCity.id;
+			var paymentTypeId = -1;
+			if($scope.selectedPaymentType != null && $scope.selectedPaymentType.id != undefined)
+				paymentTypeId = $scope.selectedPaymentType.id;
+			var currencyId = -1;
+			if($scope.selectedCurrency != null && $scope.selectedCurrency.id != undefined)
+				currencyId = $scope.selectedCurrency.id;
+			if($scope.dateOfReceipt == undefined)
+				$scope.dateOfReceipt = null;
+			if($scope.currencyDate == undefined)
+				$scope.currencyDate = null;
+			analyticalStatementService.searchAnalyticalStatements(dailyAccountStatusId, cityId, paymentTypeId, currencyId, $scope.dateOfReceipt, $scope.currencyDate, analyticalStatement).then(function(response) {
 				$scope.analyticalStatements = response.data;
 			});
 		} else {

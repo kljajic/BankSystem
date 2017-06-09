@@ -2,6 +2,7 @@ package com.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -38,8 +39,6 @@ import lombok.NoArgsConstructor;
 })
 public class Account implements Serializable {
 
-
-
 	private static final long serialVersionUID = 4207693779878640627L;
 	
 	@Id
@@ -67,14 +66,27 @@ public class Account implements Serializable {
 	@ManyToOne
 	private Currency currency;
 	
+	@OneToMany(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<DailyAccountStatus> dailyAccountStatuses = new HashSet<>();
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy="account", orphanRemoval = true)
 	private Set<RevokedAccount> revokedAccounts;
 	
 	@JsonIgnore
+	public Set<DailyAccountStatus> getDailyAccountStatuses() {
+		return dailyAccountStatuses;
+	}
+	
+	@JsonProperty
+	public void setDailyAccountStatuses(Set<DailyAccountStatus> dailyAccountStatuses) {
+		this.dailyAccountStatuses = dailyAccountStatuses;
+	}
+	
+	@JsonIgnore
 	public Set<RevokedAccount> getRevokedAccounts() {
 		return revokedAccounts;
 	}
+	
 	@JsonProperty
 	public void setRevokedAccounts(Set<RevokedAccount> revokedAccounts) {
 		this.revokedAccounts = revokedAccounts;

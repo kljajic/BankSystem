@@ -100,4 +100,18 @@ public class AnalyticalStatementController {
 		return analyticalStatementService.getAnalyticalStatementsByDailyAccountStatusId(id);
 	}
 	
+	@PutMapping("/search/{currencyId}/{paymentTypeId}/{cityId}/{dailyAccountStatusId}/{dateOfReceipt}/{currencyDate}")
+	@ResponseBody
+	@ApiOperation(value = "Search all analytical statements.", notes = "Search all analytical statements by given fields.", response = Collection.class)
+	public Collection<AnalyticalStatement> searchAnalyticalStatements(@PathVariable("currencyId") Long currencyId,
+														 @PathVariable("paymentTypeId") Long paymentTypeId,
+														 @PathVariable("cityId") Long cityId,
+														 @PathVariable("dailyAccountStatusId") Long dailyAccountStatusId,
+														 @PathVariable("dateOfReceipt") Date dateOfReceipt,
+														 @PathVariable("currencyDate") Date currencyDate,
+														 @RequestBody AnalyticalStatement analyticalStatement){
+		return analyticalStatementService.searchAnalyticalStatements(currencyId, paymentTypeId, cityId,
+																	dailyAccountStatusId, dateOfReceipt, currencyDate, analyticalStatement);
+	}
+	
 }
