@@ -36,7 +36,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @EqualsAndHashCode(exclude = {"id"})
 @ApiModel(value = "Daily account status", description = "Daily account status.")
-@XmlAccessorType(XmlAccessType.FIELD)
+@XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name="daily_account_status", namespace="", propOrder={
 	"id", 
 	"date", 

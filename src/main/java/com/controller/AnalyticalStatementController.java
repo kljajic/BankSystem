@@ -3,6 +3,7 @@ package com.controller;
 import java.util.Collection;
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.model.AnalyticalStatement;
 import com.service.AnaltyicalStatementService;
+import com.service.CityServiceImpl;
+import com.service.CurrencyServiceImpl;
+import com.service.InterBankServiceImpl;
+import com.service.PaymentTypeServiceImpl;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -25,7 +30,10 @@ import io.swagger.annotations.ApiOperation;
 public class AnalyticalStatementController {
 
 	private final AnaltyicalStatementService analyticalStatementService;
-	
+
+	@Autowired
+	private InterBankServiceImpl interBankServiceImpl;
+		
 	public AnalyticalStatementController(AnaltyicalStatementService analyticalStatementService) {
 		this.analyticalStatementService = analyticalStatementService;
 	}
@@ -40,8 +48,10 @@ public class AnalyticalStatementController {
 														 @PathVariable("dateOfReceipt") Date dateOfReceipt,
 														 @PathVariable("currencyDate") Date currencyDate,
 														 @RequestBody AnalyticalStatement analyticalStatement){
-		return analyticalStatementService.createAnalyticalStatement(currencyId, paymentTypeId, cityId,
-																	dailyAccountStatusId, dateOfReceipt, currencyDate, analyticalStatement);
+		AnalyticalStatement as = analyticalStatementService.createAnalyticalStatement(currencyId, paymentTypeId, cityId,
+				dailyAccountStatusId, dateOfReceipt, currencyDate, analyticalStatement);
+		interBankServiceImpl.generateRTGSService(as);
+		return as;
 	}
 	
 	@GetMapping

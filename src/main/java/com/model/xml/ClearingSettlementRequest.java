@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@XmlAccessorType(XmlAccessType.FIELD)
+@XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name="clearing_settlement_request", namespace="http://informatika.ftn.ns.ac.yu/ws/model", propOrder={
 		"paymentBank",
 		"recieverBank",

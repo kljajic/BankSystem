@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 import com.model.AnalyticalStatement;
@@ -15,18 +16,16 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@XmlAccessorType(XmlAccessType.FIELD)
+@XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name="RTGSRequest", namespace="http://informatika.ftn.ns.ac.yu/ws/model", propOrder={
 		"messageId", 
 		"paymentBank", 
 		"recieverBank",
 		"analyticalStatement"
 })
+@XmlRootElement(name="MT103")
 public class RTGSRequest implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1558855408444568463L;
 	
 	@XmlElement(name="messageId", required=true)
@@ -40,13 +39,5 @@ public class RTGSRequest implements Serializable{
 	
 	@XmlElement(name="analyticalStatement", required=true)
 	private AnalyticalStatement analyticalStatement;
-	
-	/*
-	 * 
-	 * @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name="bank", namespace="http://informatika.ftn.ns.ac.yu/ws/model", propOrder={
-		"swift",
-		"transactionAccount"
-	 */
 	
 }

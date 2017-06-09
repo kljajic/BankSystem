@@ -32,7 +32,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @EqualsAndHashCode(exclude = {"id"})
 @Table(name = "ACCOUNT")
-@XmlAccessorType(XmlAccessType.FIELD)
+@XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name="account", namespace="http://informatika.ftn.ns.ac.yu/ws/model", propOrder={
 	"accountNumber"
 })

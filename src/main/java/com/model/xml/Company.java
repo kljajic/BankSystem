@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "COMPANY")
 @NoArgsConstructor
-@XmlAccessorType(XmlAccessType.FIELD)
+@XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name="company", namespace="http://informatika.ftn.ns.ac.yu/ws/model", propOrder={
 		"name", 
 		"pib", 

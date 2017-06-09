@@ -33,7 +33,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @EqualsAndHashCode(exclude = {"id"})
 @ApiModel(value = "Analytical statment", description = "Analytical statment.")
-@XmlAccessorType(XmlAccessType.FIELD)
+@XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name="analytical_statement", namespace="", propOrder={
 	"id", 
 	"originator", 
@@ -50,7 +50,7 @@ import lombok.NoArgsConstructor;
 	"amount",
 	"currency",
 	"urgently",
-	"direction"
+	"uplata"
 })
 
 public class AnalyticalStatement {
@@ -165,7 +165,9 @@ public class AnalyticalStatement {
 	@ManyToOne
 	private Currency currency;
 	
-	@XmlElement(name="direction", required=false)
+	@XmlElement(name="uplata", required=false)
 	private boolean uplata;
+	
+	
 	
 }

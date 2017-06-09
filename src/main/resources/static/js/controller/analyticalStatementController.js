@@ -135,7 +135,7 @@ analyticalStatementController.controller('analyticalStatementController',['$root
 	$scope.addClicked = function() {
 		$scope.action = "addClicked";
 		$scope.mode.current = "Rezim dodavanja";
-		$scope.analyticalStatement = {};
+		/*$scope.analyticalStatement = {};
 		$scope.selectedAnalyticalStatement = {};
 		if($scope.nextDailyAccountStatus != true){
 			$scope.selectedDailyAccountStatus = {};
@@ -145,7 +145,7 @@ analyticalStatementController.controller('analyticalStatementController',['$root
 			$scope.selectedPaymentType = {};
 		}
 		$scope.selectedCurrency = {};
-		$scope.date = new Date();
+		$scope.date = new Date();*/
 	}
 	
 	$scope.searchClicked = function() {

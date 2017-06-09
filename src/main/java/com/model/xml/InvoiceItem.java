@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @ApiModel(value="Invoice item", description="Invoices item")
-@XmlAccessorType(XmlAccessType.FIELD)
+@XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = "invoice", 
 		namespace="http://informatika.ftn.ns.ac.yu/ws/model", 
 		propOrder = {"ordinate",
