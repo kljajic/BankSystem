@@ -148,9 +148,9 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 		if(analyticalStatement.getOriginatorAccount() != null && !analyticalStatement.getOriginatorAccount().trim().equals("")){
 			originatorAccount = analyticalStatement.getOriginatorAccount();
 		}
-		Short model = new Short("100");
-		if(analyticalStatement.getModel() >= 0){
-			model = new Short(analyticalStatement.getModel());
+		String model = "";
+		if(analyticalStatement.getModel() > 0){
+			model = analyticalStatement.getModel() + "";
 		}
 		String debitAuthorizationNumber = "";
 		if(analyticalStatement.getDebitAuthorizationNumber() != null && !analyticalStatement.getDebitAuthorizationNumber().trim().equals("")){
@@ -160,9 +160,9 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 		if(analyticalStatement.getRecipientAccount() != null && !analyticalStatement.getRecipientAccount().trim().equals("")){
 			recipientAccount = analyticalStatement.getRecipientAccount();
 		}
-		Short approvalModel = new Short("100");
-		if(analyticalStatement.getApprovalModel() >= 0){
-			approvalModel = new Short(analyticalStatement.getApprovalModel());
+		String approvalModel = "";
+		if(analyticalStatement.getApprovalModel() > 0){
+			approvalModel = analyticalStatement.getApprovalModel() + "";
 		}
 		String approvalAuthorizationNumber = "";
 		if(analyticalStatement.getApprovalAuthorizationNumber() != null && !analyticalStatement.getApprovalAuthorizationNumber().trim().equals("")){
@@ -170,7 +170,7 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 		}
 		boolean urgently = analyticalStatement.isUrgently();
 		Double amount = new Double(Double.MAX_VALUE);
-		if(analyticalStatement.getAmount() >= 0){
+		if(analyticalStatement.getAmount() > 0){
 			amount = new Double(analyticalStatement.getAmount());
 		}
 		Date minimumDate = new Date(Long.MIN_VALUE);

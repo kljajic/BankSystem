@@ -40,7 +40,7 @@ public class PaymentType implements Serializable{
 	@ApiModelProperty(value = "Payment type's id.")
 	private Long id;
 	
-	@Column
+	@Column(unique = true)
 	@NotEmpty
 	@Size(max = 120)
 	@ApiModelProperty(value = "Payment type's name", required = true)

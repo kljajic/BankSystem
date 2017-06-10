@@ -47,7 +47,7 @@ public class City implements Serializable{
 	@ApiModelProperty(value = "City's name.", required = true)
 	private String name;
 	
-	@Column
+	@Column(unique = true)
 	@NotEmpty
 	@Size(max = 12)
 	@ApiModelProperty(value = "City's PTT number", required = true)

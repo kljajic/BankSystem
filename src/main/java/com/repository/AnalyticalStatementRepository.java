@@ -19,15 +19,15 @@ public interface AnalyticalStatementRepository extends JpaRepository<AnalyticalS
 			+ "statement.dailyAccountStatus.account.accountNumber like %?4% and statement.originator like %?5% and "
 			+ "statement.purpose like %?6% and statement.recipient like %?7% and "
 			+ "statement.dateOfReceipt between ?8 and ?9 and statement.currencyDate between ?8 and ?10 and "
-			+ "statement.originatorAccount like %?11% and statement.model = ?12 and "
+			+ "statement.originatorAccount like %?11% and cast(statement.model as string) like %?12% and "
 			+ "statement.debitAuthorizationNumber like %?13% and statement.recipientAccount like %?14% and "
-			+ "statement.approvalModel = ?15 and statement.approvalAuthorizationNumber like %?16% and "
+			+ "cast(statement.approvalModel as string) like %?15% and statement.approvalAuthorizationNumber like %?16% and "
 			+ "statement.urgently = ?17 and statement.amount <= ?18")
 	Collection<AnalyticalStatement> searchAnalyticalStatements(String currencyCode, 
 			String paymentTypeName, String cityPttNumber, String accountNumber,
 			String originator, String purpose, String recipient, Date minimumDate, Date dateOfReceipt,
-			Date currencyDate, String originatorAccount, Short model, String debitAuthorizationNumber,
-			String recipientAccount, Short approvalModel, String approvalAuthorizationNumber,
+			Date currencyDate, String originatorAccount, String model, String debitAuthorizationNumber,
+			String recipientAccount, String approvalModel, String approvalAuthorizationNumber,
 			boolean urgently, Double amount);
 	
 }
