@@ -1,5 +1,6 @@
 package com.service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -39,9 +40,10 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 	}
 
 	@Override
-	public AnalyticalStatement createAnalyticalStatement(String currencyId, String paymentTypeId, String cityId, 
+	public Collection<AnalyticalStatement> createAnalyticalStatement(String currencyId, String paymentTypeId, String cityId, 
 														 Long dailyAccountStatusId, Date dateOfReceipt,
 														  Date currencyDate, AnalyticalStatement analyticalStatement) {
+		Collection<AnalyticalStatement> analyticalStatements = new ArrayList<AnalyticalStatement>();
 		if(currencyId != null && !currencyId.trim().equals("NOT_ENTERED"))
 			analyticalStatement.setCurrency(currencyService.getCurrency(new Long(currencyId)));
 		if(paymentTypeId != null && !paymentTypeId.trim().equals("NOT_ENTERED"))
@@ -51,10 +53,15 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 		analyticalStatement.setDateOfReceipt(dateOfReceipt);
 		analyticalStatement.setCurrencyDate(currencyDate);
 		analyticalStatement.setDailyAccountStatus(dailyAccountStatusService.getDailyAccountStatus(dailyAccountStatusId));
+		analyticalStatement.setUplata(false);
 		if(!analyticalStatement.getOriginatorAccount().substring(0, 3).equals(analyticalStatement.getRecipientAccount().substring(0, 3))){
 			interBankService.RTGSOrClearing(analyticalStatement);
+			analyticalStatements.add(analyticalStatementRepository.save(analyticalStatement));
+			dailyAccountStatusService.updateOriginatorDailyAccountStatus(analyticalStatement);
+		}else{
+			this.doLocaleTransfer(analyticalStatement, analyticalStatements);
 		}
-		return analyticalStatementRepository.save(analyticalStatement);
+		return analyticalStatements;
 	}
 
 	@Override
@@ -188,6 +195,17 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 								minimumDate, dateOfReceipt, currencyDate, originatorAccount, model,
 								debitAuthorizationNumber, recipientAccount, approvalModel, 
 								approvalAuthorizationNumber, urgently, amount);
+	}
+	
+	private void doLocaleTransfer(AnalyticalStatement analyticalStatement,
+			Collection<AnalyticalStatement> analyticalStatements) {
+		AnalyticalStatement payment = analyticalStatementRepository.save(analyticalStatement);
+		analyticalStatement.setUplata(true);
+		AnalyticalStatement payoff = analyticalStatementRepository.save(analyticalStatement);
+		analyticalStatements.add(payment);
+		analyticalStatements.add(payoff);
+		dailyAccountStatusService.updateOriginatorDailyAccountStatus(analyticalStatement);
+		dailyAccountStatusService.updateRecipiantDailyAccountStatus(analyticalStatement);
 	}
 	
 }

@@ -34,8 +34,8 @@ public class AnalyticalStatementController {
 
 	@PostMapping("/create/{currencyId}/{paymentTypeId}/{cityId}/{dailyAccountStatusId}/{dateOfReceipt}/{currencyDate}")
 	@ResponseBody
-	@ApiOperation(value = "Create a analytical statement.", notes = "Create a single analytical statement.", response = AnalyticalStatement.class)
-	public AnalyticalStatement createAnalyticalStatement(@PathVariable("currencyId") String currencyId,
+	@ApiOperation(value = "Create a analytical statement.", notes = "Create a single analytical statement.", response = Collection.class)
+	public Collection<AnalyticalStatement> createAnalyticalStatement(@PathVariable("currencyId") String currencyId,
 			@PathVariable("paymentTypeId") String paymentTypeId, @PathVariable("cityId") String cityId,
 			@PathVariable("dailyAccountStatusId") Long dailyAccountStatusId,
 			@PathVariable("dateOfReceipt") Date dateOfReceipt, @PathVariable("currencyDate") Date currencyDate,

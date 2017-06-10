@@ -15,5 +15,6 @@ public interface AccountService {
 	public Account deleteAccount(Long id);
 	Account getAccount(Long id);
 	public Collection<Account> search(String accountNumber, Date openingMin, Date openingMax, String bankName, String name, String surname, String currency);
+	Account getAccountByAccountNumber(String accountNumber);
 	
 }

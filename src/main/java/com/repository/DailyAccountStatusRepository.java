@@ -15,4 +15,10 @@ public interface DailyAccountStatusRepository extends JpaRepository<DailyAccount
 	@Query("select status from DailyAccountStatus status inner join status.account as account where account.accountNumber like %?1% and status.previousAmount <= ?2 and status.transferInFavor <= ?3 and status.numberOfChanges <= ?4 and status.transferExpenses <= ?5 and status.currentAmount <= ?6 and status.date between ?7 and ?8")
 	Collection<DailyAccountStatus> searchDailyAccountStatuses(String accountNumber, Double previousAmount, Double transferInFavor, Integer numberOfChanges, Double transferExpenses, Double currentAmount, Date minDate, Date maxDate);
 	
+	@Query("select status.id, max(status.date), status.previousAmount, status.transferInFavor, "
+			+ "status.numberOfChanges, status.transferExpenses, status.currentAmount, status.account "
+			+ "from DailyAccountStatus status inner join status.account as account where "
+			+ "account.accountNumber = ?1")
+	DailyAccountStatus findDailyAccountStatusByDate(String originatorAccount);
+	
 }

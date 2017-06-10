@@ -27,6 +27,9 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 			+ "where acc.account_num like ?1 and acc.account_date between ?2 and ?3 and b.bank_name like ?4 and u.name like ?5 and u.surname like ?6 and cur.official_code like ?7"
 			, nativeQuery=true)
 	public Set<Account> searchNative(String accountNumber, Date openingMin, Date openingMax, String bankName, String name, String surname, String currency);
+
+	@Query("select account from Account account where account.accountNumber = ?1")
+	public Account findAccountByAccountNumber(String accountNumber);
 	
 	
 }

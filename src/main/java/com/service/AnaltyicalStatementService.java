@@ -7,7 +7,7 @@ import com.model.AnalyticalStatement;
 
 public interface AnaltyicalStatementService {
 	
-	AnalyticalStatement createAnalyticalStatement(String currencyId, 
+	Collection<AnalyticalStatement> createAnalyticalStatement(String currencyId, 
 												  String paymentTypeId, 
 												  String cityId, 
 												  Long dailyAccountStatusId,

@@ -1,5 +1,6 @@
 package com.service;
 
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.model.Account;
+import com.model.AnalyticalStatement;
 import com.model.DailyAccountStatus;
 import com.repository.DailyAccountStatusRepository;
 
@@ -95,6 +97,43 @@ public class DailyAccountStatusServiceImpl implements DailyAccountStatusService{
 			date = new Date(Long.MAX_VALUE);
 		}
 		return dailyAccountStatusRepository.searchDailyAccountStatuses(accountNumber, previousAmount, transferInFavor, numberOfChanges, transferExpenses, currentAmount, new Date(Long.MIN_VALUE), date);
+	}
+	
+	public void updateOriginatorDailyAccountStatus(AnalyticalStatement analyticalStatement){
+		DailyAccountStatus dailyAccountStatus = this.getLastDailyAccountStatus(analyticalStatement);
+		dailyAccountStatus.setNumberOfChanges(dailyAccountStatus.getNumberOfChanges() + 1);
+		dailyAccountStatus.setPreviousAmount(dailyAccountStatus.getCurrentAmount());
+		dailyAccountStatus.setTransferExpenses(dailyAccountStatus.getTransferExpenses() + analyticalStatement.getAmount());
+		dailyAccountStatus.setCurrentAmount(dailyAccountStatus.getCurrentAmount() - analyticalStatement.getAmount());
+		dailyAccountStatusRepository.save(dailyAccountStatus);
+	}
+	
+	public void updateRecipiantDailyAccountStatus(AnalyticalStatement analyticalStatement){
+		DailyAccountStatus dailyAccountStatus = this.getLastDailyAccountStatus(analyticalStatement);
+		dailyAccountStatus.setNumberOfChanges(dailyAccountStatus.getNumberOfChanges() + 1);
+		dailyAccountStatus.setPreviousAmount(dailyAccountStatus.getCurrentAmount());
+		dailyAccountStatus.setTransferInFavor(dailyAccountStatus.getTransferInFavor() + analyticalStatement.getAmount());
+		dailyAccountStatus.setCurrentAmount(dailyAccountStatus.getCurrentAmount() + analyticalStatement.getAmount());
+		dailyAccountStatusRepository.save(dailyAccountStatus);
+	}
+	
+	private DailyAccountStatus getLastDailyAccountStatus(AnalyticalStatement analyticalStatement){
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(Calendar.HOUR_OF_DAY, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		Date date = calendar.getTime();
+				
+		DailyAccountStatus dailyAccountStatus = dailyAccountStatusRepository.findDailyAccountStatusByDate(analyticalStatement.getOriginatorAccount());
+		if(dailyAccountStatus == null) {
+			dailyAccountStatus = new DailyAccountStatus();
+			dailyAccountStatus.setAccount(accountService.getAccountByAccountNumber(analyticalStatement.getOriginatorAccount()));
+			dailyAccountStatus.setDate(new Date());
+		}else if(date.after(dailyAccountStatus.getDate())){
+			dailyAccountStatus.setId(null);
+			dailyAccountStatus.setDate(new Date());
+		}
+		return dailyAccountStatus;
 	}
 	
 }
