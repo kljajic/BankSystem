@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 import com.model.Bank;
@@ -17,8 +18,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlType(name="RTGSResponse",  namespace="http://informatika.ftn.ns.ac.yu/ws/model", propOrder={
-		"messageId", 
+@XmlRootElement(name="MT900")
+@XmlType(name="RTGSResponse",  namespace="http://com/model/rtgsResponse", propOrder={
+		"messageId",
+		"responseType",
 		"bank", 
 		"requestId", 
 		"currencyDate",

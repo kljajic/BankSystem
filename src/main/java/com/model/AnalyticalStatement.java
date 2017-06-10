@@ -34,7 +34,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(exclude = {"id"})
 @ApiModel(value = "Analytical statment", description = "Analytical statment.")
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlType(name="analytical_statement", namespace="", propOrder={
+@XmlType(name="analytical_statement", namespace="http://com/model/statement", propOrder={
 	"id", 
 	"originator", 
 	"purpose",

@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 import com.model.AnalyticalStatement;
@@ -19,7 +20,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlType(name="clearing_settlement_request", namespace="http://informatika.ftn.ns.ac.yu/ws/model", propOrder={
+@XmlType(name="clearing_settlement_request", namespace="http://com/model/clearingAndSettlement", propOrder={
 		"paymentBank",
 		"recieverBank",
 		"totalAmount",
@@ -28,6 +29,7 @@ import lombok.NoArgsConstructor;
 		"date",
 		"analyticalStatements",
 })
+@XmlRootElement(name="MT102")
 public class ClearingSettlementRequest implements Serializable{
 
 	/**

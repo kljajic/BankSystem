@@ -31,7 +31,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(exclude = { "id" })
 @Entity
 @Table(name = "BANK")
-@XmlType(name = "bank", namespace = "http://informatika.ftn.ns.ac.yu/ws/model", propOrder = { "swift",
+@XmlType(name = "bank", namespace = "http://com/model/bank", propOrder = { "swift",
 		"transactionAccount" })
 @XmlAccessorType(XmlAccessType.NONE)
 public class Bank implements Serializable {

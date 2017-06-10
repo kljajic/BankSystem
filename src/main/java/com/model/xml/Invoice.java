@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 import com.model.Account;
@@ -19,14 +20,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @EqualsAndHashCode(exclude = {"id"})
 @XmlAccessorType(XmlAccessType.NONE)
+@XmlRootElement(name="statement")
 @XmlType(name = "invoice", 
-		namespace="http://informatika.ftn.ns.ac.yu/ws/model", 
+		namespace="http://com/model/invoice", 
 		propOrder = {"messageId",
 					 "supplier",
 					 "purchaser",
 					 "billingNumber",
 					 "billingDate",
-					 "merchandiesValue",
+					 "merchandiseValue",
 					 "serviceValue",
 					 "merchandiseAndServiceValue",
 					 "discount",
@@ -45,7 +47,7 @@ public class Invoice implements Serializable{
 	private static final long serialVersionUID = 7679221176377334279L;
 	
 	@XmlElement(name="messageId", required=true)
-	private Long id;
+	private Long messageId;
 	
 	@XmlElement(name="supplier", required=true)
 	private Company supplier;

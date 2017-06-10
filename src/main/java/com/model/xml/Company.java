@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "COMPANY")
 @NoArgsConstructor
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlType(name="company", namespace="http://informatika.ftn.ns.ac.yu/ws/model", propOrder={
+@XmlType(name="company", namespace="http://com/model/company", propOrder={
 		"name", 
 		"pib", 
 		"address"

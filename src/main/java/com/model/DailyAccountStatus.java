@@ -37,7 +37,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(exclude = {"id"})
 @ApiModel(value = "Daily account status", description = "Daily account status.")
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlType(name="daily_account_status", namespace="", propOrder={
+@XmlType(name="daily_account_status", namespace="http://com/model/dailyAccountStatus", propOrder={
 	"id", 
 	"date", 
 	"previousAmount",
@@ -52,6 +52,7 @@ public class DailyAccountStatus implements Serializable{
 	private static final long serialVersionUID = 8421999162724817258L;
 
 	@Id
+	@XmlElement(name="id", required=true)
 	@SequenceGenerator(name = "DAILY_ACCOUNT_STATUS_ID_GEN", allocationSize = 10)
 	@GeneratedValue(generator = "DAILY_ACCOUNT_STATUS_ID_GEN")
 	@ApiModelProperty(value = "Daily account status id.")

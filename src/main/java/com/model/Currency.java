@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlType(name="currency", namespace="http://informatika.ftn.ns.ac.yu/ws/model", propOrder={
+@XmlType(name="currency", namespace="http://com/model/currency", propOrder={
 		"officialCode"
 	} 
 )

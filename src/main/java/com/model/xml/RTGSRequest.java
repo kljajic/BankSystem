@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlType(name="RTGSRequest", namespace="http://informatika.ftn.ns.ac.yu/ws/model", propOrder={
+@XmlType(name="RTGSRequest", namespace="http://com/model/rtgsRequest", propOrder={
 		"messageId", 
 		"paymentBank", 
 		"recieverBank",

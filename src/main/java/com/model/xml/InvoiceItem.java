@@ -15,8 +15,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @ApiModel(value="Invoice item", description="Invoices item")
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlType(name = "invoice", 
-		namespace="http://informatika.ftn.ns.ac.yu/ws/model", 
+@XmlType(name = "invoiceItem", 
+		namespace="http://com/model/invoiceItem", 
 		propOrder = {"ordinate",
 					 "merchandiseOrServiceName",
 					 "amount",
@@ -38,8 +38,8 @@ public class InvoiceItem implements Serializable{
 	@XmlElement(name="ordinate", required=true)
 	private Integer ordinate;
 	
-	@XmlElement(name="merchanidiseOrServiceName", required=true)
-	private String merchanidiseOrServiceName;
+	@XmlElement(name="merchandiseOrServiceName", required=true)
+	private String merchandiseOrServiceName;
 	
 	@XmlElement(name="amount", required=true)
 	private Double amount;
