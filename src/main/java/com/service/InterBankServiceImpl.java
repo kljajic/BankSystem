@@ -17,12 +17,16 @@ import com.model.AnalyticalStatement;
 import com.model.Bank;
 import com.model.xml.RTGSRequest;
 import com.repository.BankRepository;
+import com.repository.CurrencyExchangeRepository;
 
 @Service
 public class InterBankServiceImpl implements InterBankService {
 
 	@Autowired
 	private BankRepository bankRepository;
+	
+	@Autowired
+	private CurrencyExchangeRepository currencyExchangeRepository;
 	
 	@Override
 	public void generateRTGSService(AnalyticalStatement as) {
@@ -76,4 +80,19 @@ public class InterBankServiceImpl implements InterBankService {
 		
 	}
 
+	@Override
+	public void RTGSOrClearing(AnalyticalStatement as) {
+		double sum;
+		if(!as.getCurrency().getOfficialCode().equals("DIN")){
+			sum = as.getAmount() * currencyExchangeRepository.findMiddleRateAccordingToDinars(as.getCurrency().getOfficialCode());
+		} else {
+			sum = as.getAmount();
+		}
+		if(sum >= 250000 || as.isUrgently()){
+			System.out.println("RATATAATATA");
+			generateRTGSService(as);
+			} else {
+				addToClearing(as);
+			}
+		}
 }

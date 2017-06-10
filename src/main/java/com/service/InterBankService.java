@@ -10,4 +10,6 @@ public interface InterBankService {
 	
 	public void addToClearing(AnalyticalStatement as);
 	
+	public void RTGSOrClearing(AnalyticalStatement as);
+	
 }

@@ -3,6 +3,7 @@ package com.service;
 import java.util.Collection;
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,18 +19,23 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 	private final PaymentTypeService paymentTypeService;
 	private final CityService cityService;
 	private final DailyAccountStatusService dailyAccountStatusService;
+	private final InterBankService interBankService;
 	
 	
+	@Autowired
 	public AnaltyicalStatementServiceImpl(AnalyticalStatementRepository analyticalStatementRepository,
 										  CurrencyService currencyService,
 										  PaymentTypeService paymentTypeService,
 										  CityService cityService,
-										  DailyAccountStatusService dailyAccountStatusService){
+										  DailyAccountStatusService dailyAccountStatusService,
+										  InterBankService interBankService
+										  ){
 		this.analyticalStatementRepository = analyticalStatementRepository;
 		this.currencyService = currencyService;
 		this.paymentTypeService = paymentTypeService;
 		this.cityService = cityService;
 		this.dailyAccountStatusService = dailyAccountStatusService;
+		this.interBankService = interBankService;
 	}
 
 	@Override
@@ -45,6 +51,9 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 		analyticalStatement.setDateOfReceipt(dateOfReceipt);
 		analyticalStatement.setCurrencyDate(currencyDate);
 		analyticalStatement.setDailyAccountStatus(dailyAccountStatusService.getDailyAccountStatus(dailyAccountStatusId));
+		if(!analyticalStatement.getOriginatorAccount().substring(0, 3).equals(analyticalStatement.getRecipientAccount().substring(0, 3))){
+			interBankService.RTGSOrClearing(analyticalStatement);
+		}
 		return analyticalStatementRepository.save(analyticalStatement);
 	}
 
