@@ -6,7 +6,7 @@ public interface InterBankService {
 
 	public void generateRTGSService(AnalyticalStatement as);
 	
-	public void generateClearingService(AnalyticalStatement as);
+	public void generateClearingService();
 	
 	public void addToClearing(AnalyticalStatement as);
 	
