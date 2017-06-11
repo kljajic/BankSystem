@@ -14,6 +14,9 @@ currencyExchangeController.controller('currencyExchangeController', function($sc
 	
 	$scope.nextExchangeList = false;
 	
+	$scope.mode = {};
+	$scope.mode.current = "Rezim izmene";
+	
 	function refreshView(){
 		currencyExchangeService.getAllCexes().then(function(response){
 			if($routeParams.paramPrimary > 0){
@@ -152,9 +155,11 @@ currencyExchangeController.controller('currencyExchangeController', function($sc
 	}
 	$scope.addClicked = function(){
 		$scope.action = "addClicked";
+		$scope.mode.current = "Rezim dodavanja";
 	}
 	$scope.searchClicked = function(){
 		$scope.action = "searchClicked";
+		$scope.mode.current = "Rezim pretrage";
 	}
 	
 	$scope.cex.exchangeList = {};
@@ -243,6 +248,7 @@ currencyExchangeController.controller('currencyExchangeController', function($sc
 	
 	$scope.rollbackAction = function(){
 		$scope.action = {};
+		$scope.mode.current = "Rezim izmene";
 		$scope.cex = {};
 		$scope.selectedCex = {};
 		refreshView();
@@ -297,6 +303,21 @@ currencyExchangeController.controller('currencyExchangeController', function($sc
 			$scope.cex.accordingToCurrency = findCurrencyForSelect($scope.selectedAccordingToCurrency.id);
 			$('#combozoomModalAccordingToCurrency').modal('hide');
 		}
+	}
+	
+	$scope.confirmPreviousForm = function(){
+		$("#previousFormsModal").modal('hide');
+		$location.path('/'+$scope.selectedModalPrevousForm);
+		$scope.selectedModalPrevousForm = {};
+	}
+	
+	$scope.previousForm = function(){
+		$("#previousFormsModal").modal('show');
+	}
+	
+	$scope.selectedModalPrevousForm = {};
+	$scope.setModalSelectedPreviousForm = function(previousForm){
+		$scope.selectedModalPrevousForm = previousForm;
 	}
 	
 	

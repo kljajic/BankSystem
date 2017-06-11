@@ -16,5 +16,6 @@ public interface AccountService {
 	Account getAccount(Long id);
 	public Collection<Account> search(String accountNumber, Date openingMin, Date openingMax, String bankName, String name, String surname, String currency);
 	Account getAccountByAccountNumber(String accountNumber);
+	public Collection<Account> searchWithActive(String accountNumber, Date openingMin, Date openingMax, String bankName, String name, String surname, String currency, boolean active);
 	
 }

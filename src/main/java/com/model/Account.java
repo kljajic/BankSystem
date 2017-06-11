@@ -29,13 +29,12 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Data
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = { "id" })
 @Table(name = "ACCOUNT")
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = "account", namespace = "http://com/model/account", propOrder = { "accountNumber" })
 public class Account implements Serializable {
+
 
 	private static final long serialVersionUID = 4207693779878640627L;
 
@@ -89,5 +88,62 @@ public class Account implements Serializable {
 	public void setRevokedAccounts(Set<RevokedAccount> revokedAccounts) {
 		this.revokedAccounts = revokedAccounts;
 	}
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getAccountNumber() {
+		return accountNumber;
+	}
+
+	public void setAccountNumber(String accountNumber) {
+		this.accountNumber = accountNumber;
+	}
+
+	public Date getOpeningDate() {
+		return openingDate;
+	}
+
+	public void setOpeningDate(Date openingDate) {
+		this.openingDate = openingDate;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	public Bank getBank() {
+		return bank;
+	}
+
+	public void setBank(Bank bank) {
+		this.bank = bank;
+	}
+
+	public Client getClient() {
+		return client;
+	}
+
+	public void setClient(Client client) {
+		this.client = client;
+	}
+
+	public Currency getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(Currency currency) {
+		this.currency = currency;
+	}
+
 
 }

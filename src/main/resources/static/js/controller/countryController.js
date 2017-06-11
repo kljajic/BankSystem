@@ -5,6 +5,8 @@ countryController.controller('countryController', function($scope, $location, $w
 	
 	$scope.action = {};
 	$scope.countries = {};
+	$scope.mode = {};
+	$scope.mode.current = "Rezim izmene";
 		
 	countryService.getAllCountries().then(function(data){
 		if(data.data != null){
@@ -56,13 +58,16 @@ countryController.controller('countryController', function($scope, $location, $w
 	}
 	$scope.addClicked = function(){
 		$scope.action = "addClicked";
+		$scope.mode.current = "Rezim dodavanja";
 	}
 	$scope.searchClicked = function(){
 		$scope.action = "searchClicked";
+		$scope.mode.current = "Rezim pretrage";
 	}
 	
 	$scope.removeClicked = function(country){
 		$scope.action = "removeClicked";
+		$scope.mode.current = "Rezim brisanja";
 		if(Object.keys(country).length > 0){
 			swal({
 				  title: "Da li ste sigurni?",
@@ -123,6 +128,7 @@ countryController.controller('countryController', function($scope, $location, $w
 	
 	$scope.rollbackAction = function(){
 		$scope.action = {};
+		$scope.mode.current = "Rezim izmene";
 		$scope.country = {};
 		$scope.selectedCountry = {};
 		countryService.getAllCountries().then(function(data){
@@ -150,5 +156,19 @@ countryController.controller('countryController', function($scope, $location, $w
 		}
 	}
 	
+	$scope.confirmPreviousForm = function(){
+		$("#previousFormsModal").modal('hide');
+		$location.path('/'+$scope.selectedModalPrevousForm);
+		$scope.selectedModalPrevousForm = {};
+	}
+	
+	$scope.previousForm = function(){
+		$("#previousFormsModal").modal('show');
+	}
+	
+	$scope.selectedModalPrevousForm = {};
+	$scope.setModalSelectedPreviousForm = function(previousForm){
+		$scope.selectedModalPrevousForm = previousForm;
+	}
 	
 });

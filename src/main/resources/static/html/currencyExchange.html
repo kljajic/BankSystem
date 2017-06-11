@@ -1,98 +1,130 @@
 <div ng-cloak ng-controller="currencyExchangeController">
 
-<div class = "toolbar">
-	<ul>
-	  <li><a id = "search" ng-click="searchClicked()"><img src="images/search.gif"/></a></li>
-	  <li><a href="#" id = "refresh"><img src="images/refresh.gif"/></a></li>
-	  <li><a href="#" id = "pickup"><img src="images/zoom-pickup.gif"/></a></li>
-	  <li><a href="#" id = "help"><img src="images/help.gif"/></a></li>
-	  <li><a id = "first" ng-click="firstClicked()"><img src="images/first.gif"/></a></li>
-	  <li><a id = "prev" ng-click="prevClicked()"><img src="images/prev.gif"/></a></li>
-	  <li><a id = "next" ng-click="nextClicked()"><img src="images/next.gif"/></a></li>
-	  <li><a id = "last" ng-click="lastClicked()"><img src="images/last.gif"/></a></li>
-	  <li><a id = "add"  ng-click="addClicked()"><img src="images/add.gif"/></a></li>
-	  <li><a id = "remove" ng-click="removeClicked(selectedCex)"><img src="images/remove.gif"/></a></li>
-	  <li><a id = "nextform" ng-click="nextClicked2(selectedCex)"><img src="images/nextform.gif"/></a></li>
-	</ul>
-</div>
+	<div class="toolbar">
+		<ul>
+			<li><a id="search" ng-click="searchClicked()"><img
+					src="images/search.gif" /></a></li>
+			<li><a href="#" id="refresh"><img src="images/refresh.gif" /></a></li>
+			<li><a ng-click="previousForm()" id="pickup"><img
+					src="images/zoom-pickup.gif" /></a></li>
+			<li><a href="#" id="help"><img src="images/help.gif" /></a></li>
+			<li><a id="first" ng-click="firstClicked()"><img
+					src="images/first.gif" /></a></li>
+			<li><a id="prev" ng-click="prevClicked()"><img
+					src="images/prev.gif" /></a></li>
+			<li><a id="next" ng-click="nextClicked()"><img
+					src="images/next.gif" /></a></li>
+			<li><a id="last" ng-click="lastClicked()"><img
+					src="images/last.gif" /></a></li>
+			<li><a id="add" ng-click="addClicked()"><img
+					src="images/add.gif" /></a></li>
+			<li><a id="remove" ng-click="removeClicked(selectedCex)"><img
+					src="images/remove.gif" /></a></li>
+			<li><a id="nextform" ng-click="nextClicked2(selectedCex)"><img
+					src="images/nextform.gif" /></a></li>
+		</ul>
+	</div>
 
-{{ action }}
+	{{ mode.current }}
 
-<div class = "table">
-	<table>
-		 <tr class="header">
-		 	<th>Kupovni kurs</th>
-		 	<th>Srednji kurs</th>
-		 	<th>Prodajni kurs</th>
-		 	<th>Broj kursne liste</th>
-		 	<th>Osnovna valuta</th>
-		 	<th>Prema valuti</th>
-		 </tr>
-		 <tr ng-repeat="cex in cexes" ng-click="setSelected(cex)" ng-class="{'alert alert-info' : selectedCex===cex}">
-		 	<td class="buyRate">{{ cex.buyRate }}</td>
-			<td class="middleRate">{{ cex.middleRate }}</td>
-			<td class="sellRate">{{ cex.sellRate }}</td>
-			<td class="exchangeList">{{ cex.exchangeList.numberOfExchangeList }}</td>
-			<td class="primaryCurrency">{{ cex.primaryCurrency.officialCode }}</td>
-			<td class="accordingToCurrency">{{ cex.accordingToCurrency.officialCode }}</td>
-		 </tr>
-	</table>
-</div>
+	<div class="table">
+		<table>
+			<tr class="header">
+				<th>Kupovni kurs</th>
+				<th>Srednji kurs</th>
+				<th>Prodajni kurs</th>
+				<th>Broj kursne liste</th>
+				<th>Osnovna valuta</th>
+				<th>Prema valuti</th>
+			</tr>
+			<tr ng-repeat="cex in cexes" ng-click="setSelected(cex)"
+				ng-class="{'alert alert-info' : selectedCex===cex}">
+				<td class="buyRate">{{ cex.buyRate }}</td>
+				<td class="middleRate">{{ cex.middleRate }}</td>
+				<td class="sellRate">{{ cex.sellRate }}</td>
+				<td class="exchangeList">{{
+					cex.exchangeList.numberOfExchangeList }}</td>
+				<td class="primaryCurrency">{{ cex.primaryCurrency.officialCode
+					}}</td>
+				<td class="accordingToCurrency">{{
+					cex.accordingToCurrency.officialCode }}</td>
+			</tr>
+		</table>
+	</div>
 
-<div class = "panel">
-	<p>
-	
-					<input ng-value="cex.id" type = "hidden" name = "${field.name}" id = "${field.id}"/>
-				<input type="text" name="someData" ng-model="cex.id" style="display: none;"/>
-				
-				<p>
-					<label for = "${field.buyRate}">Kupovni kurs</label>
-					<input ng-model="cex.buyRate" type = "number" step="0.0001" name = "${field.buyRate}" id = "${field.buyRate}"/>
-				</p>
-				<p>
-					<label for = "${field.middleRate}">Srednji kurs</label>
-					<input ng-model="cex.middleRate" type = "number" step="0.0001" name = "${field.middleRate}" id = "${field.middleRate}"/>
-				</p>
-				<p>
-					<label for = "${field.sellRate}">Prodajni kurs</label>
-					<input ng-model="cex.sellRate" type = "number" step="0.0001" name = "${field.sellRate}" id = "${field.sellRate}"/>
-				</p>
-				
-				
-				<p>
-					<label for = "${field.exchangeList}">Broj kursne liste</label>
-					<select id="" ng-model="cex.exchangeList" ng-options="el.numberOfExchangeList for el in exchangeLists" ng-disabled="nextExchangeList==true"
-					><option value="selectFieldExchangeList" ng-if=true><option></select>
-					<button ng-click="showExchangeLists(cex)" type="submit" ng-disabled="nextExchangeList==true">...</button>
-				</p>
-				<p>
-					<label for = "${field.primaryCurrency}">Osnovna valuta</label>
-					<select id="selectFieldPrimary" ng-model="cex.primaryCurrency" ng-options="c.officialCode for c in currencies"
-					><option value="" ng-if=true><option></select>
-					<button ng-click="showPrimaryCurrency(cex)" type="submit">...</button>
-				</p>
-				<p>
-					<label for = "${field.accordingToCurrency}">Prema valuti</label>
-					<select id="selectFieldAccordingTo" ng-model="cex.accordingToCurrency" ng-options="c.officialCode for c in currencies"
-					><option value="" ng-if=true><option></select>
-					<button ng-click="showAccordingToCurrency(cex)" type="submit">...</button>
-				</p>
-				
-				<div id = "formActions">
-					<input ng-click="submitAction(cex)" type = "submit" value = "Potvrda" style="margin-left:6em"/>
-					<input ng-click="rollbackAction()" type = "submit" 
-					value = "Rollback" style="margin-left:6em"/>
-				</div>			
-				
-	</p>
-</div>
+	<div class="panel">
+		<p>
 
-<md-dialog class="modal" id="combozoomModalExchangeLists" tabindex="-1"
+			<input ng-value="cex.id" type="hidden" name="${field.name}"
+				id="${field.id}" /> <input type="text" name="someData"
+				ng-model="cex.id" style="display: none;" />
+		<p>
+			<label for="${field.buyRate}">Kupovni kurs</label> <input
+				ng-model="cex.buyRate" type="number" step="0.0001"
+				name="${field.buyRate}" id="${field.buyRate}" />
+		</p>
+		<p>
+			<label for="${field.middleRate}">Srednji kurs</label> <input
+				ng-model="cex.middleRate" type="number" step="0.0001"
+				name="${field.middleRate}" id="${field.middleRate}" />
+		</p>
+		<p>
+			<label for="${field.sellRate}">Prodajni kurs</label> <input
+				ng-model="cex.sellRate" type="number" step="0.0001"
+				name="${field.sellRate}" id="${field.sellRate}" />
+		</p>
+
+
+		<p>
+			<label for="${field.exchangeList}">Broj kursne liste</label> <select
+				id="" ng-model="cex.exchangeList"
+				ng-options="el.numberOfExchangeList for el in exchangeLists"
+				ng-disabled="nextExchangeList==true"><option
+					value="selectFieldExchangeList" ng-if=true>
+				<option></select>
+			<button class="btn btn-sm btn-default pulled-left"
+				ng-click="showExchangeLists(cex)" type="submit"
+				ng-disabled="nextExchangeList==true">...</button>
+		</p>
+		<p>
+			<label for="${field.primaryCurrency}">Osnovna valuta</label> <select
+				id="selectFieldPrimary" ng-model="cex.primaryCurrency"
+				ng-options="c.officialCode for c in currencies"><option
+					value="" ng-if=true>
+				<option></select>
+			<button class="btn btn-sm btn-default pulled-left"
+				ng-click="showPrimaryCurrency(cex)" type="submit">...</button>
+		</p>
+		<p>
+			<label for="${field.accordingToCurrency}">Prema valuti</label> <select
+				id="selectFieldAccordingTo" ng-model="cex.accordingToCurrency"
+				ng-options="c.officialCode for c in currencies"><option
+					value="" ng-if=true>
+				<option></select>
+			<button class="btn btn-sm btn-default pulled-left"
+				ng-click="showAccordingToCurrency(cex)" type="submit">...</button>
+		</p>
+
+		<div id="formActions">
+			<input class="btn btn-lg btn-default pulled-left"
+				ng-click="submitAction(cex)" type="submit" value="Potvrda"
+				style="margin-left: 6em" /> <input
+				class="btn btn-lg btn-default pulled-left"
+				ng-click="rollbackAction()" type="submit" value="Rollback"
+				style="margin-left: 6em" />
+		</div>
+
+		</p>
+	</div>
+
+	<md-dialog class="modal" id="combozoomModalExchangeLists" tabindex="-1"
 		aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+				</button>
 				<h4 class="modal-title" id="myModalLabel">
 					<i class="text-muted fa fa-shopping-cart"></i>Kursne liste<strong></strong>
 				</h4>
@@ -100,13 +132,14 @@
 			<div class="modal-body">
 				<form validate class="simple-form">
 					<table>
-						 <tr class="header">
-						 	<th>Datum</th>
+						<tr class="header">
+							<th>Datum</th>
 							<th>Broj kursne liste</th>
 							<th>Primenjuje se od</th>
 							<th>Banka</th>
-						 </tr>
-						 <tr ng-repeat="exchangeList in exchangeLists" ng-click="setSelectedExchangeList(exchangeList)"
+						</tr>
+						<tr ng-repeat="exchangeList in exchangeLists"
+							ng-click="setSelectedExchangeList(exchangeList)"
 							ng-class="{'alert alert-info' : selectedExchangeList===exchangeList}">
 							<td class="date">{{ exchangeList.dateView }}</td>
 							<td class="number">{{ exchangeList.numberOfExchangeList }}</td>
@@ -115,23 +148,25 @@
 						</tr>
 
 					</table>
-
-					<input id="btnConfirm" type="submit"
-						class="btn btn-default pulled-right"
-						ng-click="confirmExchangeList()" value="Potvrdi" />
-
 				</form>
+			</div>
+			<div class="modal-footer">
+				<input id="btnConfirm" type="submit"
+					class="btn btn-default pulled-right"
+					ng-click="confirmExchangeList()" value="Potvrdi" />
 			</div>
 		</div>
 	</div>
-</md-dialog>
+	</md-dialog>
 
-<md-dialog class="modal" id="combozoomModalPrimaryCurrency" tabindex="-1"
-		aria-labelledby="myModalLabel" aria-hidden="true">
+	<md-dialog class="modal" id="combozoomModalPrimaryCurrency"
+		tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+				</button>
 				<h4 class="modal-title" id="myModalLabel">
 					<i class="text-muted fa fa-shopping-cart"></i>Valute<strong></strong>
 				</h4>
@@ -139,38 +174,42 @@
 			<div class="modal-body">
 				<form validate class="simple-form">
 					<table>
-						 <tr class="header">
-						 	<th>Zvanican Kod</th>
-						 	<th>Naziv</th>
-						 	<th>Domicilna</th>
-						 	<th>Drzava</th>
-						 </tr>
-						 <tr ng-repeat="currency in currencies" ng-click="setSelectedPrimaryCurrency(currency)" ng-class="{'alert alert-info' : selectedPrimaryCurrency===currency}">
-						 	<td class="officialCode">{{ currency.officialCode }}</td>
-						 	<td class="name">{{ currency.name }}</td>
-						 	<td class="domicilna">{{ currency.domicilna }}</td>
-						 	<td class="country">{{ currency.country.name }}</td>
-						 </tr>
+						<tr class="header">
+							<th>Zvanican Kod</th>
+							<th>Naziv</th>
+							<th>Domicilna</th>
+							<th>Drzava</th>
+						</tr>
+						<tr ng-repeat="currency in currencies"
+							ng-click="setSelectedPrimaryCurrency(currency)"
+							ng-class="{'alert alert-info' : selectedPrimaryCurrency===currency}">
+							<td class="officialCode">{{ currency.officialCode }}</td>
+							<td class="name">{{ currency.name }}</td>
+							<td class="domicilna">{{ currency.domicilna }}</td>
+							<td class="country">{{ currency.country.name }}</td>
+						</tr>
 
 					</table>
-
-					<input id="btnConfirm" type="submit"
-						class="btn btn-default pulled-right"
-						ng-click="confirmPrimaryCurrency()" value="Potvrdi" />
-
 				</form>
+			</div>
+			<div class="modal-footer">
+				<input id="btnConfirm" type="submit"
+					class="btn btn-default pulled-right"
+					ng-click="confirmPrimaryCurrency()" value="Potvrdi" />
 			</div>
 		</div>
 	</div>
-</md-dialog>
+	</md-dialog>
 
 
-<md-dialog class="modal" id="combozoomModalAccordingToCurrency" tabindex="-1"
-		aria-labelledby="myModalLabel" aria-hidden="true">
+	<md-dialog class="modal" id="combozoomModalAccordingToCurrency"
+		tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+				</button>
 				<h4 class="modal-title" id="myModalLabel">
 					<i class="text-muted fa fa-shopping-cart"></i>Valute<strong></strong>
 				</h4>
@@ -178,30 +217,66 @@
 			<div class="modal-body">
 				<form validate class="simple-form">
 					<table>
-						 <tr class="header">
-						 	<th>Zvanican Kod</th>
-						 	<th>Naziv</th>
-						 	<th>Domicilna</th>
-						 	<th>Drzava</th>
-						 </tr>
-						 <tr ng-repeat="currency in currencies" ng-click="setSelectedAccordingToCurrency(currency)" ng-class="{'alert alert-info' : selectedAccordingToCurrency===currency}">
-						 	<td class="officialCode">{{ currency.officialCode }}</td>
-						 	<td class="name">{{ currency.name }}</td>
-						 	<td class="domicilna">{{ currency.domicilna }}</td>
-						 	<td class="country">{{ currency.country.name }}</td>
-						 </tr>
+						<tr class="header">
+							<th>Zvanican Kod</th>
+							<th>Naziv</th>
+							<th>Domicilna</th>
+							<th>Drzava</th>
+						</tr>
+						<tr ng-repeat="currency in currencies"
+							ng-click="setSelectedAccordingToCurrency(currency)"
+							ng-class="{'alert alert-info' : selectedAccordingToCurrency===currency}">
+							<td class="officialCode">{{ currency.officialCode }}</td>
+							<td class="name">{{ currency.name }}</td>
+							<td class="domicilna">{{ currency.domicilna }}</td>
+							<td class="country">{{ currency.country.name }}</td>
+						</tr>
 
 					</table>
-
-					<input id="btnConfirm" type="submit"
-						class="btn btn-default pulled-right"
-						ng-click="confirmAccordingToCurrency()" value="Potvrdi" />
-
 				</form>
+			</div>
+			<div class="modal-footer">
+				<input id="btnConfirm" type="submit"
+					class="btn btn-default pulled-right"
+					ng-click="confirmAccordingToCurrency()" value="Potvrdi" />
 			</div>
 		</div>
 	</div>
-</md-dialog>
+	</md-dialog>
+
+	<md-dialog class="modal" id="previousFormsModal" tabindex="-1"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1>Reference</h1>
+			</div>
+			<div class="modal-body">
+				<form validate class="simple-form">
+					<table class="centered">
+						<tr class="header">
+							<th>Referenca</th>
+						</tr>
+						<tr ng-click="setModalSelectedPreviousForm('currencies')"
+							ng-class="{'alert alert-info' : selectedModalPrevousForm == 'currencies'}">
+							<td>Valute</td>
+						</tr>
+						<tr
+							ng-click="setModalSelectedPreviousForm('exchangeListController')"
+							ng-class="{'alert alert-info' : selectedModalPrevousForm == 'exchangeListController'}">
+							<td>Kursne liste</td>
+						</tr>
+					</table>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<input id="btnConfirm" type="submit"
+					class="btn btn-default pulled-left"
+					ng-click="confirmPreviousForm()" value="Izaberi" />
+			</div>
+		</div>
+	</div>
+	</md-dialog>
 
 
 </div>

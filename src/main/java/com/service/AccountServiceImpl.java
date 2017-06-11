@@ -80,5 +80,11 @@ public class AccountServiceImpl implements AccountService {
 	public Account getAccountByAccountNumber(String accountNumber) {
 		return accountRepository.findAccountByAccountNumber(accountNumber);
 	}
+
+	@Override
+	public Collection<Account> searchWithActive(String accountNumber, Date openingMin, Date openingMax, String bankName,
+			String name, String surname, String currency, boolean active) {
+		return accountRepository.searchWithActive(accountNumber, openingMin, openingMax, bankName, name, surname, currency, active);
+	}
 	
 }

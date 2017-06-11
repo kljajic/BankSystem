@@ -82,32 +82,35 @@ legalPersonAccountService.factory('legalPersonAccountService', function($http) {
 		var dT = new Date(openingDate);
 		var bankName; var clientSurname; var clientName; var officialCodeName; var active;
 		dT = dT.getTime();
+		pathVarActive = "null";
 		if (status != null) {
-
 			if (status == "Aktivan") {
 				active = true;
+				pathVarActive = "true";
 			} else if (status == "Neaktivan") {
 				active = false;
+				pathVarActive = "false";
 			}
 		} else {
 			active = null;
+			pathVarActive = "null";
 		}
-		if(legalPersonAccount.bank != null){
-			bankName = legalPersonAccount.bank.name;
+		if(bank != null){
+			bankName = bank.name;
 		} else {
 			bankName = "";
 		}
 		
-		if(legalPersonAccount.client != null){
-			clientName = legalPersonAccount.client.name;
-			clientSurname = legalPersonAccount.client.surname;
+		if(client != null){
+			clientName = client.name;
+			clientSurname = client.surname;
 		} else {
 			clientName = "";
 			clientSurname = "";
 		}
 		
-		if(legalPersonAccount.currency != null){
-			officialCodeName = legalPersonAccount.currency.officialCode;
+		if(currency != null){
+			officialCodeName = currency.officialCode;
 		} else {
 			officialCodeName = "";
 		}
@@ -129,7 +132,7 @@ legalPersonAccountService.factory('legalPersonAccountService', function($http) {
 			}
 		});
 
-		return $http.post('/accounts/search', jsonLegalPersonAccount);
+		return $http.post('/accounts/search/' + pathVarActive, jsonLegalPersonAccount);
 
 	};
 

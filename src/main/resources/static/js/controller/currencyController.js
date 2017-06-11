@@ -6,6 +6,8 @@ currencyController.controller('currencyController', function($scope, $location, 
 	$scope.action = {};
 	$scope.currencies = {};
 	$scope.countries = {};
+	$scope.mode = {};
+	$scope.mode.current = "Rezim izmene";
 	
 	function refreshView(){
 		currencyService.getAllCurrencies().then(function(response){
@@ -100,9 +102,11 @@ currencyController.controller('currencyController', function($scope, $location, 
 	}
 	$scope.addClicked = function(){
 		$scope.action = "addClicked";
+		$scope.mode.current = "Rezim dodavanja";
 	}
 	$scope.searchClicked = function(){
 		$scope.action = "searchClicked";
+		$scope.mode.current = "Rezim pretrage";
 	}
 	
 	$scope.currency.country = {};	
@@ -145,6 +149,7 @@ currencyController.controller('currencyController', function($scope, $location, 
 	}
 	
 	$scope.removeClicked = function(currency){
+		$scope.mode.current = "Rezim brisanja";
 		$scope.action = "removeClicked";
 		$scope.currency = {};
 		$scope.selectedCurrency = {};
@@ -177,6 +182,7 @@ currencyController.controller('currencyController', function($scope, $location, 
 	
 	$scope.rollbackAction = function(){
 		$scope.action = {};
+		$scope.mode.current = "Rezim izmene";
 		$scope.currency = {};
 		$scope.selectedCurrency = {};
 		refreshView();
@@ -217,5 +223,19 @@ currencyController.controller('currencyController', function($scope, $location, 
 		}
 	}
 	
+	$scope.confirmPreviousForm = function(){
+		$("#previousFormsModal").modal('hide');
+		$location.path('/'+$scope.selectedModalPrevousForm);
+		$scope.selectedModalPrevousForm = {};
+	}
+	
+	$scope.previousForm = function(){
+		$("#previousFormsModal").modal('show');
+	}
+	
+	$scope.selectedModalPrevousForm = {};
+	$scope.setModalSelectedPreviousForm = function(previousForm){
+		$scope.selectedModalPrevousForm = previousForm;
+	}
 	
 }) ;

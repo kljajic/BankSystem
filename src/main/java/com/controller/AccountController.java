@@ -1,5 +1,7 @@
 package com.controller;
 
+import static org.hamcrest.CoreMatchers.nullValue;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -97,9 +99,9 @@ public class AccountController {
 		}
 	}
 
-	@RequestMapping(value = "/search", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/search/{active}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<Collection<Account>> getAllAccountsForBank(@RequestBody Account account) {
+	public ResponseEntity<Collection<Account>> getAllAccountsForBank(@RequestBody Account account, @PathVariable("active") String active) {
 		
 		Calendar cal = Calendar.getInstance();
 		cal.set(1900, 1, 1);
@@ -154,7 +156,18 @@ public class AccountController {
 		
 		currency = "%" + currency + "%";
 		
-		Collection<Account> bankAccounts = accountServiceImpl.search(accountNumber, openingMin, openingMax, bankName, name, surname, currency);
+		Collection<Account> bankAccounts;
+		
+		if(active.equals("null")){
+			 bankAccounts = accountServiceImpl.search(accountNumber, openingMin, openingMax, bankName, name, surname, currency);
+		} else {
+			if(active.equals("true")){
+				 bankAccounts = accountServiceImpl.searchWithActive(accountNumber, openingMin, openingMax, bankName, name, surname, currency, true);
+			} else {
+				 bankAccounts = accountServiceImpl.searchWithActive(accountNumber, openingMin, openingMax, bankName, name, surname, currency, false);
+			}
+		}
+		
 		if (bankAccounts != null) {
 			return new ResponseEntity<Collection<Account>>(bankAccounts, HttpStatus.CREATED);
 		} else {

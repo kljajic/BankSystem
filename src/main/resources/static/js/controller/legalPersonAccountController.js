@@ -17,6 +17,7 @@ legalPersonAccountController.controller('legalPersonAccountController', function
 	$scope.clientOptions = "client.name + space + client.surname for client in clients";
 	$scope.selectedClient = {};
 	$scope.space = " ";
+	$scope.transferAccount = "";
 	
 	$scope.mode = {};
 	$scope.mode.current = "Rezim izmene";
@@ -143,6 +144,13 @@ legalPersonAccountController.controller('legalPersonAccountController', function
 		} else if ($scope.action == "searchClicked") {
 			legalPersonAccountService.searchLegalPersonAccounts(legalPersonAccount, $scope.selectedStatus, $scope.selectedBank, $scope.selectedClient, $scope.selectedCurrency, $("#openingDateDatePicker").val()).then(function(response) {
 				$scope.legalPersonAccounts = response.data;
+				for(var i = 0;i < $scope.legalPersonAccounts.length;i++){
+					if($scope.legalPersonAccounts[i].active == true){
+						$scope.legalPersonAccounts[i].activeView = "AKTIVAN";
+					} else {
+						$scope.legalPersonAccounts[i].activeView = "NEAKTIVAN";
+					}
+				}
 			});
 		} else {
 			if (Object.keys($scope.selectedLegalPersonAccount).length > 0) {
@@ -234,7 +242,7 @@ legalPersonAccountController.controller('legalPersonAccountController', function
 		}
 		$("#openingDateDatePicker").val(legalPersonAccount.openingDate.substring(0, 10));
 	}
- 	$scope.transferAccount = "";
+ 	
 	
 	$scope.confirmBank = function(){
 		$scope.selectedBank = $scope.selectedModalBank;
@@ -257,7 +265,7 @@ legalPersonAccountController.controller('legalPersonAccountController', function
 	
 	$scope.confirmDelete = function(){
 		if($scope.transferAccount != null && $scope.transferAccount != ""){
-			if (Object.keys(selectedLegalPersonAccount).length > 0) {
+			if (Object.keys($scope.selectedLegalPersonAccount).length > 0) {
 				swal({
 					  title: "Da li ste sigurni?",
 					  text: "Necete uspeti da vratite ovo.",
@@ -281,9 +289,10 @@ legalPersonAccountController.controller('legalPersonAccountController', function
 					    swal("Ponisteno", "Ponistili ste operaciju brisanja.", "error");
 					  }
 					});
+			} else {
+				swal({ title:"Selektujte zeljeni nalog.", type:"error" });
+			}
 		} else {
-			swal({ title:"Selektujte zeljeni nalog.", type:"error" });
-		}
 			swal({ title:"Unesite racun za transfer!.", type:"error" });
 		} 
 	}

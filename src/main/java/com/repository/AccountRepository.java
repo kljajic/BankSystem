@@ -18,6 +18,9 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 	
 	@Query("select aa from Account aa where aa.accountNumber like ?1 and aa.openingDate between ?2 and ?3 and aa.bank.name like ?4 and aa.client.name like ?5 and aa.client.surname like ?6 and aa.currency.officialCode like ?7") 
 	public Set<Account> search(String accountNumber, Date openingMin, Date openingMax, String bankName, String name, String surname, String currency);
+	
+	@Query("select aa from Account aa where aa.accountNumber like ?1 and aa.openingDate between ?2 and ?3 and aa.bank.name like ?4 and aa.client.name like ?5 and aa.client.surname like ?6 and aa.currency.officialCode like ?7 and aa.active = ?8") 
+	public Set<Account> searchWithActive(String accountNumber, Date openingMin, Date openingMax, String bankName, String name, String surname, String currency, Boolean active);
 
 	
 	@Query(value="SELECT acc.account_id, acc.account_num, acc.account_active, acc.account_date, acc.bank_bank_id, "
