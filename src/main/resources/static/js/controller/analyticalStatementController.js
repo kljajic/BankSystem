@@ -184,9 +184,13 @@ analyticalStatementController.controller('analyticalStatementController',['$root
 	$scope.submitAction = function(analyticalStatement) {
 		if ($scope.action == "addClicked") {
 			analyticalStatementService.createAnalyticalStatement($scope.selectedCity.id, $scope.selectedPaymentType.id, $scope.selectedCurrency.id, $scope.dateOfReceipt, $scope.currencyDate, analyticalStatement).then(function(response) {
-				$scope.analyticalStatements.push(response.data);
-				$scope.selectedAnalyticalStatement = response.data;
-				$scope.analyticalStatement = response.data;
+				if(response.data != null && response.data != undefined){
+					for(var i = 0; i < response.data.length; i++){
+						$scope.analyticalStatements.push(response.data[i]);
+						$scope.selectedAnalyticalStatement = response.data[i];
+						$scope.analyticalStatement = response.data[i];
+					}
+				}
 			});
 		} else if ($scope.action == "searchClicked") {
 			var dailyAccountStatusId = -1;
