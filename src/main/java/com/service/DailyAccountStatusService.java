@@ -14,6 +14,6 @@ public interface DailyAccountStatusService {
 	DailyAccountStatus updateDailyAccountStatus(Long accountId, DailyAccountStatus dailyAccountStatus, Date date);
 	void deleteDailyAccountStatus(Long id);
 	Collection<DailyAccountStatus> searchDailyAccountStatuses(Long accountId, DailyAccountStatus dailyAccountStatus, Date date);
-	void updateOriginatorDailyAccountStatus(AnalyticalStatement analyticalStatement);
-	void updateRecipiantDailyAccountStatus(AnalyticalStatement analyticalStatement);
+	DailyAccountStatus updateOriginatorDailyAccountStatus(AnalyticalStatement analyticalStatement);
+	DailyAccountStatus updateRecipiantDailyAccountStatus(AnalyticalStatement analyticalStatement);
 }

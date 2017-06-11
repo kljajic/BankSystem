@@ -54,7 +54,7 @@ import lombok.NoArgsConstructor;
 })
 
 public class AnalyticalStatement {
-	
+
 	@XmlElement(name="id", required=true)
 	@Id
 	@SequenceGenerator(name = "ANALYTICAL_STATEMENT_ID_GEN")
@@ -167,5 +167,25 @@ public class AnalyticalStatement {
 	
 	@XmlElement(name="uplata", required=false)
 	private boolean uplata;
+	
+	public AnalyticalStatement(AnalyticalStatement analyticalStatement) {
+		this.amount = analyticalStatement.getAmount();
+		this.approvalAuthorizationNumber = analyticalStatement.getApprovalAuthorizationNumber();
+		this.approvalModel = analyticalStatement.getApprovalModel();
+		this.currency = analyticalStatement.getCurrency();
+		this.currencyDate = analyticalStatement.getCurrencyDate();
+		this.dateOfReceipt = analyticalStatement.getDateOfReceipt();
+		this.debitAuthorizationNumber = analyticalStatement.getDebitAuthorizationNumber();
+		this.errorType = analyticalStatement.getErrorType();
+		this.model = analyticalStatement.getModel();
+		this.originator = analyticalStatement.getOriginator();
+		this.originatorAccount = analyticalStatement.getOriginatorAccount();
+		this.paymentType = analyticalStatement.getPaymentType();
+		this.placeOfAcceptance = analyticalStatement.getPlaceOfAcceptance();
+		this.purpose = analyticalStatement.getPurpose();
+		this.recipient = analyticalStatement.getRecipient();
+		this.recipientAccount = analyticalStatement.getRecipientAccount();
+		this.urgently = analyticalStatement.isUrgently();
+	}
 	
 }

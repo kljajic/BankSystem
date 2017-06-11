@@ -99,39 +99,48 @@ public class DailyAccountStatusServiceImpl implements DailyAccountStatusService{
 		return dailyAccountStatusRepository.searchDailyAccountStatuses(accountNumber, previousAmount, transferInFavor, numberOfChanges, transferExpenses, currentAmount, new Date(Long.MIN_VALUE), date);
 	}
 	
-	public void updateOriginatorDailyAccountStatus(AnalyticalStatement analyticalStatement){
-		DailyAccountStatus dailyAccountStatus = this.getLastDailyAccountStatus(analyticalStatement);
+	public DailyAccountStatus updateOriginatorDailyAccountStatus(AnalyticalStatement analyticalStatement){
+		DailyAccountStatus dailyAccountStatus = this.getLastDailyAccountStatus(analyticalStatement.getOriginatorAccount());
 		dailyAccountStatus.setNumberOfChanges(dailyAccountStatus.getNumberOfChanges() + 1);
 		dailyAccountStatus.setPreviousAmount(dailyAccountStatus.getCurrentAmount());
 		dailyAccountStatus.setTransferExpenses(dailyAccountStatus.getTransferExpenses() + analyticalStatement.getAmount());
 		dailyAccountStatus.setCurrentAmount(dailyAccountStatus.getCurrentAmount() - analyticalStatement.getAmount());
-		dailyAccountStatusRepository.save(dailyAccountStatus);
+		return dailyAccountStatusRepository.save(dailyAccountStatus);
 	}
 	
-	public void updateRecipiantDailyAccountStatus(AnalyticalStatement analyticalStatement){
-		DailyAccountStatus dailyAccountStatus = this.getLastDailyAccountStatus(analyticalStatement);
+	public DailyAccountStatus updateRecipiantDailyAccountStatus(AnalyticalStatement analyticalStatement){
+		DailyAccountStatus dailyAccountStatus = this.getLastDailyAccountStatus(analyticalStatement.getRecipientAccount());
 		dailyAccountStatus.setNumberOfChanges(dailyAccountStatus.getNumberOfChanges() + 1);
 		dailyAccountStatus.setPreviousAmount(dailyAccountStatus.getCurrentAmount());
 		dailyAccountStatus.setTransferInFavor(dailyAccountStatus.getTransferInFavor() + analyticalStatement.getAmount());
 		dailyAccountStatus.setCurrentAmount(dailyAccountStatus.getCurrentAmount() + analyticalStatement.getAmount());
-		dailyAccountStatusRepository.save(dailyAccountStatus);
+		return dailyAccountStatusRepository.save(dailyAccountStatus);
 	}
 	
-	private DailyAccountStatus getLastDailyAccountStatus(AnalyticalStatement analyticalStatement){
+	private DailyAccountStatus getLastDailyAccountStatus(String accountNumber){
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(Calendar.HOUR_OF_DAY, 0);
 		calendar.set(Calendar.MINUTE, 0);
 		calendar.set(Calendar.SECOND, 0);
-		Date date = calendar.getTime();
+		Date startDate = calendar.getTime();
+		
+		calendar.set(Calendar.HOUR_OF_DAY, 23);
+		calendar.set(Calendar.MINUTE, 59);
+		calendar.set(Calendar.SECOND, 59);
+		Date endDate = calendar.getTime();
 				
-		DailyAccountStatus dailyAccountStatus = dailyAccountStatusRepository.findDailyAccountStatusByDate(analyticalStatement.getOriginatorAccount());
+		DailyAccountStatus dailyAccountStatus = dailyAccountStatusRepository.findDailyAccountStatusByDateAndAccountNumber(accountNumber);
 		if(dailyAccountStatus == null) {
 			dailyAccountStatus = new DailyAccountStatus();
-			dailyAccountStatus.setAccount(accountService.getAccountByAccountNumber(analyticalStatement.getOriginatorAccount()));
+			dailyAccountStatus.setAccount(accountService.getAccountByAccountNumber(accountNumber));
 			dailyAccountStatus.setDate(new Date());
-		}else if(date.after(dailyAccountStatus.getDate())){
-			dailyAccountStatus.setId(null);
-			dailyAccountStatus.setDate(new Date());
+		}else if(dailyAccountStatus.getDate().before(startDate) || dailyAccountStatus.getDate().after(endDate)){
+			DailyAccountStatus newDailyAccountStatus = new DailyAccountStatus();
+			newDailyAccountStatus.setAccount(dailyAccountStatus.getAccount());
+			newDailyAccountStatus.setDate(new Date());
+			newDailyAccountStatus.setCurrentAmount(dailyAccountStatus.getCurrentAmount());
+			newDailyAccountStatus.setPreviousAmount(dailyAccountStatus.getPreviousAmount());
+			return newDailyAccountStatus;
 		}
 		return dailyAccountStatus;
 	}

@@ -32,16 +32,15 @@ public class AnalyticalStatementController {
 		this.analyticalStatementService = analyticalStatementService;
 	}
 
-	@PostMapping("/create/{currencyId}/{paymentTypeId}/{cityId}/{dailyAccountStatusId}/{dateOfReceipt}/{currencyDate}")
+	@PostMapping("/create/{currencyId}/{paymentTypeId}/{cityId}/{dateOfReceipt}/{currencyDate}")
 	@ResponseBody
 	@ApiOperation(value = "Create a analytical statement.", notes = "Create a single analytical statement.", response = Collection.class)
 	public Collection<AnalyticalStatement> createAnalyticalStatement(@PathVariable("currencyId") String currencyId,
 			@PathVariable("paymentTypeId") String paymentTypeId, @PathVariable("cityId") String cityId,
-			@PathVariable("dailyAccountStatusId") Long dailyAccountStatusId,
 			@PathVariable("dateOfReceipt") Date dateOfReceipt, @PathVariable("currencyDate") Date currencyDate,
 			@RequestBody AnalyticalStatement analyticalStatement) {
 		return analyticalStatementService.createAnalyticalStatement(currencyId, paymentTypeId, cityId,
-				dailyAccountStatusId, dateOfReceipt, currencyDate, analyticalStatement);
+				dateOfReceipt, currencyDate, analyticalStatement);
 	}
 
 	@GetMapping

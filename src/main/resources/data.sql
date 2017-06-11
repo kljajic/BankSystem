@@ -47,15 +47,18 @@ insert into user(id, email, name, password, surname) values (1, 'mir@gmail.com',
 insert into user(id, email, name, password, surname) values (2, 'mar@gmail.com', 'Marko', '$2a$10$.BJjJ3CVqWoSukqyxqx0z.zVm79kcWDcIdDbfYKM/BcI4rdIn2Nn.', 'Kljajic');
 insert into user(id, email, name, password, surname) values (3, 'ste@gmail.com', 'Stefan', '$2a$10$.BJjJ3CVqWoSukqyxqx0z.zVm79kcWDcIdDbfYKM/BcI4rdIn2Nn.', 'Varajic');
 insert into user(id, email, name, password, surname) values (4, 'dar@gmail.com', 'Darko', '$2a$10$.BJjJ3CVqWoSukqyxqx0z.zVm79kcWDcIdDbfYKM/BcI4rdIn2Nn.', 'Tacic');
+insert into user(id, email, name, password, surname) values (5, 'sajic@gmail.com', 'Nikola', '$2a$10$.BJjJ3CVqWoSukqyxqx0z.zVm79kcWDcIdDbfYKM/BcI4rdIn2Nn.', 'Sajic');
 
 insert into client(id,address,date_of_birth) values (1,'Bulevar narodnog fronta 2','1994-10-15');
 insert into client(id,address,date_of_birth) values (2,'Bulevar narodnog fronta 20','1994-10-15');
 insert into client(id,address,date_of_birth) values (3,'Bulevar narodnog fronta 200','1994-10-15');
-
+insert into client(id,address,date_of_birth) values (4,'Bulevar despota Stefana','1994-10-15');
+insert into client(id,address,date_of_birth) values (5,'Dunavska 8a','1994-10-15');
 
 insert into account(account_id,account_num,account_date,account_active,bank_bank_id,client_id, currency_id) values(1,'333-111-333','2017-10-15',true,1,1, 1);
 insert into account(account_id,account_num,account_date,account_active,bank_bank_id,client_id, currency_id) values(2,'222-111-444','2017-10-16',true,1,2, 2);
 insert into account(account_id,account_num,account_date,account_active,bank_bank_id,client_id, currency_id) values(3,'666-111-333','2017-10-17',true,2,3, 3);
+insert into account(account_id,account_num,account_date,account_active,bank_bank_id,client_id, currency_id) values(4,'333-222-444','2017-10-17',true,2,5, 3);
 
 insert into daily_account_status(id, date,account_account_id, previous_amount, transfer_expenses, number_of_changes, transfer_in_favor, current_amount)
 values(1, '2017-10-16', 1, 50000, 15000, 1, 0, 35000);

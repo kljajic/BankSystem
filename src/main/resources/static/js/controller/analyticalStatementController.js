@@ -183,7 +183,7 @@ analyticalStatementController.controller('analyticalStatementController',['$root
 																			$scope.selectedCurrency = {};
 	$scope.submitAction = function(analyticalStatement) {
 		if ($scope.action == "addClicked") {
-			analyticalStatementService.createAnalyticalStatement($scope.selectedDailyAccountStatus.id, $scope.selectedCity.id, $scope.selectedPaymentType.id, $scope.selectedCurrency.id, $scope.dateOfReceipt, $scope.currencyDate, analyticalStatement).then(function(response) {
+			analyticalStatementService.createAnalyticalStatement($scope.selectedCity.id, $scope.selectedPaymentType.id, $scope.selectedCurrency.id, $scope.dateOfReceipt, $scope.currencyDate, analyticalStatement).then(function(response) {
 				$scope.analyticalStatements.push(response.data);
 				$scope.selectedAnalyticalStatement = response.data;
 				$scope.analyticalStatement = response.data;

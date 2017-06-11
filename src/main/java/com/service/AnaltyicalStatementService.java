@@ -9,8 +9,7 @@ public interface AnaltyicalStatementService {
 	
 	Collection<AnalyticalStatement> createAnalyticalStatement(String currencyId, 
 												  String paymentTypeId, 
-												  String cityId, 
-												  Long dailyAccountStatusId,
+												  String cityId,
 												  Date dateOfReceipt,
 												  Date currencyDate,
 												  AnalyticalStatement analyticalStatement);

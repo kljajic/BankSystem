@@ -11,10 +11,10 @@ analyticalStatementService.factory('analyticalStatementService', function($http)
 		});
 	}
 	
-	temp.createAnalyticalStatement = function(dailyAccountStatusId, cityId, paymentTypeId, currencyId, dateOfReceipt, currencyDate, analyticalStatement){
+	temp.createAnalyticalStatement = function(cityId, paymentTypeId, currencyId, dateOfReceipt, currencyDate, analyticalStatement){
 		return $http({
 			method : 'POST',
-			url: '../analyticalStatements/create/' + currencyId + '/' + paymentTypeId + '/' + cityId + '/' + dailyAccountStatusId + '/' + dateOfReceipt + '/' + currencyDate,
+			url: '../analyticalStatements/create/' + currencyId + '/' + paymentTypeId + '/' + cityId + '/' + dateOfReceipt + '/' + currencyDate,
 			data: {
 				'originator': analyticalStatement.originator,
 				'purpose': analyticalStatement.purpose,

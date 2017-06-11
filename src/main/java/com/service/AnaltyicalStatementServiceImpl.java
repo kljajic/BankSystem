@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.model.AnalyticalStatement;
+import com.model.DailyAccountStatus;
 import com.repository.AnalyticalStatementRepository;
 
 @Service
@@ -41,8 +42,7 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 
 	@Override
 	public Collection<AnalyticalStatement> createAnalyticalStatement(String currencyId, String paymentTypeId, String cityId, 
-														 Long dailyAccountStatusId, Date dateOfReceipt,
-														  Date currencyDate, AnalyticalStatement analyticalStatement) {
+														  Date dateOfReceipt, Date currencyDate, AnalyticalStatement analyticalStatement) {
 		Collection<AnalyticalStatement> analyticalStatements = new ArrayList<AnalyticalStatement>();
 		if(currencyId != null && !currencyId.trim().equals("NOT_ENTERED"))
 			analyticalStatement.setCurrency(currencyService.getCurrency(new Long(currencyId)));
@@ -52,7 +52,6 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 			analyticalStatement.setPlaceOfAcceptance(cityService.getCity(new Long(cityId)));
 		analyticalStatement.setDateOfReceipt(dateOfReceipt);
 		analyticalStatement.setCurrencyDate(currencyDate);
-		analyticalStatement.setDailyAccountStatus(dailyAccountStatusService.getDailyAccountStatus(dailyAccountStatusId));
 		analyticalStatement.setUplata(false);
 		if(!analyticalStatement.getOriginatorAccount().substring(0, 3).equals(analyticalStatement.getRecipientAccount().substring(0, 3))){
 			interBankService.RTGSOrClearing(analyticalStatement);
@@ -199,13 +198,17 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 	
 	private void doLocaleTransfer(AnalyticalStatement analyticalStatement,
 			Collection<AnalyticalStatement> analyticalStatements) {
-		AnalyticalStatement payment = analyticalStatementRepository.save(analyticalStatement);
-		analyticalStatement.setUplata(true);
-		AnalyticalStatement payoff = analyticalStatementRepository.save(analyticalStatement);
-		analyticalStatements.add(payment);
-		analyticalStatements.add(payoff);
-		dailyAccountStatusService.updateOriginatorDailyAccountStatus(analyticalStatement);
-		dailyAccountStatusService.updateRecipiantDailyAccountStatus(analyticalStatement);
+		DailyAccountStatus originatorDailyAccountStatus = dailyAccountStatusService.updateOriginatorDailyAccountStatus(analyticalStatement);
+		analyticalStatement.setDailyAccountStatus(originatorDailyAccountStatus);
+		AnalyticalStatement originator = analyticalStatementRepository.save(analyticalStatement);
+		analyticalStatements.add(originator);
+		
+		DailyAccountStatus recipientDailyAccountStatus = dailyAccountStatusService.updateRecipiantDailyAccountStatus(analyticalStatement);
+		AnalyticalStatement recipientAnalyticalStatement = new AnalyticalStatement(analyticalStatement); //shallow copy
+		recipientAnalyticalStatement.setDailyAccountStatus(recipientDailyAccountStatus);
+		recipientAnalyticalStatement.setUplata(true);
+		AnalyticalStatement recipient = analyticalStatementRepository.save(recipientAnalyticalStatement);
+		analyticalStatements.add(recipient);
 	}
 	
 }

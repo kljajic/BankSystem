@@ -112,7 +112,7 @@ public class DailyAccountStatus implements Serializable{
 	}
 	
 	@JsonProperty
-	public void setAnalyticalStatemts(Set<AnalyticalStatement> analyticalStatements){
+	public void setAnalyticalStatements(Set<AnalyticalStatement> analyticalStatements){
 		this.analyticalStatements = analyticalStatements;
 	}
 	

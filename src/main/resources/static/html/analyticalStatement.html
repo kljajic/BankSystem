@@ -71,10 +71,10 @@
 		<p>
 			<input ng-value="analyticalStatement.dailyAccountStatus.id" type="hidden" name="${field.name)"
 				id="${field.id}" /><label for="${field.id}">Daily account status</label> 
-				<select ng-options="{{dailyAccountStatusOptions}}" ng-model="selectedDailyAccountStatus" ng-disabled="nextDailyAccountStatus==true">
+				<select ng-options="{{dailyAccountStatusOptions}}" ng-model="selectedDailyAccountStatus" ng-disabled="nextDailyAccountStatus == true || action == 'addClicked'">
 					<option selected value="NOT_ENTERED">Not entered</option>
 				</select> 
-				<input ng-click="showDailyAccountStatuses()" type="button" ng-disabled="nextDailyAccountStatus==true"
+				<input ng-click="showDailyAccountStatuses()" type="button" ng-disabled="nextDailyAccountStatus == true || action == 'addClicked'"
 				class="btn btn-sm btn-default pulled-left" value="..."
 				style="margin-left: 6em" />
 		</p>
@@ -146,7 +146,7 @@
 		</p>
 		<p>
 			<label for="${field.id}">Approval model</label> 
-			<input ng-model="analyticalStatement.approvalModel" type="text"/>
+			<input ng-model="analyticalStatement.approvalModel" type="number"/>
 		</p>
 		<p>
 			<label for="${field.id}">Approval authorization number</label> 
