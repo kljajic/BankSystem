@@ -8,6 +8,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -34,7 +36,7 @@ public class InterBankServiceImpl implements InterBankService {
 	@Autowired
 	private CurrencyExchangeRepository currencyExchangeRepository;
 	
-	private static ArrayList<ClearingSettlementRequest> clearingSettlementRequests = new ArrayList<>();
+	private ArrayList<ClearingSettlementRequest> clearingSettlementRequests = new ArrayList<>();
 	
 	@Override
 	public void generateRTGSService(AnalyticalStatement as) {
@@ -76,7 +78,7 @@ public class InterBankServiceImpl implements InterBankService {
 		
 	}
 
-	@Scheduled(fixedRate = 30000)
+	@Scheduled(fixedRate = 120000)
 	@Override
 	public void generateClearingService() {
 		// TODO Auto-generated method stub
@@ -85,7 +87,7 @@ public class InterBankServiceImpl implements InterBankService {
 			for(int i = 0; i < clearingSettlementRequests.size(); i++){
 				JAXBContext context;
 				try {
-					context = JAXBContext.newInstance(RTGSRequest.class);
+					context = JAXBContext.newInstance(ClearingSettlementRequest.class);
 					Marshaller marshaller = context.createMarshaller();
 					
 					marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
@@ -93,7 +95,7 @@ public class InterBankServiceImpl implements InterBankService {
 					System.out.println("[INFO] Marshalling...");
 		            OutputStream os;
 					try {
-						String nameOfFile = "MT102" + i + ".xml";
+						String nameOfFile = "MT102_" + i + ".xml";
 						os = new FileOutputStream(nameOfFile);
 						marshaller.marshal(clearingSettlementRequests.get(i), os);
 						os.close();
@@ -121,7 +123,7 @@ public class InterBankServiceImpl implements InterBankService {
 		int tempIndex = 0;
 		for(int i = 0; i < clearingSettlementRequests.size(); i++){
 			ClearingSettlementRequest csr = clearingSettlementRequests.get(i);
-			if(csr.getCurrency().equals(as.getCurrency()) && csr.getCurrencyDate().equals(as.getCurrencyDate())
+			if(csr.getCurrency().getOfficialCode().equals(as.getCurrency().getOfficialCode()) && csr.getCurrencyDate().equals(as.getCurrencyDate())
 					&& csr.getPaymentBank().getTransactionAccount().substring(0, 3).equals(as.getOriginatorAccount().substring(0, 3))
 					&& csr.getRecieverBank().getTransactionAccount().substring(0, 3).equals(as.getRecipientAccount().substring(0, 3))){
 				flag = true;
@@ -130,6 +132,7 @@ public class InterBankServiceImpl implements InterBankService {
 		}
 		if(flag){
 			clearingSettlementRequests.get(tempIndex).getAnalyticalStatements().add(as);
+			System.out.println("flag");
 		} else {
 			ClearingSettlementRequest csr = new ClearingSettlementRequest();
 			Bank paymentBank = bankRepository.findBankByLeadNumber(as.getOriginatorAccount().substring(0, 3));
@@ -142,9 +145,13 @@ public class InterBankServiceImpl implements InterBankService {
 			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 			Date date = new Date();
 			csr.setDate(date);
-			csr.getAnalyticalStatements().add(as);
+			HashSet<AnalyticalStatement> tempAS = new HashSet<>();
+			tempAS.add(as);
+			csr.setAnalyticalStatements(tempAS);
 			clearingSettlementRequests.add(csr);
+			System.out.println("nije flag");
 		}
+		System.out.println("VELICINAAAAAAA " + clearingSettlementRequests.size());
 	}
 
 	@Override
