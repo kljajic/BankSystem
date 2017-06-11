@@ -69,6 +69,15 @@
 			<input type="text" ng-model="analyticalStatement" style="display: none;" />
 		</p>
 		<p>
+			<input ng-value="analyticalStatement.analyticalStatementMode" type="hidden" name="${field.name)"
+				id="${field.id}" /><label for="${field.id}">Analytical statement mode</label> 
+				<select ng-model="analyticalStatement.analyticalStatementMode">
+					<option value="TRANSFER" selected>Transfer</option>
+					<option value="PAYMENT">Payment</option>
+					<option value="PAYOUT">Pay out</option>
+				</select>
+		</p>
+		<p>
 			<input ng-value="analyticalStatement.dailyAccountStatus.id" type="hidden" name="${field.name)"
 				id="${field.id}" /><label for="${field.id}">Daily account status</label> 
 				<select ng-options="{{dailyAccountStatusOptions}}" ng-model="selectedDailyAccountStatus" ng-disabled="nextDailyAccountStatus == true || action == 'addClicked'">
@@ -128,27 +137,27 @@
 			<label for="${field.id}">Currency date</label> 
 			<input id="currencyDate" ng-model="currencyDate" type="date"/>
 		</p>
-		<p>
+		<p ng-if = "analyticalStatement.analyticalStatementMode != 'PAYOUT'">
 			<label for="${field.id}">Originator account</label> 
 			<input ng-model="analyticalStatement.originatorAccount" type="text"/>
 		</p>
-		<p>
+		<p ng-if = "analyticalStatement.analyticalStatementMode != 'PAYOUT'">
 			<label for="${field.id}">Model</label> 
 			<input ng-model="analyticalStatement.model" type="number"/>
 		</p>
-		<p>
+		<p ng-if = "analyticalStatement.analyticalStatementMode != 'PAYOUT'">
 			<label for="${field.id}">Debit authorization number</label> 
 			<input ng-model="analyticalStatement.debitAuthorizationNumber" type="text"/>
 		</p>
-		<p>
+		<p ng-if = "analyticalStatement.analyticalStatementMode != 'PAYMENT'">
 			<label for="${field.id}">Recipient account</label> 
 			<input ng-model="analyticalStatement.recipientAccount" type="text"/>
 		</p>
-		<p>
+		<p ng-if = "analyticalStatement.analyticalStatementMode != 'PAYMENT'">
 			<label for="${field.id}">Approval model</label> 
 			<input ng-model="analyticalStatement.approvalModel" type="number"/>
 		</p>
-		<p>
+		<p ng-if = "analyticalStatement.analyticalStatementMode != 'PAYMENT'">
 			<label for="${field.id}">Approval authorization number</label> 
 			<input ng-model="analyticalStatement.approvalAuthorizationNumber" type="text"/>
 		</p>

@@ -35,11 +35,11 @@ import lombok.ToString;
 @EqualsAndHashCode(of = {"originator", "purpose", "recipient", "dateOfReceipt", "currencyDate",
 		"originatorAccount", "model", "debitAuthorizationNumber", "recipientAccount",
 		"approvalModel", "approvalAuthorizationNumber", "amount", "currency", "urgently", "uplata",
-		"dailyAccountStatus", "placeOfAcceptance", "paymentType"})
+		"dailyAccountStatus", "placeOfAcceptance", "paymentType", "analyticalStatementMode"})
 @ToString(of = {"originator", "purpose", "recipient", "dateOfReceipt", "currencyDate",
 		"originatorAccount", "model", "debitAuthorizationNumber", "recipientAccount",
 		"approvalModel", "approvalAuthorizationNumber", "amount", "currency", "urgently", "uplata",
-		"dailyAccountStatus", "placeOfAcceptance", "paymentType"})
+		"dailyAccountStatus", "placeOfAcceptance", "paymentType", "analyticalStatementMode"})
 @ApiModel(value = "Analytical statment", description = "Analytical statment.")
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name="analytical_statement", namespace="http://com/model/statement", propOrder={
@@ -158,8 +158,6 @@ public class AnalyticalStatement {
 	@ApiModelProperty(value = "Analtyical statement's error type.", required = true)
 	private AnalyticalErrors errorType;
 	
-	//status
-	
 	@ManyToOne
 	private DailyAccountStatus dailyAccountStatus;
 	
@@ -175,6 +173,9 @@ public class AnalyticalStatement {
 	
 	@XmlElement(name="uplata", required=false)
 	private boolean uplata;
+	
+	@Enumerated(EnumType.STRING)
+	private AnalyticalStatementMode analyticalStatementMode;
 	
 	public AnalyticalStatement(AnalyticalStatement analyticalStatement) {
 		this.amount = analyticalStatement.getAmount();
@@ -194,6 +195,7 @@ public class AnalyticalStatement {
 		this.recipient = analyticalStatement.getRecipient();
 		this.recipientAccount = analyticalStatement.getRecipientAccount();
 		this.urgently = analyticalStatement.isUrgently();
+		this.analyticalStatementMode = analyticalStatement.getAnalyticalStatementMode();
 	}
 	
 }

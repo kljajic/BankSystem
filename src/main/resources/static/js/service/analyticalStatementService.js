@@ -26,7 +26,8 @@ analyticalStatementService.factory('analyticalStatementService', function($http)
 				'approvalModel': analyticalStatement.approvalModel,
 				'approvalAuthorizationNumber': analyticalStatement.approvalAuthorizationNumber,
 				'urgently': analyticalStatement.urgently,
-				'amount': analyticalStatement.amount
+				'amount': analyticalStatement.amount,
+				'analyticalStatementMode': analyticalStatement.analyticalStatementMode
 			}
 		});
 	}
@@ -47,7 +48,8 @@ analyticalStatementService.factory('analyticalStatementService', function($http)
 				'approvalModel': analyticalStatement.approvalModel,
 				'approvalAuthorizationNumber': analyticalStatement.approvalAuthorizationNumber,
 				'urgently': analyticalStatement.urgently,
-				'amount': analyticalStatement.amount
+				'amount': analyticalStatement.amount,
+				'analyticalStatementMode': analyticalStatement.analyticalStatementMode
 			}
 		});
 	}

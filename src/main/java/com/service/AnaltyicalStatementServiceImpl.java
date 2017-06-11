@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.model.Account;
 import com.model.AnalyticalStatement;
+import com.model.AnalyticalStatementMode;
 import com.model.DailyAccountStatus;
 import com.repository.AnalyticalStatementRepository;
 
@@ -65,7 +66,6 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 	@Override
 	public Collection<AnalyticalStatement> createAnalyticalStatement(String currencyId, String paymentTypeId, String cityId, 
 														  Date dateOfReceipt, Date currencyDate, AnalyticalStatement analyticalStatement) {
-		Collection<AnalyticalStatement> analyticalStatements = new ArrayList<AnalyticalStatement>();
 		if(currencyId != null && !currencyId.trim().equals("NOT_ENTERED"))
 			analyticalStatement.setCurrency(currencyService.getCurrency(new Long(currencyId)));
 		if(paymentTypeId != null && !paymentTypeId.trim().equals("NOT_ENTERED"))
@@ -75,14 +75,7 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 		analyticalStatement.setDateOfReceipt(dateOfReceipt);
 		analyticalStatement.setCurrencyDate(currencyDate);
 		analyticalStatement.setUplata(false);
-		if(!analyticalStatement.getOriginatorAccount().substring(0, 3).equals(analyticalStatement.getRecipientAccount().substring(0, 3))){
-			interBankService.RTGSOrClearing(analyticalStatement);
-			analyticalStatements.add(analyticalStatementRepository.save(analyticalStatement));
-			dailyAccountStatusService.updateOriginatorDailyAccountStatus(analyticalStatement);
-		}else{
-			this.doLocaleTransfer(analyticalStatement, analyticalStatements);
-		}
-		return analyticalStatements;
+		return this.doTransaction(analyticalStatement);
 	}
 
 	@Override
@@ -218,19 +211,36 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 								approvalAuthorizationNumber, urgently, amount);
 	}
 	
-	private void doLocaleTransfer(AnalyticalStatement analyticalStatement,
-			Collection<AnalyticalStatement> analyticalStatements) {
+	private Collection<AnalyticalStatement> doTransaction(AnalyticalStatement analyticalStatement){
+		ArrayList<AnalyticalStatement> analyticalStatements = new ArrayList<>();
+		if(analyticalStatement.getAnalyticalStatementMode() == AnalyticalStatementMode.TRANSFER){
+			if(!analyticalStatement.getOriginatorAccount().substring(0, 3).equals(analyticalStatement.getRecipientAccount().substring(0, 3))){
+				interBankService.RTGSOrClearing(analyticalStatement);
+				analyticalStatements.add(this.updateOriginatorStatus(analyticalStatement));
+			}else{
+				analyticalStatements.add(this.updateOriginatorStatus(analyticalStatement));
+				analyticalStatements.add(this.updateRecipientStatus(analyticalStatement));
+			}
+		}else if(analyticalStatement.getAnalyticalStatementMode() == AnalyticalStatementMode.PAYMENT){
+			analyticalStatements.add(this.updateRecipientStatus(analyticalStatement));
+		}else{
+			analyticalStatements.add(this.updateOriginatorStatus(analyticalStatement));
+		}
+		return analyticalStatements;
+	}
+	
+	private AnalyticalStatement updateOriginatorStatus(AnalyticalStatement analyticalStatement){
 		DailyAccountStatus originatorDailyAccountStatus = dailyAccountStatusService.updateOriginatorDailyAccountStatus(analyticalStatement);
 		analyticalStatement.setDailyAccountStatus(originatorDailyAccountStatus);
-		AnalyticalStatement originator = analyticalStatementRepository.save(analyticalStatement);
-		analyticalStatements.add(originator);
-		
+		return analyticalStatementRepository.save(analyticalStatement);
+	}
+	
+	private AnalyticalStatement updateRecipientStatus(AnalyticalStatement analyticalStatement){
 		DailyAccountStatus recipientDailyAccountStatus = dailyAccountStatusService.updateRecipiantDailyAccountStatus(analyticalStatement);
 		AnalyticalStatement recipientAnalyticalStatement = new AnalyticalStatement(analyticalStatement); //shallow copy
 		recipientAnalyticalStatement.setDailyAccountStatus(recipientDailyAccountStatus);
 		recipientAnalyticalStatement.setUplata(true);
-		AnalyticalStatement recipient = analyticalStatementRepository.save(recipientAnalyticalStatement);
-		analyticalStatements.add(recipient);
+		return analyticalStatementRepository.save(recipientAnalyticalStatement);
 	}
 
 	@Override
