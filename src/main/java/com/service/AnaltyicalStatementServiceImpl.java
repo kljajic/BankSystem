@@ -1,16 +1,33 @@
 package com.service;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
+
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.model.Account;
 import com.model.AnalyticalStatement;
 import com.model.DailyAccountStatus;
 import com.repository.AnalyticalStatementRepository;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
 
 @Service
 @Transactional
@@ -22,7 +39,10 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 	private final CityService cityService;
 	private final DailyAccountStatusService dailyAccountStatusService;
 	private final InterBankService interBankService;
+	private final AccountService accountService;
 	
+    @Autowired
+    DataSource dataSource;
 	
 	@Autowired
 	public AnaltyicalStatementServiceImpl(AnalyticalStatementRepository analyticalStatementRepository,
@@ -30,7 +50,8 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 										  PaymentTypeService paymentTypeService,
 										  CityService cityService,
 										  DailyAccountStatusService dailyAccountStatusService,
-										  InterBankService interBankService
+										  InterBankService interBankService,
+										  AccountService accountService
 										  ){
 		this.analyticalStatementRepository = analyticalStatementRepository;
 		this.currencyService = currencyService;
@@ -38,6 +59,7 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 		this.cityService = cityService;
 		this.dailyAccountStatusService = dailyAccountStatusService;
 		this.interBankService = interBankService;
+		this.accountService = accountService;
 	}
 
 	@Override
@@ -209,6 +231,35 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 		recipientAnalyticalStatement.setUplata(true);
 		AnalyticalStatement recipient = analyticalStatementRepository.save(recipientAnalyticalStatement);
 		analyticalStatements.add(recipient);
+	}
+
+	@Override
+	public void exportToPdf(Long accountId, Date startDate,Date endDate,HttpServletResponse response) {
+		Account a = accountService.getAccount(accountId);
+	    Map<String,Object> params = new HashMap<>();
+	    params.put("bankAccount", a.getAccountNumber());
+	   // params.put("startDate", startDate);
+	   // params.put("endDate", endDate);
+	    params.put("client", a.getClient().getName() + " " +  a.getClient().getSurname());
+	    FileInputStream fileInputStream;
+	    params.put("address", a.getClient().getAddress());
+		try {
+			JasperPrint jp  = JasperFillManager.fillReport(getClass().getResource("/jasper/BankReport.jasper").openStream(),params, dataSource.getConnection());
+		    File pdf = new File(System.getProperty("user.home") + "/Downloads/" + "izvestaj-"+a.getAccountNumber()+".pdf");
+		    FileOutputStream out = new FileOutputStream(pdf);
+		    JasperExportManager.exportReportToPdfStream(jp, out);
+			fileInputStream = new FileInputStream(pdf);
+			IOUtils.copy(fileInputStream, response.getOutputStream());
+			fileInputStream.close();
+			out.close();
+			response.flushBuffer();
+		} catch (JRException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}		
 	}
 	
 }

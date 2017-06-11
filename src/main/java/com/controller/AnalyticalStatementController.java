@@ -1,7 +1,11 @@
 package com.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -102,5 +106,14 @@ public class AnalyticalStatementController {
 		return analyticalStatementService.searchAnalyticalStatements(currencyId, paymentTypeId, cityId,
 				dailyAccountStatusId, dateOfReceipt, currencyDate, analyticalStatement);
 	}
+	
+	  @GetMapping("/export/{accountId}/{startDate}/{endDate}")
+	  @ResponseBody
+	  public void exportToPdf(@PathVariable("accountId") Long accountId,@PathVariable("startDate") String startDate,@PathVariable("endDate") String endDate,HttpServletResponse response) throws ParseException {
+		  SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-DD");
+		  Date start = sdf.parse(startDate);
+		  Date end = sdf.parse(endDate);
+		  analyticalStatementService.exportToPdf(accountId, start,end,response);
+	  }
 
 }

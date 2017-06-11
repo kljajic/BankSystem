@@ -3,6 +3,8 @@ package com.service;
 import java.util.Collection;
 import java.util.Date;
 
+import javax.servlet.http.HttpServletResponse;
+
 import com.model.AnalyticalStatement;
 
 public interface AnaltyicalStatementService {
@@ -39,5 +41,7 @@ public interface AnaltyicalStatementService {
 			  Date dateOfReceipt,
 			  Date currencyDate,
 			  AnalyticalStatement analyticalStatement);
+	
+	void exportToPdf(Long accountId,Date startDate,Date endDate,HttpServletResponse response);
 
 }
