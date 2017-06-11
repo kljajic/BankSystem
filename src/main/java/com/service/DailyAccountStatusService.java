@@ -16,4 +16,5 @@ public interface DailyAccountStatusService {
 	Collection<DailyAccountStatus> searchDailyAccountStatuses(Long accountId, DailyAccountStatus dailyAccountStatus, Date date);
 	DailyAccountStatus updateOriginatorDailyAccountStatus(AnalyticalStatement analyticalStatement);
 	DailyAccountStatus updateRecipiantDailyAccountStatus(AnalyticalStatement analyticalStatement);
+	public DailyAccountStatus getLastDailyAccountStatus(String accountNumber);
 }

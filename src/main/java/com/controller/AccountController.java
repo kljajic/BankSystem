@@ -1,6 +1,5 @@
 package com.controller;
 
-import static org.hamcrest.CoreMatchers.nullValue;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -74,6 +73,7 @@ public class AccountController {
 		Account account = accountServiceImpl.deleteAccount(accountId);
 		if (account != null) {
 			revokedAccountServiceImpl.createRevokedAccount(account, transverAcc);
+			accountServiceImpl.transferAccount(account, transverAcc);
 			return new ResponseEntity<Account>(account, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -113,11 +113,13 @@ public class AccountController {
 			cal.set(Calendar.HOUR, 0);
 			cal.set(Calendar.MINUTE, 0);
 			cal.set(Calendar.SECOND, 0);
+			cal.set(Calendar.DATE, cal.get(Calendar.DATE) + 1);
 			openingMin = cal.getTime();
 			cal.setTime(account.getOpeningDate());
 			cal.set(Calendar.HOUR, 23);
 			cal.set(Calendar.MINUTE, 59);
 			cal.set(Calendar.SECOND, 59);
+			cal.set(Calendar.DATE, cal.get(Calendar.DATE) + 1);
 			openingMax = cal.getTime();
 		}
 		

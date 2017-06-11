@@ -9,7 +9,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.model.Account;
+import com.model.AnalyticalStatement;
+import com.model.AnalyticalStatementMode;
+import com.model.DailyAccountStatus;
 import com.repository.AccountRepository;
+import com.repository.CurrencyExchangeRepository;
+import com.repository.DailyAccountStatusRepository;
 
 @Service
 @Transactional
@@ -17,6 +22,15 @@ public class AccountServiceImpl implements AccountService {
 
 	@Autowired
 	private AccountRepository accountRepository;
+	
+	@Autowired
+	private AnaltyicalStatementServiceImpl analyticalStatementService;
+	
+	@Autowired
+	private DailyAccountStatusService dailyAccountStatusService;
+	
+	@Autowired 
+	private CurrencyExchangeRepository currencyExchangeRepository;
 	
 	@Override
 	public Account createAccount(Account a) {
@@ -85,6 +99,38 @@ public class AccountServiceImpl implements AccountService {
 	public Collection<Account> searchWithActive(String accountNumber, Date openingMin, Date openingMax, String bankName,
 			String name, String surname, String currency, boolean active) {
 		return accountRepository.searchWithActive(accountNumber, openingMin, openingMax, bankName, name, surname, currency, active);
+	}
+
+	@Override
+	public void transferAccount(Account account, String accountNumber) {
+		
+		Account recipient = accountRepository.findAccountByAccountNumber(accountNumber);
+		AnalyticalStatement transferStatement = new AnalyticalStatement();
+		DailyAccountStatus originatorAccountAmmount = dailyAccountStatusService.getLastDailyAccountStatus(account.getAccountNumber());
+		Date currencyDate = new Date();
+		
+		transferStatement.setOriginator(account.getClient().getName() + " " + account.getClient().getSurname());
+		transferStatement.setPurpose("Prenos novca ukinutog racuna");
+		transferStatement.setRecipient(recipient.getClient().getName() + " " + recipient.getClient().getSurname());
+		transferStatement.setDateOfReceipt(currencyDate);
+		transferStatement.setCurrencyDate(currencyDate);
+		transferStatement.setOriginatorAccount(account.getAccountNumber());
+		transferStatement.setRecipientAccount(recipient.getAccountNumber());
+		transferStatement.setCurrency(account.getCurrency());
+		transferStatement.setUrgently(false);
+		transferStatement.setUplata(true);
+		transferStatement.setAnalyticalStatementMode(AnalyticalStatementMode.TRANSFER);
+		
+		double exchangeRate;
+		if(!account.getCurrency().getOfficialCode().equals(recipient.getCurrency().getOfficialCode())) {
+			exchangeRate = currencyExchangeRepository.findMiddleRate(account.getCurrency().getOfficialCode(), recipient.getCurrency().getOfficialCode());
+		} else {
+			exchangeRate = 1;
+		}
+		double ammount = originatorAccountAmmount.getCurrentAmount();
+		transferStatement.setAmount(ammount / exchangeRate);
+		
+	    analyticalStatementService.doTransaction(transferStatement);
 	}
 	
 }

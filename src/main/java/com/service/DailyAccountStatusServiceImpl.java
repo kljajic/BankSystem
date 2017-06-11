@@ -117,7 +117,7 @@ public class DailyAccountStatusServiceImpl implements DailyAccountStatusService{
 		return dailyAccountStatusRepository.save(dailyAccountStatus);
 	}
 	
-	private DailyAccountStatus getLastDailyAccountStatus(String accountNumber){
+	public DailyAccountStatus getLastDailyAccountStatus(String accountNumber){
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(Calendar.HOUR_OF_DAY, 0);
 		calendar.set(Calendar.MINUTE, 0);

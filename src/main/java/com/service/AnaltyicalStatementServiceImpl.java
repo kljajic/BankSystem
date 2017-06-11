@@ -211,7 +211,7 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 								approvalAuthorizationNumber, urgently, amount);
 	}
 	
-	private Collection<AnalyticalStatement> doTransaction(AnalyticalStatement analyticalStatement){
+	public Collection<AnalyticalStatement> doTransaction(AnalyticalStatement analyticalStatement){
 		ArrayList<AnalyticalStatement> analyticalStatements = new ArrayList<>();
 		if(analyticalStatement.getAnalyticalStatementMode() == AnalyticalStatementMode.TRANSFER){
 			if(!analyticalStatement.getOriginatorAccount().substring(0, 3).equals(analyticalStatement.getRecipientAccount().substring(0, 3))){

@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Date;
 
 import com.model.Account;
+import com.model.AnalyticalStatement;
 
 public interface AccountService {
 	
@@ -17,5 +18,5 @@ public interface AccountService {
 	public Collection<Account> search(String accountNumber, Date openingMin, Date openingMax, String bankName, String name, String surname, String currency);
 	Account getAccountByAccountNumber(String accountNumber);
 	public Collection<Account> searchWithActive(String accountNumber, Date openingMin, Date openingMax, String bankName, String name, String surname, String currency, boolean active);
-	
+	public void transferAccount(Account account, String accountNumber); 
 }

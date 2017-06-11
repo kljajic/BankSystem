@@ -43,5 +43,7 @@ public interface AnaltyicalStatementService {
 			  AnalyticalStatement analyticalStatement);
 	
 	void exportToPdf(Long accountId,Date startDate,Date endDate,HttpServletResponse response);
+	
+	public Collection<AnalyticalStatement> doTransaction(AnalyticalStatement analyticalStatement);
 
 }
