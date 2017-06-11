@@ -25,10 +25,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = { "id" })
+@EqualsAndHashCode(of = { "country", "pib", "name", "address", "email", "web", "telephone", 
+		"fax", "banka", "swift", "transactionAccount"})
+@ToString(of = { "country", "pib", "name", "address", "email", "web", "telephone", 
+		"fax", "banka", "swift", "transactionAccount"})
 @Entity
 @Table(name = "BANK")
 @XmlType(name = "bank", namespace = "http://com/model/bank", propOrder = { "swift",

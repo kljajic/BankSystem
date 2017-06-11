@@ -24,11 +24,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Data
 @NoArgsConstructor
-@EqualsAndHashCode
+@EqualsAndHashCode(of = {"name", "surname", "email", "password"})
+@ToString(of = {"name", "surname", "email", "password"})
 @Inheritance(strategy = InheritanceType.JOINED)
 public class User implements Serializable {
 

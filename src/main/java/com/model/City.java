@@ -25,11 +25,13 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @Entity
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = "id")
+@EqualsAndHashCode(of = {"name", "pttNumber", "country"})
+@ToString(of = {"name", "pttNumber", "country"})
 @ApiModel(value = "City", description = "City in country.")
 public class City implements Serializable{
 

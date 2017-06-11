@@ -24,11 +24,13 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @Entity
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = {"id"})
+@EqualsAndHashCode(of = {"paymentTypeName"})
+@ToString(of = {"paymentTypeName"})
 @ApiModel(value = "Payment type", description= "Payment type")
 public class PaymentType implements Serializable{
 

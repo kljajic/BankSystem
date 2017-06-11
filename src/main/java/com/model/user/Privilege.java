@@ -16,10 +16,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @Entity
+@EqualsAndHashCode(of = {"name"})
+@ToString(of = {"name"})
 @NoArgsConstructor
 public class Privilege implements Serializable{
 	

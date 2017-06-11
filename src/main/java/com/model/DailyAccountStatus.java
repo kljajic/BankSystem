@@ -30,11 +30,13 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @Entity
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = {"id"})
+@EqualsAndHashCode(of = {"date", "previousAmount", "transferInFavor", "numberOfChanges", "transferExpenses", "currentAmount", "account"})
+@ToString(of = {"date", "previousAmount", "transferInFavor", "numberOfChanges", "transferExpenses", "currentAmount", "account"})
 @ApiModel(value = "Daily account status", description = "Daily account status.")
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name="daily_account_status", namespace="http://com/model/dailyAccountStatus", propOrder={

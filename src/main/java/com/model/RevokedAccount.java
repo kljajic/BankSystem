@@ -13,11 +13,13 @@ import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Data
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = {"id"})
+@EqualsAndHashCode(of = {"revocationDate", "transferAcc", "account"})
+@ToString(of = {"revocationDate", "transferAcc", "account"})
 @Table(name = "REV_ACC")
 public class RevokedAccount implements Serializable {
 

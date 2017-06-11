@@ -15,11 +15,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.model.Account;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Data
 @NoArgsConstructor
+@EqualsAndHashCode(of = {"address", "dateOfBirth"}, callSuper = true)
+@ToString(of = {"address", "dateOfBirth"})
 @Table(name = "CLIENT")
 public class Client extends User {
 	

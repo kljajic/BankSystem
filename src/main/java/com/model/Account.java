@@ -24,13 +24,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.model.user.Client;
 
-import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @NoArgsConstructor
 @Table(name = "ACCOUNT")
+@EqualsAndHashCode(of = {"accountNumber", "openingDate", "active", "bank", "client", "currency"})
+@ToString(of = {"accountNumber", "openingDate", "active", "bank", "client", "currency"})
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = "account", namespace = "http://com/model/account", propOrder = { "accountNumber" })
 public class Account implements Serializable {

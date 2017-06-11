@@ -27,11 +27,19 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @Entity
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = {"id"})
+@EqualsAndHashCode(of = {"originator", "purpose", "recipient", "dateOfReceipt", "currencyDate",
+		"originatorAccount", "model", "debitAuthorizationNumber", "recipientAccount",
+		"approvalModel", "approvalAuthorizationNumber", "amount", "currency", "urgently", "uplata",
+		"dailyAccountStatus", "placeOfAcceptance", "paymentType"})
+@ToString(of = {"originator", "purpose", "recipient", "dateOfReceipt", "currencyDate",
+		"originatorAccount", "model", "debitAuthorizationNumber", "recipientAccount",
+		"approvalModel", "approvalAuthorizationNumber", "amount", "currency", "urgently", "uplata",
+		"dailyAccountStatus", "placeOfAcceptance", "paymentType"})
 @ApiModel(value = "Analytical statment", description = "Analytical statment.")
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name="analytical_statement", namespace="http://com/model/statement", propOrder={
