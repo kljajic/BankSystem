@@ -48,17 +48,20 @@ insert into user(id, email, name, password, surname) values (2, 'marko@gmail.com
 insert into user(id, email, name, password, surname) values (3, 'stefan@gmail.com', 'Stefan', '$2a$10$.BJjJ3CVqWoSukqyxqx0z.zVm79kcWDcIdDbfYKM/BcI4rdIn2Nn.', 'Varajic');
 insert into user(id, email, name, password, surname) values (4, 'darko@gmail.com', 'Darko', '$2a$10$.BJjJ3CVqWoSukqyxqx0z.zVm79kcWDcIdDbfYKM/BcI4rdIn2Nn.', 'Tacic');
 insert into user(id, email, name, password, surname) values (5, 'sajic@gmail.com', 'Nikola', '$2a$10$.BJjJ3CVqWoSukqyxqx0z.zVm79kcWDcIdDbfYKM/BcI4rdIn2Nn.', 'Sajic');
+insert into user(id, email, name, password, surname) values (6, 'odalovic@gmail.com', 'Mirko', '$2a$10$.BJjJ3CVqWoSukqyxqx0z.zVm79kcWDcIdDbfYKM/BcI4rdIn2Nn.', 'Odalovic');
 
 insert into client(id,address,date_of_birth) values (1,'Bulevar narodnog fronta 2','1994-10-15');
 insert into client(id,address,date_of_birth) values (2,'Dunavska 6, Backa Topola 24300','1994-02-24');
 insert into client(id,address,date_of_birth) values (3,'Doze Djerdja 13, Novi Sad 21000','1994-10-15');
 insert into client(id,address,date_of_birth) values (4,'Bulevar despota Stefana 51, Novi Sad 21000','1994-10-15');
 insert into client(id,address,date_of_birth) values (5,'Bulevar narodnog fronta 44, Novi Sad 21000','1994-10-15');
+insert into client(id,address,date_of_birth) values (6,'Dunavska 2, Backa Topola 24300','1994-01-20');
 
 insert into account(account_id,account_num,account_date,account_active,bank_bank_id,client_id, currency_id) values(1,'333-111-333','2017-05-05',true,1,1, 1);
 insert into account(account_id,account_num,account_date,account_active,bank_bank_id,client_id, currency_id) values(2,'222-111-444','2017-05-06',true,3,2, 1);
 insert into account(account_id,account_num,account_date,account_active,bank_bank_id,client_id, currency_id) values(3,'666-111-333','2017-06-03',true,2,3, 3);
 insert into account(account_id,account_num,account_date,account_active,bank_bank_id,client_id, currency_id) values(4,'333-222-444','2017-06-01',true,1,5, 1);
+insert into account(account_id,account_num,account_date,account_active,bank_bank_id,client_id, currency_id) values(5,'333-333-333','2017-06-01',true,1,6, 1);
 
 insert into daily_account_status(id, date,account_account_id, previous_amount, transfer_expenses, number_of_changes, transfer_in_favor, current_amount)
 values(1, '2017-05-09', 1, 50000, 15000, 1, 0, 35000);

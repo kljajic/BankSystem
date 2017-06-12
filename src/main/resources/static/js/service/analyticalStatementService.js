@@ -32,10 +32,10 @@ analyticalStatementService.factory('analyticalStatementService', function($http)
 		});
 	}
 	
-	temp.updateAnalyticalStatement = function(dailyAccountStatusId, cityId, paymentTypeId, currencyId, dateOfReceipt, currencyDate, analyticalStatement){
+	temp.updateAnalyticalStatement = function(cityId, paymentTypeId, currencyId, dateOfReceipt, currencyDate, analyticalStatement){
 		return $http({
 			method : 'PUT',
-			url: '../analyticalStatements/update/' + currencyId + '/' + paymentTypeId + '/' + cityId + '/' + dailyAccountStatusId + '/' + dateOfReceipt + '/' + currencyDate,
+			url: '../analyticalStatements/update/' + currencyId + '/' + paymentTypeId + '/' + cityId + '/' + dateOfReceipt + '/' + currencyDate,
 			data: {
 				'id': analyticalStatement.id,
 				'originator': analyticalStatement.originator,

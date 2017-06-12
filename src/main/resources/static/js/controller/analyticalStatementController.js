@@ -160,7 +160,7 @@ analyticalStatementController.controller('analyticalStatementController',['$root
 			  type: "warning",
 			  showCancelButton: true,
 			  confirmButtonColor: "#DD6B55",
-			  confirmButtonText: "Yes, delete it!",
+			  confirmButtonText: "Yes, do it!",
 			  cancelButtonText: "Cancel!",
 			  closeOnConfirm: false,
 			  closeOnCancel: false
@@ -168,12 +168,15 @@ analyticalStatementController.controller('analyticalStatementController',['$root
 			function(isConfirm){
 			  if (isConfirm) {
 				  analyticalStatementService.deleteAnalyticalStatement($scope.selectedAnalyticalStatement.id).then(function(response){
-						var index = $scope.analyticalStatements.indexOf($scope.selectedAnalyticalStatement);
-						$scope.analyticalStatements.splice(index,1);
+					  for(var i = 0; i < response.data.length; i++){
+							$scope.analyticalStatements.push(response.data[i]);
+							$scope.selectedAnalyticalStatement = response.data[i];
+							$scope.analyticalStatement = response.data[i];
+						}
 					});
-				  swal("Deleted!", "Your data has been deleted.", "success");
+				  swal("Reverted!", "Your data has been reverted.", "success");
 			  } else {
-			    swal("Cancelled", "Your have canceled delete operation.", "error");
+			    swal("Cancelled", "Your have canceled revert operation.", "error");
 			  }
 			});
 	}
@@ -214,12 +217,13 @@ analyticalStatementController.controller('analyticalStatementController',['$root
 			});
 		} else {
 			if (Object.keys($scope.selectedAnalyticalStatement).length > 0) {
-				analyticalStatementService.updateAnalyticalStatement($scope.selectedDailyAccountStatus.id, $scope.selectedCity.id, $scope.selectedPaymentType.id, $scope.selectedCurrency.id, $scope.dateOfReceipt, $scope.currencyDate, analyticalStatement).then(
+				analyticalStatementService.updateAnalyticalStatement($scope.selectedCity.id, $scope.selectedPaymentType.id, $scope.selectedCurrency.id, $scope.dateOfReceipt, $scope.currencyDate, analyticalStatement).then(
 						function(response) {
-							var index = $scope.analyticalStatements.indexOf($scope.selectedAnalyticalStatement);
-							$scope.analyticalStatements.splice(index,1);
-							$scope.analyticalStatements.push(response.data);
-							$scope.selectedAnalyticalStatement = response.data;
+							for(var i = 0; i < response.data.length; i++){
+								$scope.analyticalStatements.push(response.data[i]);
+								$scope.selectedAnalyticalStatement = response.data[i];
+								$scope.analyticalStatement = response.data[i];
+							}
 						});
 			} else {
 				ngNotify.set('Select payment type first!' , {

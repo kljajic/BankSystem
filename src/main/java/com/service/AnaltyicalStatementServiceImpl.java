@@ -91,9 +91,11 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 	}
 
 	@Override
-	public AnalyticalStatement updateAnalyticalStatement(String currencyId, String paymentTypeId, String cityId, Long dailyAccountStatusId, 
+	public Collection<AnalyticalStatement> updateAnalyticalStatement(String currencyId, String paymentTypeId, String cityId, 
 														 Date dateOfReceipt, Date currencyDate, AnalyticalStatement analyticalStatement) {
+		Collection<AnalyticalStatement> analyticalStatements = new ArrayList<>();
 		AnalyticalStatement temp = analyticalStatementRepository.findOne(analyticalStatement.getId());
+		analyticalStatements.addAll(this.undoTransaction(temp));
 		temp.setAmount(analyticalStatement.getAmount());
 		temp.setApprovalAuthorizationNumber(analyticalStatement.getApprovalAuthorizationNumber());
 		temp.setApprovalModel(analyticalStatement.getApprovalModel());
@@ -104,7 +106,6 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 		if(cityId != null && !cityId.trim().equals("NOT_ENTERED"))
 			temp.setPlaceOfAcceptance(cityService.getCity(new Long(cityId)));
 		temp.setCurrencyDate(currencyDate);
-		temp.setDailyAccountStatus(dailyAccountStatusService.getDailyAccountStatus(dailyAccountStatusId));
 		temp.setDateOfReceipt(dateOfReceipt);
 		temp.setDebitAuthorizationNumber(analyticalStatement.getDebitAuthorizationNumber());
 		temp.setErrorType(analyticalStatement.getErrorType());
@@ -116,12 +117,16 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 		temp.setRecipientAccount(analyticalStatement.getRecipientAccount());
 		temp.setUplata(analyticalStatement.isUplata());
 		temp.setUrgently(analyticalStatement.isUrgently());
-		return analyticalStatementRepository.save(temp);
+		analyticalStatements.addAll(this.doTransaction(new AnalyticalStatement(temp)));
+		return analyticalStatements;
 	}
 
 	@Override
-	public void deleteAnalyticalStatement(Long id) {
-		analyticalStatementRepository.delete(id);
+	public Collection<AnalyticalStatement> deleteAnalyticalStatement(Long id) {
+		Collection<AnalyticalStatement> analyticalStatements = new ArrayList<>();
+		AnalyticalStatement analyticalStatement = this.getAnalyticalStatement(id);
+		analyticalStatements.addAll(this.undoTransaction(analyticalStatement));
+		return analyticalStatements;
 	}
 
 	@Override
@@ -220,6 +225,34 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 			}else{
 				analyticalStatements.add(this.updateOriginatorStatus(analyticalStatement));
 				analyticalStatements.add(this.updateRecipientStatus(analyticalStatement));
+			}
+		}else if(analyticalStatement.getAnalyticalStatementMode() == AnalyticalStatementMode.PAYMENT){
+			analyticalStatements.add(this.updateRecipientStatus(analyticalStatement));
+		}else{
+			analyticalStatements.add(this.updateOriginatorStatus(analyticalStatement));
+		}
+		return analyticalStatements;
+	}
+	
+	public Collection<AnalyticalStatement> undoTransaction(AnalyticalStatement analyticalStatement){
+		ArrayList<AnalyticalStatement> analyticalStatements = new ArrayList<>();
+		
+		AnalyticalStatement undoAnalyticalStatement = new AnalyticalStatement(analyticalStatement);
+		undoAnalyticalStatement.setRecipient(analyticalStatement.getOriginator());
+		undoAnalyticalStatement.setRecipientAccount(analyticalStatement.getOriginatorAccount());
+		undoAnalyticalStatement.setApprovalModel(analyticalStatement.getModel());
+		undoAnalyticalStatement.setApprovalAuthorizationNumber(analyticalStatement.getDebitAuthorizationNumber());
+		undoAnalyticalStatement.setOriginator(analyticalStatement.getRecipient());
+		undoAnalyticalStatement.setOriginatorAccount(analyticalStatement.getRecipientAccount());
+		undoAnalyticalStatement.setModel(analyticalStatement.getApprovalModel());
+		undoAnalyticalStatement.setDebitAuthorizationNumber(analyticalStatement.getApprovalAuthorizationNumber());
+		
+		if(analyticalStatement.getAnalyticalStatementMode() == AnalyticalStatementMode.TRANSFER){
+			if(!analyticalStatement.getOriginatorAccount().substring(0, 3).equals(analyticalStatement.getRecipientAccount().substring(0, 3))){
+				
+			}else{
+				analyticalStatements.add(this.updateOriginatorStatus(undoAnalyticalStatement));
+				analyticalStatements.add(this.updateRecipientStatus(undoAnalyticalStatement));
 			}
 		}else if(analyticalStatement.getAnalyticalStatementMode() == AnalyticalStatementMode.PAYMENT){
 			analyticalStatements.add(this.updateRecipientStatus(analyticalStatement));

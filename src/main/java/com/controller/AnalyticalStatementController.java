@@ -61,24 +61,22 @@ public class AnalyticalStatementController {
 		return analyticalStatementService.getAnalyticalStatement(id);
 	}
 
-	@PutMapping("/update/{currencyId}/{paymentTypeId}/{cityId}/{dailyAccountStatusId}/{dateOfReceipt}/{currencyDate}")
+	@PutMapping("/update/{currencyId}/{paymentTypeId}/{cityId}/{dateOfReceipt}/{currencyDate}")
 	@ResponseBody
 	@ApiOperation(value = "Update a analytical statement.", notes = "Update a single analytical statement.", response = AnalyticalStatement.class)
-	public AnalyticalStatement updateAnalyticalStatement(@PathVariable("currencyId") String currencyId,
+	public Collection<AnalyticalStatement> updateAnalyticalStatement(@PathVariable("currencyId") String currencyId,
 			@PathVariable("paymentTypeId") String paymentTypeId, @PathVariable("cityId") String cityId,
-			@PathVariable("dailyAccountStatusId") Long dailyAccountStatusId,
 			@PathVariable("dateOfReceipt") Date dateOfReceipt, @PathVariable("currencyDate") Date currencyDate,
 			@RequestBody AnalyticalStatement analyticalStatement) {
 		return analyticalStatementService.updateAnalyticalStatement(currencyId, paymentTypeId, cityId,
-				dailyAccountStatusId, dateOfReceipt, currencyDate, analyticalStatement);
+				dateOfReceipt, currencyDate, analyticalStatement);
 	}
 
 	@DeleteMapping("/delete/{analyticalStatementId}")
 	@ResponseBody
 	@ApiOperation(value = "Delete a analytical statement.", notes = "Delete a single analytical statement.")
-	public void deleteAnalyticalStatement(@PathVariable("analyticalStatementId") Long analyticalStatementId) {
-		analyticalStatementService.deleteAnalyticalStatement(analyticalStatementId);
-		;
+	public Collection<AnalyticalStatement> deleteAnalyticalStatement(@PathVariable("analyticalStatementId") Long analyticalStatementId) {
+		return analyticalStatementService.deleteAnalyticalStatement(analyticalStatementId);
 	}
 
 	@GetMapping("/getByPaymentTypeId/{id}")
