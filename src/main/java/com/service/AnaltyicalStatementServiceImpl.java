@@ -117,7 +117,7 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 		temp.setRecipientAccount(analyticalStatement.getRecipientAccount());
 		temp.setUplata(analyticalStatement.isUplata());
 		temp.setUrgently(analyticalStatement.isUrgently());
-		analyticalStatements.addAll(this.doTransaction(new AnalyticalStatement(temp)));
+		analyticalStatements.addAll(this.doTransaction(cloneAnalyticalStatement(temp)));
 		return analyticalStatements;
 	}
 
@@ -237,7 +237,7 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 	public Collection<AnalyticalStatement> undoTransaction(AnalyticalStatement analyticalStatement){
 		ArrayList<AnalyticalStatement> analyticalStatements = new ArrayList<>();
 		
-		AnalyticalStatement undoAnalyticalStatement = new AnalyticalStatement(analyticalStatement);
+		AnalyticalStatement undoAnalyticalStatement = cloneAnalyticalStatement(analyticalStatement);
 		undoAnalyticalStatement.setRecipient(analyticalStatement.getOriginator());
 		undoAnalyticalStatement.setRecipientAccount(analyticalStatement.getOriginatorAccount());
 		undoAnalyticalStatement.setApprovalModel(analyticalStatement.getModel());
@@ -270,7 +270,7 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 	
 	private AnalyticalStatement updateRecipientStatus(AnalyticalStatement analyticalStatement){
 		DailyAccountStatus recipientDailyAccountStatus = dailyAccountStatusService.updateRecipiantDailyAccountStatus(analyticalStatement);
-		AnalyticalStatement recipientAnalyticalStatement = new AnalyticalStatement(analyticalStatement); //shallow copy
+		AnalyticalStatement recipientAnalyticalStatement = cloneAnalyticalStatement(analyticalStatement); //shallow copy
 		recipientAnalyticalStatement.setDailyAccountStatus(recipientDailyAccountStatus);
 		recipientAnalyticalStatement.setUplata(true);
 		return analyticalStatementRepository.save(recipientAnalyticalStatement);
@@ -303,6 +303,29 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}		
+	}
+	
+	public AnalyticalStatement cloneAnalyticalStatement(AnalyticalStatement as) {
+		AnalyticalStatement clone = new AnalyticalStatement();
+		clone.setAmount(as.getAmount());
+		clone.setApprovalAuthorizationNumber(as.getApprovalAuthorizationNumber());
+		clone.setApprovalModel(as.getApprovalModel());
+		clone.setCurrency(as.getCurrency());
+		clone.setCurrencyDate(as.getCurrencyDate());
+		clone.setDebitAuthorizationNumber(clone.getDebitAuthorizationNumber());
+		clone.setErrorType(as.getErrorType());
+		clone.setModel(as.getModel());
+		clone.setOriginator(as.getOriginator());
+		clone.setOriginatorAccount(as.getOriginatorAccount());
+		clone.setPaymentType(as.getPaymentType());
+		clone.setPlaceOfAcceptance(as.getPlaceOfAcceptance());
+		clone.setPlaceOfAcceptance(as.getPlaceOfAcceptance());
+		clone.setPurpose(as.getPurpose());
+		clone.setRecipient(as.getRecipient());
+		clone.setRecipientAccount(as.getRecipientAccount());
+		clone.setUrgently(as.isUrgently());
+		clone.setAnalyticalStatementMode(as.getAnalyticalStatementMode());
+		return clone;
 	}
 	
 }
