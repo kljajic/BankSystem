@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.model.AnalyticalStatement;
+import com.model.user.Permission;
 import com.service.AnaltyicalStatementService;
 
 import io.swagger.annotations.Api;
@@ -38,6 +39,7 @@ public class AnalyticalStatementController {
 
 	@PostMapping("/create/{currencyId}/{paymentTypeId}/{cityId}/{dateOfReceipt}/{currencyDate}")
 	@ResponseBody
+	@Permission(permissionName = "writeAnalyticalStatement")
 	@ApiOperation(value = "Create a analytical statement.", notes = "Create a single analytical statement.", response = Collection.class)
 	public Collection<AnalyticalStatement> createAnalyticalStatement(@PathVariable("currencyId") String currencyId,
 			@PathVariable("paymentTypeId") String paymentTypeId, @PathVariable("cityId") String cityId,
@@ -49,6 +51,7 @@ public class AnalyticalStatementController {
 
 	@GetMapping
 	@ResponseBody
+	@Permission(permissionName = "readAnalyticalStatements")
 	@ApiOperation(value = "Get analytical statements.", notes = "Get all analytical statements.", response = Collection.class)
 	public Collection<AnalyticalStatement> getAnalyticalStatements() {
 		return analyticalStatementService.getAnalyticalStatements();
@@ -56,6 +59,7 @@ public class AnalyticalStatementController {
 
 	@GetMapping("/{id}")
 	@ResponseBody
+	@Permission(permissionName = "readAnalyticalStatement")
 	@ApiOperation(value = "Get analytical statement.", notes = "Get analytical statement with given id.", response = AnalyticalStatement.class)
 	public AnalyticalStatement getAnalyticalStatement(@PathVariable("id") Long id) {
 		return analyticalStatementService.getAnalyticalStatement(id);
@@ -63,6 +67,7 @@ public class AnalyticalStatementController {
 
 	@PutMapping("/update/{currencyId}/{paymentTypeId}/{cityId}/{dateOfReceipt}/{currencyDate}")
 	@ResponseBody
+	@Permission(permissionName = "editAnalyticalStatement")
 	@ApiOperation(value = "Update a analytical statement.", notes = "Update a single analytical statement.", response = AnalyticalStatement.class)
 	public Collection<AnalyticalStatement> updateAnalyticalStatement(@PathVariable("currencyId") String currencyId,
 			@PathVariable("paymentTypeId") String paymentTypeId, @PathVariable("cityId") String cityId,
@@ -74,6 +79,7 @@ public class AnalyticalStatementController {
 
 	@DeleteMapping("/delete/{analyticalStatementId}")
 	@ResponseBody
+	@Permission(permissionName = "deleteAnalyticalStatement")
 	@ApiOperation(value = "Delete a analytical statement.", notes = "Delete a single analytical statement.")
 	public Collection<AnalyticalStatement> deleteAnalyticalStatement(@PathVariable("analyticalStatementId") Long analyticalStatementId) {
 		return analyticalStatementService.deleteAnalyticalStatement(analyticalStatementId);
@@ -81,6 +87,7 @@ public class AnalyticalStatementController {
 
 	@GetMapping("/getByPaymentTypeId/{id}")
 	@ResponseBody
+	@Permission(permissionName = "readPaymentAnalyticalStatement")
 	@ApiOperation(value = "Get analytical statements by payment type.", notes = "Get analytical statements by given payment type id.", response = Collection.class)
 	public Collection<AnalyticalStatement> getAnalyticalStatementsByPaymentTypeId(@PathVariable("id") Long id) {
 		return analyticalStatementService.getAnalyticalStatementsByPaymentTypeId(id);
@@ -88,6 +95,7 @@ public class AnalyticalStatementController {
 
 	@GetMapping("/getByDailyAccountStatusId/{id}")
 	@ResponseBody
+	@Permission(permissionName = "readDailyAnalyticalStatement")
 	@ApiOperation(value = "Get analytical statements by daily account status.", notes = "Get analytical statements by given daily account status id.", response = Collection.class)
 	public Collection<AnalyticalStatement> getAnalyticalStatementsByDailyAccountStatusId(@PathVariable("id") Long id) {
 		return analyticalStatementService.getAnalyticalStatementsByDailyAccountStatusId(id);
@@ -95,6 +103,7 @@ public class AnalyticalStatementController {
 
 	@PutMapping("/search/{currencyId}/{paymentTypeId}/{cityId}/{dailyAccountStatusId}/{dateOfReceipt}/{currencyDate}")
 	@ResponseBody
+	@Permission(permissionName = "searchAnalyticalStatements")
 	@ApiOperation(value = "Search all analytical statements.", notes = "Search all analytical statements by given fields.", response = Collection.class)
 	public Collection<AnalyticalStatement> searchAnalyticalStatements(@PathVariable("currencyId") Long currencyId,
 			@PathVariable("paymentTypeId") Long paymentTypeId, @PathVariable("cityId") Long cityId,
@@ -107,6 +116,7 @@ public class AnalyticalStatementController {
 	
 	  @GetMapping("/export/{accountId}/{startDate}/{endDate}")
 	  @ResponseBody
+	  @Permission(permissionName = "exportAnalyticalStatement")
 	  public void exportToPdf(@PathVariable("accountId") Long accountId,@PathVariable("startDate") String startDate,@PathVariable("endDate") String endDate,HttpServletResponse response) throws ParseException {
 		  SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-DD");
 		  Date start = sdf.parse(startDate);

@@ -102,6 +102,56 @@ insert into privilege(id, name) values (3, 'deleteCountry');
 insert into privilege(id, name) values (4, 'editCountry');
 insert into privilege(id, name) values (5, 'searchCountries');
 
+insert into privilege(id, name) values (6, 'readAccounts');
+insert into privilege(id, name) values (7, 'writeAccount');
+insert into privilege(id, name) values (8, 'editAccount');
+insert into privilege(id, name) values (9, 'deleteAccount');
+insert into privilege(id, name) values (10, 'readBankAccounts');
+insert into privilege(id, name) values (11, 'searchAccounts');
+
+insert into privilege(id, name) values (12, 'writeAnalyticalStatement');
+insert into privilege(id, name) values (13, 'readAnalyticalStatements');
+insert into privilege(id, name) values (14, 'readAnalyticalStatement');
+insert into privilege(id, name) values (15, 'editAnalyticalStatement');
+insert into privilege(id, name) values (16, 'deleteAnalyticalStatement');
+insert into privilege(id, name) values (17, 'readPaymentAnalyticalStatement');
+insert into privilege(id, name) values (18, 'readDailyAnalyticalStatement');
+insert into privilege(id, name) values (19, 'searchAnalyticalStatements');
+insert into privilege(id, name) values (20, 'exportAnalyticalStatement');
+
+insert into privilege(id, name) values (21, 'readBanks');
+insert into privilege(id, name) values (22, 'writeBank');
+insert into privilege(id, name) values (23, 'searchBanks');
+insert into privilege(id, name) values (24, 'editBank');
+insert into privilege(id, name) values (25, 'deleteBank');
+
+insert into privilege(id, name) values (26, 'writeCity');
+insert into privilege(id, name) values (27, 'readCities');
+insert into privilege(id, name) values (28, 'readCity');
+insert into privilege(id, name) values (29, 'editCity');
+insert into privilege(id, name) values (30, 'deleteCity');
+insert into privilege(id, name) values (31, 'searchCities');
+
+insert into privilege(id, name) values (32, 'readClients');
+
+insert into privilege(id, name) values (33, 'readCurrencies');
+insert into privilege(id, name) values (34, 'writeCurrency');
+insert into privilege(id, name) values (35, 'deleteCurrency');
+insert into privilege(id, name) values (36, 'editCurrency');
+insert into privilege(id, name) values (37, 'searchCurrencies');
+
+insert into privilege(id, name) values (38, 'readCurrencies');
+insert into privilege(id, name) values (39, 'writeCurrency');
+insert into privilege(id, name) values (40, 'deleteCurrency');
+insert into privilege(id, name) values (41, 'editCurrency');
+insert into privilege(id, name) values (42, 'searchCurrencies');
+
+insert into privilege(id, name) values (43, 'readCurrencyExchanges');
+insert into privilege(id, name) values (44, 'writeCurrencyExchange');
+insert into privilege(id, name) values (45, 'deleteCurrencyExchange');
+insert into privilege(id, name) values (46, 'editCurrencyExchange');
+insert into privilege(id, name) values (47, 'searchCurrencyExchange');
+
 insert into users_roles (user_id, role_id) values (1, 1);
 insert into users_roles (user_id, role_id) values (2, 2);
 insert into users_roles (user_id, role_id) values (3, 2);
@@ -120,97 +170,141 @@ insert into roles_privileges(role_id, privilege_id) values(3, 1);
 insert into roles_privileges(role_id, privilege_id) values(3, 5);
 
 
-insert into privilege(id, name) values (100, 'readUser');
-insert into privilege(id, name) values (101, 'readUsers');
-insert into privilege(id, name) values (102, 'addRoleToUser');
-insert into privilege(id, name) values (103, 'removeRoleFromUser');
+insert into roles_privileges(role_id, privilege_id) values(1, 6);
+insert into roles_privileges(role_id, privilege_id) values(1, 7);
+insert into roles_privileges(role_id, privilege_id) values(1, 8);
+insert into roles_privileges(role_id, privilege_id) values(1, 9);
+insert into roles_privileges(role_id, privilege_id) values(1, 10);
+insert into roles_privileges(role_id, privilege_id) values(1, 11);
+insert into roles_privileges(role_id, privilege_id) values(1, 12);
+insert into roles_privileges(role_id, privilege_id) values(1, 13);
+insert into roles_privileges(role_id, privilege_id) values(1, 14);
+insert into roles_privileges(role_id, privilege_id) values(1, 15);
+insert into roles_privileges(role_id, privilege_id) values(1, 16);
+insert into roles_privileges(role_id, privilege_id) values(1, 17);
+insert into roles_privileges(role_id, privilege_id) values(1, 18);
+insert into roles_privileges(role_id, privilege_id) values(1, 19);
+insert into roles_privileges(role_id, privilege_id) values(1, 20);
+insert into roles_privileges(role_id, privilege_id) values(1, 21);
+insert into roles_privileges(role_id, privilege_id) values(1, 22);
+insert into roles_privileges(role_id, privilege_id) values(1, 23);
+insert into roles_privileges(role_id, privilege_id) values(1, 24);
+insert into roles_privileges(role_id, privilege_id) values(1, 25);
+insert into roles_privileges(role_id, privilege_id) values(1, 26);
+insert into roles_privileges(role_id, privilege_id) values(1, 27);
+insert into roles_privileges(role_id, privilege_id) values(1, 28);
+insert into roles_privileges(role_id, privilege_id) values(1, 29);
+insert into roles_privileges(role_id, privilege_id) values(1, 30);
+insert into roles_privileges(role_id, privilege_id) values(1, 31);
+insert into roles_privileges(role_id, privilege_id) values(1, 32);
+insert into roles_privileges(role_id, privilege_id) values(1, 33);
+insert into roles_privileges(role_id, privilege_id) values(1, 34);
+insert into roles_privileges(role_id, privilege_id) values(1, 35);
+insert into roles_privileges(role_id, privilege_id) values(1, 36);
+insert into roles_privileges(role_id, privilege_id) values(1, 37);
+insert into roles_privileges(role_id, privilege_id) values(1, 38);
+insert into roles_privileges(role_id, privilege_id) values(1, 39);
+insert into roles_privileges(role_id, privilege_id) values(1, 40);
+insert into roles_privileges(role_id, privilege_id) values(1, 41);
+insert into roles_privileges(role_id, privilege_id) values(1, 42);
+insert into roles_privileges(role_id, privilege_id) values(1, 43);
+insert into roles_privileges(role_id, privilege_id) values(1, 44);
+insert into roles_privileges(role_id, privilege_id) values(1, 45);
+insert into roles_privileges(role_id, privilege_id) values(1, 46);
+insert into roles_privileges(role_id, privilege_id) values(1, 47);
 
-insert into roles_privileges(role_id, privilege_id) values(1, 100);
-insert into roles_privileges(role_id, privilege_id) values(1, 101);
-insert into roles_privileges(role_id, privilege_id) values(1, 102);
-insert into roles_privileges(role_id, privilege_id) values(1, 103);
 
-insert into privilege(id, name) values (104, 'createRole');
-insert into privilege(id, name) values (105, 'updateRole');
-insert into privilege(id, name) values (106, 'readRole');
-insert into privilege(id, name) values (107, 'readRoles');
-insert into privilege(id, name) values (108, 'removeRole');
-insert into privilege(id, name) values (109, 'addPrivilegeRole');
-insert into privilege(id, name) values (110, 'removePrivilegeFromRole');
+insert into privilege(id, name) values (48, 'readUser');
+insert into privilege(id, name) values (49, 'readUsers');
+insert into privilege(id, name) values (50, 'addRoleToUser');
+insert into privilege(id, name) values (51, 'removeRoleFromUser');
 
-insert into roles_privileges(role_id, privilege_id) values(1, 104);
-insert into roles_privileges(role_id, privilege_id) values(1, 105);
-insert into roles_privileges(role_id, privilege_id) values(1, 106);
-insert into roles_privileges(role_id, privilege_id) values(1, 107);
-insert into roles_privileges(role_id, privilege_id) values(1, 108);
-insert into roles_privileges(role_id, privilege_id) values(1, 109);
-insert into roles_privileges(role_id, privilege_id) values(1, 110);
+insert into roles_privileges(role_id, privilege_id) values(1, 48);
+insert into roles_privileges(role_id, privilege_id) values(1, 49);
+insert into roles_privileges(role_id, privilege_id) values(1, 50);
+insert into roles_privileges(role_id, privilege_id) values(1, 51);
 
-insert into privilege(id, name) values (111, 'readAllRevertedAccounts');
-insert into privilege(id, name) values (112, 'removeRevokedAccount');
+insert into privilege(id, name) values (52, 'createRole');
+insert into privilege(id, name) values (53, 'updateRole');
+insert into privilege(id, name) values (54, 'readRole');
+insert into privilege(id, name) values (55, 'readRoles');
+insert into privilege(id, name) values (56, 'removeRole');
+insert into privilege(id, name) values (57, 'addPrivilegeRole');
+insert into privilege(id, name) values (58, 'removePrivilegeFromRole');
 
-insert into roles_privileges(role_id, privilege_id) values(1, 111);
-insert into roles_privileges(role_id, privilege_id) values(1, 112);
+insert into roles_privileges(role_id, privilege_id) values(1, 52);
+insert into roles_privileges(role_id, privilege_id) values(1, 53);
+insert into roles_privileges(role_id, privilege_id) values(1, 54);
+insert into roles_privileges(role_id, privilege_id) values(1, 55);
+insert into roles_privileges(role_id, privilege_id) values(1, 56);
+insert into roles_privileges(role_id, privilege_id) values(1, 57);
+insert into roles_privileges(role_id, privilege_id) values(1, 58);
 
-insert into privilege(id, name) values (113, 'createPrivilege');
-insert into privilege(id, name) values (114, 'updatePrivilege');
-insert into privilege(id, name) values (115, 'readPrivilege');
-insert into privilege(id, name) values (116, 'readPrivileges');
-insert into privilege(id, name) values (117, 'removePrivilege');
+insert into privilege(id, name) values (59, 'readAllRevertedAccounts');
+insert into privilege(id, name) values (60, 'removeRevokedAccount');
 
-insert into roles_privileges(role_id, privilege_id) values(1, 113);
-insert into roles_privileges(role_id, privilege_id) values(1, 114);
-insert into roles_privileges(role_id, privilege_id) values(1, 115);
-insert into roles_privileges(role_id, privilege_id) values(1, 116);
-insert into roles_privileges(role_id, privilege_id) values(1, 117);
+insert into roles_privileges(role_id, privilege_id) values(1, 59);
+insert into roles_privileges(role_id, privilege_id) values(1, 60);
 
-insert into privilege(id, name) values (118, 'writePaymentType');
-insert into privilege(id, name) values (119, 'readPaymentTypes');
-insert into privilege(id, name) values (120, 'readPaymentType');
-insert into privilege(id, name) values (121, 'updatePaymentType');
-insert into privilege(id, name) values (122, 'removePaymentType');
-insert into privilege(id, name) values (123, 'searchPaymentTypes');
+insert into privilege(id, name) values (61, 'createPrivilege');
+insert into privilege(id, name) values (62, 'updatePrivilege');
+insert into privilege(id, name) values (63, 'readPrivilege');
+insert into privilege(id, name) values (64, 'readPrivileges');
+insert into privilege(id, name) values (65, 'removePrivilege');
 
-insert into roles_privileges(role_id, privilege_id) values(1, 118);
-insert into roles_privileges(role_id, privilege_id) values(1, 119);
-insert into roles_privileges(role_id, privilege_id) values(1, 120);
-insert into roles_privileges(role_id, privilege_id) values(1, 121);
-insert into roles_privileges(role_id, privilege_id) values(1, 122);
-insert into roles_privileges(role_id, privilege_id) values(1, 123);
+insert into roles_privileges(role_id, privilege_id) values(1, 61);
+insert into roles_privileges(role_id, privilege_id) values(1, 62);
+insert into roles_privileges(role_id, privilege_id) values(1, 63);
+insert into roles_privileges(role_id, privilege_id) values(1, 64);
+insert into roles_privileges(role_id, privilege_id) values(1, 65);
 
-insert into privilege(id, name) values (124, 'loginUser');
-insert into privilege(id, name) values (125, 'registerUser');
-insert into privilege(id, name) values (126, 'logoutUser');
+insert into privilege(id, name) values (66, 'writePaymentType');
+insert into privilege(id, name) values (67, 'readPaymentTypes');
+insert into privilege(id, name) values (68, 'readPaymentType');
+insert into privilege(id, name) values (69, 'updatePaymentType');
+insert into privilege(id, name) values (70, 'removePaymentType');
+insert into privilege(id, name) values (71, 'searchPaymentTypes');
 
-insert into roles_privileges(role_id, privilege_id) values(1, 124);
-insert into roles_privileges(role_id, privilege_id) values(1, 125);
-insert into roles_privileges(role_id, privilege_id) values(1, 126);
+insert into roles_privileges(role_id, privilege_id) values(1, 66);
+insert into roles_privileges(role_id, privilege_id) values(1, 67);
+insert into roles_privileges(role_id, privilege_id) values(1, 68);
+insert into roles_privileges(role_id, privilege_id) values(1, 69);
+insert into roles_privileges(role_id, privilege_id) values(1, 70);
+insert into roles_privileges(role_id, privilege_id) values(1, 71);
 
-insert into privilege(id, name) values (127, 'readExchangeLists');
-insert into privilege(id, name) values (128, 'createExchangeList');
-insert into privilege(id, name) values (129, 'removeExchangeList');
-insert into privilege(id, name) values (130, 'editExchangeList');
-insert into privilege(id, name) values (131, 'searchExchangeLists');
+insert into privilege(id, name) values (72, 'loginUser');
+insert into privilege(id, name) values (73, 'registerUser');
+insert into privilege(id, name) values (74, 'logoutUser');
 
-insert into roles_privileges(role_id, privilege_id) values(1, 127);
-insert into roles_privileges(role_id, privilege_id) values(1, 128);
-insert into roles_privileges(role_id, privilege_id) values(1, 129);
-insert into roles_privileges(role_id, privilege_id) values(1, 130);
-insert into roles_privileges(role_id, privilege_id) values(1, 131);
+insert into roles_privileges(role_id, privilege_id) values(1, 72);
+insert into roles_privileges(role_id, privilege_id) values(1, 73);
+insert into roles_privileges(role_id, privilege_id) values(1, 74);
 
-insert into privilege(id, name) values (132, 'createDailyAccountStatus');
-insert into privilege(id, name) values (133, 'getDailyAccountStatuses');
-insert into privilege(id, name) values (134, 'readDailyAccountStatus');
-insert into privilege(id, name) values (135, 'updateDailyAccount');
-insert into privilege(id, name) values (136, 'removeDailyAccount');
-insert into privilege(id, name) values (137, 'searchDailyAccounts');
+insert into privilege(id, name) values (75, 'readExchangeLists');
+insert into privilege(id, name) values (76, 'createExchangeList');
+insert into privilege(id, name) values (77, 'removeExchangeList');
+insert into privilege(id, name) values (78, 'editExchangeList');
+insert into privilege(id, name) values (79, 'searchExchangeLists');
 
-insert into roles_privileges(role_id, privilege_id) values(1, 132);
-insert into roles_privileges(role_id, privilege_id) values(1, 133);
-insert into roles_privileges(role_id, privilege_id) values(1, 134);
-insert into roles_privileges(role_id, privilege_id) values(1, 135);
-insert into roles_privileges(role_id, privilege_id) values(1, 136);
-insert into roles_privileges(role_id, privilege_id) values(1, 137);
+insert into roles_privileges(role_id, privilege_id) values(1, 75);
+insert into roles_privileges(role_id, privilege_id) values(1, 76);
+insert into roles_privileges(role_id, privilege_id) values(1, 77);
+insert into roles_privileges(role_id, privilege_id) values(1, 78);
+insert into roles_privileges(role_id, privilege_id) values(1, 79);
+
+insert into privilege(id, name) values (80, 'createDailyAccountStatus');
+insert into privilege(id, name) values (81, 'getDailyAccountStatuses');
+insert into privilege(id, name) values (82, 'readDailyAccountStatus');
+insert into privilege(id, name) values (83, 'updateDailyAccount');
+insert into privilege(id, name) values (84, 'removeDailyAccount');
+insert into privilege(id, name) values (85, 'searchDailyAccounts');
+
+insert into roles_privileges(role_id, privilege_id) values(1, 80);
+insert into roles_privileges(role_id, privilege_id) values(1, 81);
+insert into roles_privileges(role_id, privilege_id) values(1, 82);
+insert into roles_privileges(role_id, privilege_id) values(1, 83);
+insert into roles_privileges(role_id, privilege_id) values(1, 84);
+insert into roles_privileges(role_id, privilege_id) values(1, 85);
 
 
 

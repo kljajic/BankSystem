@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.service.CurrencyExchangeServiceImpl;
 import com.model.CurrencyExchange;
+import com.model.user.Permission;
 
 @RequestMapping("/currencyExchange")
 @RestController
@@ -24,6 +25,7 @@ public class CurrencyExchangeController {
 	
 	@RequestMapping(path="/getAllCurrencyExchanges", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
+	@Permission(permissionName = "readCurrencyExchanges")
 	public ArrayList<CurrencyExchange> getAll(){
 		ArrayList<CurrencyExchange> ce = currencyExchangeServiceImpl.getAll();
 		return ce;
@@ -31,6 +33,7 @@ public class CurrencyExchangeController {
 	
 	@RequestMapping(path="/addNewCE", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
+	@Permission(permissionName = "writeCurrencyExchange")
 	public CurrencyExchange addNewCE(@RequestBody CurrencyExchange ce){
 		currencyExchangeServiceImpl.save(ce);
 		return ce;
@@ -38,6 +41,7 @@ public class CurrencyExchangeController {
 	
 	@RequestMapping(path="/deleteCE", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
+	@Permission(permissionName = "deleteCurrencyExchange")
 	public CurrencyExchange deleteCE(@RequestBody CurrencyExchange ce){
 		currencyExchangeServiceImpl.removeCurrencyExchange(ce.getId());
 		return ce;
@@ -46,6 +50,7 @@ public class CurrencyExchangeController {
 	@RequestMapping(path="/editCE", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Transactional
 	@ResponseBody
+	@Permission(permissionName = "editCurrencyExchange")
 	public CurrencyExchange editCE(@RequestBody CurrencyExchange ce){
 		currencyExchangeServiceImpl.updateCurrencyExchange(ce.getId(), ce.getBuyRate(), ce.getMiddleRate(), ce.getSellRate(), ce.getExchangeList().getId(), ce.getPrimaryCurrency().getId(), ce.getAccordingToCurrency().getId());
 		return ce;
@@ -54,6 +59,7 @@ public class CurrencyExchangeController {
 	//sacekati front, @pogledati CurrencyExchangeRepository
 	@RequestMapping(path="/searchCE/{buyRate}/{middleRate}/{sellRate}/{exchangeList}/{primaryCurrency}/{accordingToCurrency}", method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
+	@Permission(permissionName = "searchCurrencyExchange")
 	public ArrayList<CurrencyExchange> searchCE(@PathVariable ("buyRate") Double buyRate, @PathVariable ("middleRate") Double middleRate, @PathVariable ("sellRate") Double sellRate, @PathVariable ("exchangeList") int exchangeList, @PathVariable ("primaryCurrency") String primaryCurrency, @PathVariable ("accordingToCurrency") String accordingToCurrency){
 		
 		if(buyRate == -1){

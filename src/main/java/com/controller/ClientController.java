@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.model.user.Client;
+import com.model.user.Permission;
 import com.service.ClientService;
 
 @RestController
@@ -22,7 +23,8 @@ public class ClientController {
 	
 	@GetMapping
 	@ResponseBody
-	public ResponseEntity<Collection<Client>> getAllAccounts(){
+	@Permission(permissionName = "readClients")
+	public ResponseEntity<Collection<Client>> getAllClients(){
 		Collection<Client> clients = clientService.getAllClients();
 		if(clients != null){
 			return  new ResponseEntity<Collection<Client>>(clients, HttpStatus.OK);

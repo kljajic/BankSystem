@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.model.City;
+import com.model.user.Permission;
 import com.service.CityService;
 
 import io.swagger.annotations.Api;
@@ -35,6 +36,7 @@ public class CityController {
 	
 	@PostMapping("/add/{countryId}")
 	@ResponseBody
+	@Permission(permissionName = "writeCity")
 	@ApiOperation(value = "Add a city.", notes = "Add a single city.", response = City.class)
 	public City createCity(@RequestBody @Valid City city, @PathVariable("countryId") Long countryId){
 		return cityService.createCity(countryId, city);
@@ -42,6 +44,7 @@ public class CityController {
 	
 	@GetMapping("/getCities")
 	@ResponseBody
+	@Permission(permissionName = "readCities")
 	@ApiOperation(value = "Get all cities.", notes = "Get all cities.", response = Collection.class)
 	public Collection<City> getCities(){
 		return cityService.getCities();
@@ -49,6 +52,7 @@ public class CityController {
 	
 	@GetMapping("/{id}")
 	@ResponseBody
+	@Permission(permissionName = "readCity")
 	@ApiOperation(value = "Get a city.", notes = "Get a city with given id.", response = City.class)
 	public City getCity(@PathVariable("id") Long id){
 		return cityService.getCity(id);
@@ -56,12 +60,14 @@ public class CityController {
 	
 	@PutMapping("/update/{countryId}")
 	@ResponseBody
+	@Permission(permissionName = "editCity")
 	@ApiOperation(value = "Update a city.", notes = "Update a single city.", response = City.class)
 	public City updateCity(@RequestBody @Valid City city, @PathVariable("countryId") Long countryId){
 		return cityService.updateCity(countryId, city);
 	}
 	
 	@DeleteMapping("/delete/{id}")
+	@Permission(permissionName = "deleteCity")
 	@ApiOperation(value = "Delete a city.", notes = "Delete a city with given id.")
 	public void deleteCity(@PathVariable("id") Long id){
 		cityService.deleteCity(id);
@@ -69,6 +75,7 @@ public class CityController {
 	
 	@PostMapping("/search")
 	@ResponseBody
+	@Permission(permissionName = "searchCities")
 	@ApiOperation(value = "Search cities.", notes = "Search cities by given fields.", response = Collection.class)
 	public Collection<City> searchCities(@RequestBody City city){
 		return cityService.searchCities(city);

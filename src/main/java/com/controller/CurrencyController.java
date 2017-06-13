@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.model.Currency;
+import com.model.user.Permission;
 import com.service.CurrencyServiceImpl;
 
 @RequestMapping("/currencies")
@@ -24,6 +25,7 @@ public class CurrencyController {
 	
 	@RequestMapping(path="/getAllCurrencies", method=RequestMethod.GET)
 	@ResponseBody
+	@Permission(permissionName = "readCurrencies")
 	public ArrayList<Currency> getAll(){
 		ArrayList<Currency> c = currencyServiceImpl.getAll();
 		return c;
@@ -31,6 +33,7 @@ public class CurrencyController {
 	
 	@RequestMapping(path="/addNewCurrency", method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
+	@Permission(permissionName = "writeCurrency")
 	public Currency addNewCurrency(@RequestBody Currency currency){
 		currencyServiceImpl.save(currency);
 		return currency;
@@ -38,6 +41,7 @@ public class CurrencyController {
 	
 	@RequestMapping(path="/deleteCurrency", method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
+	@Permission(permissionName = "deleteCurrency")
 	public Currency deleteCurrency(@RequestBody Currency currency){
 		currencyServiceImpl.removeCurrency(currency.getId());
 		return currency;
@@ -46,6 +50,7 @@ public class CurrencyController {
 	@RequestMapping(path="/editCurrency", method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	@Transactional
+	@Permission(permissionName = "editCurrency")
 	public Currency editCurrency(@RequestBody Currency c){
 		currencyServiceImpl.updateCurrency(c.getId(), c.getName(), c.getOfficialCode(), c.getCountry().getId(), c.isDomicilna());
 		return c;
@@ -53,6 +58,7 @@ public class CurrencyController {
 	
 	@RequestMapping(path="/searchCurrencies/{officialCode}/{name}/{countryName}/{domicilna}", method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
+	@Permission(permissionName = "searchCurrencies")
 	public ArrayList<Currency> searchCurrencies(@PathVariable ("officialCode") String officialCode, @PathVariable ("name") String name, @PathVariable("countryName") String countryName, @PathVariable("domicilna") boolean domicilna){
 		
 		if(name.equals("AHA"))
