@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.model.user.Permission;
 import com.model.user.User;
 import com.service.UserService;
 
@@ -27,18 +28,21 @@ public class UserController {
 	
 	@GetMapping("/{userId}")
 	@ResponseBody
+	@Permission(permissionName = "readUser")
 	public User getUser(@PathVariable("userId") Long userId){
 		return userService.getUser(userId);
 	}
 	
 	@GetMapping
 	@ResponseBody
+	@Permission(permissionName = "readUsers")
 	public Collection<User> getAllUsers(){
 		return userService.getAllUsers();
 	}
 	
 	@PostMapping("addRoleToUser/{userId}/{roleId}")
 	@ResponseBody
+	@Permission(permissionName = "addRoleToUser")
 	public User addRoleToUser(@PathVariable("userId") Long userId,
 							  @PathVariable("roleId") Long roleId){
 		return userService.addRoleToUser(userId, roleId);
@@ -46,6 +50,7 @@ public class UserController {
 	
 	@DeleteMapping("removeRoleToUser/{userId}/{roleId}")
 	@ResponseBody
+	@Permission(permissionName = "removeRoleFromUser")
 	public User removeRoleFromUser(@PathVariable("userId") Long userId,
 							  @PathVariable("roleId") Long roleId){
 		return userService.removeRoleFromUser(userId, roleId);

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.model.DailyAccountStatus;
+import com.model.user.Permission;
 import com.service.DailyAccountStatusService;
 
 import io.swagger.annotations.Api;
@@ -38,6 +39,7 @@ public class DailyAccountStatusController {
 	@PostMapping("/add/{accountId}/{date}")
 	@ResponseBody
 	@ApiOperation(value = "Add a daily account status.", notes = "Add a single daily account status.", response = DailyAccountStatus.class)
+	@Permission(permissionName = "createDailyAccountStatus")
 	public DailyAccountStatus createDailyAccountStatus(@RequestBody @Valid DailyAccountStatus dailyAccountStatus,
 							@PathVariable("accountId") Long accountId, @PathVariable("date") Date date) {
 		return dailyAccountStatusService.createDailyAccountStatus(accountId, dailyAccountStatus, date);
@@ -46,6 +48,7 @@ public class DailyAccountStatusController {
 	@GetMapping
 	@ResponseBody
 	@ApiOperation(value = "Get daily account statuses.", notes = "Get all daily account statuses.", response = Collection.class)
+	@Permission(permissionName = "readDailyAccountStatuses")
 	public Collection<DailyAccountStatus> getDailyAccountStatuses() throws ParseException{
 		return dailyAccountStatusService.getDailyAccountStatuses();
 	}
@@ -53,6 +56,7 @@ public class DailyAccountStatusController {
 	@GetMapping("/{id}")
 	@ResponseBody
 	@ApiOperation(value = "Get daily account status.", notes = "Get single daily account status.", response = DailyAccountStatus.class)
+	@Permission(permissionName = "readDailyAccountStatus")
 	public DailyAccountStatus getDailyAccountStatus(@PathVariable("id") Long id){
 		return dailyAccountStatusService.getDailyAccountStatus(id);
 	}
@@ -61,6 +65,7 @@ public class DailyAccountStatusController {
 	@ResponseBody
 	@ApiOperation(value = "Update a daily account status.",
 				notes = "Update a single daily account status.", response = DailyAccountStatus.class)
+	@Permission(permissionName = "updateDailyAccount")
 	public DailyAccountStatus updateDailyAccountStatus(@RequestBody @Valid DailyAccountStatus dailyAccountStatus,
 								@PathVariable("accountId") Long accountId, @PathVariable("date") Date date) {
 		return dailyAccountStatusService.updateDailyAccountStatus(accountId, dailyAccountStatus, date);
@@ -68,6 +73,7 @@ public class DailyAccountStatusController {
 	
 	@DeleteMapping("/delete/{id}")
 	@ApiOperation(value = "Delete a daily account status.", notes = "Delete a daily account status with given id.")
+	@Permission(permissionName = "removeDailyAccount")
 	public void deleteDailyAccountStatus(@PathVariable("id") Long id){
 		dailyAccountStatusService.deleteDailyAccountStatus(id);
 	}
@@ -76,6 +82,7 @@ public class DailyAccountStatusController {
 	@ResponseBody
 	@ApiOperation(value = "Search daily account statuses.",
 				notes = "Search daily account statuses by fiven fields.", response = DailyAccountStatus.class)
+	@Permission(permissionName = "searchDailyAccounts")
 	public Collection<DailyAccountStatus> searchDailyAccountStatuses(@RequestBody DailyAccountStatus dailyAccountStatus,
 			@PathVariable("accountId") Long accountId, @PathVariable("date") Date date){
 		return dailyAccountStatusService.searchDailyAccountStatuses(accountId, dailyAccountStatus, date);

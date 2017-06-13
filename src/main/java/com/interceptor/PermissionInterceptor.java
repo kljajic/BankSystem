@@ -24,6 +24,9 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
 		Method method = (Method) handlerMethod.getMethod();
 		if (method.isAnnotationPresent(Permission.class)) {
 			String permission = method.getAnnotation(Permission.class).permissionName();
+			//
+			System.out.println(SecurityContextHolder.getContext().getAuthentication().getCredentials());
+			//[ROLE_ANONYMOUS]
 			if (SecurityContextHolder.getContext().getAuthentication().getCredentials() != null) {
 				System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
 				for (GrantedAuthority sga : SecurityContextHolder.getContext().getAuthentication().getAuthorities()) {

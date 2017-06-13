@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.model.PaymentType;
+import com.model.user.Permission;
 import com.service.PaymentTypeService;
 
 import io.swagger.annotations.Api;
@@ -36,6 +37,7 @@ public class PaymentTypeController {
 	@PostMapping("/add")
 	@ResponseBody
 	@ApiOperation(value = "Add a peyment type.", notes = "Add a single payment type.", response = PaymentType.class)
+	@Permission(permissionName = "writePaymentType")
 	public PaymentType createPaymentType(@RequestBody @Valid PaymentType paymentType){
 		return paymentTypeService.createPaymentType(paymentType);
 	}
@@ -43,6 +45,7 @@ public class PaymentTypeController {
 	@GetMapping
 	@ResponseBody
 	@ApiOperation(value = "Get all payment types.", notes = "Get all payment types.", response = Collection.class)
+	@Permission(permissionName = "readPaymentTypes")
 	public Collection<PaymentType> getPaymentTypes(){
 		return paymentTypeService.getPaymentTypes();
 	}
@@ -50,6 +53,7 @@ public class PaymentTypeController {
 	@GetMapping("/{id}")
 	@ResponseBody
 	@ApiOperation(value = "Get a payment type.", notes = "Get a payment type with given id.", response = PaymentType.class)
+	@Permission(permissionName = "readPaymentType")
 	public PaymentType getPaymentType(@PathVariable("id") Long id){
 		return paymentTypeService.getPaymentType(id);
 	}
@@ -57,12 +61,14 @@ public class PaymentTypeController {
 	@PutMapping("/update")
 	@ResponseBody
 	@ApiOperation(value = "Update a payment type.", notes = "Update a single payment type.", response = PaymentType.class)
+	@Permission(permissionName = "updatePaymentType")
 	public PaymentType updatePaymentType(@RequestBody @Valid PaymentType paymentType){
 		return paymentTypeService.updatePaymentType(paymentType);
 	}
 	
 	@DeleteMapping("/delete/{id}")
 	@ApiOperation(value = "Delete a payment type.", notes = "Delete a payment type with given id.")
+	@Permission(permissionName = "removePaymentType")
 	public void deletePaymentType(@PathVariable("id") Long id){
 		paymentTypeService.deletePaymentType(id);
 	}
@@ -70,6 +76,7 @@ public class PaymentTypeController {
 	@PostMapping("/search")
 	@ResponseBody
 	@ApiOperation(value = "Search a payment types.", notes = "Search a payment types by given field.", response = Collection.class)
+	@Permission(permissionName = "searchPaymentTypes")
 	public Collection<PaymentType> searchPaymentTypes(@RequestBody PaymentType paymentType){
 		return paymentTypeService.searchPaymentTypes(paymentType);
 	}

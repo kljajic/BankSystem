@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.model.RevokedAccount;
+import com.model.user.Permission;
 import com.service.RevokedAccountServiceImpl;
 
 @RestController
@@ -24,6 +25,7 @@ public class RevokedAccountController {
 	@RequestMapping (method=RequestMethod.GET,
 					 produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
+	@Permission(permissionName = "readAllRevertedAccounts")
 	public ResponseEntity<ArrayList<RevokedAccount>> getAllRevertedAccounts(){
 		ArrayList<RevokedAccount> revokedAccounts = revokedAccountService.getAllRevokedAccounts();
 		if(revokedAccounts != null){
@@ -37,6 +39,7 @@ public class RevokedAccountController {
 					method=RequestMethod.DELETE,
 					produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
+	@Permission(permissionName = "removeRevokedAccount")
 	public ResponseEntity<RevokedAccount> deleteRevokedAccount(@PathVariable("id") Long id){
 		RevokedAccount revokedAccount = revokedAccountService.deleteRevokedAccount(id);
 		if(revokedAccount != null){

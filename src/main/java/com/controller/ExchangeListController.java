@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.model.ExchangeList;
+import com.model.user.Permission;
 import com.service.ExchangeListServiceImpl;
 
 @RequestMapping("/exchangeListController")
@@ -25,6 +26,7 @@ public class ExchangeListController {
 	
 	@RequestMapping(path="/getAllExchangeLists", method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
+	@Permission(permissionName = "readExchangeLists")
 	public ArrayList<ExchangeList> getAll(){
 		ArrayList<ExchangeList> el = exchangeListServiceImpl.getAll();
 		return el;
@@ -32,6 +34,7 @@ public class ExchangeListController {
 	
 	@RequestMapping(path="/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
+	@Permission(permissionName = "createExchangeList")
 	public ExchangeList addNewEL(@RequestBody ExchangeList el){
 		exchangeListServiceImpl.save(el);
 		return el;
@@ -39,6 +42,7 @@ public class ExchangeListController {
 	
 	@RequestMapping(path="/delete", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
+	@Permission(permissionName = "removeExchangeList")
 	public ExchangeList deleteEL(@RequestBody ExchangeList el){
 		exchangeListServiceImpl.removeExchangeList(el.getId());
 		return el;
@@ -46,12 +50,14 @@ public class ExchangeListController {
 	
 	@RequestMapping(path="/edit", method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
+	@Permission(permissionName = "editExchangeList")
 	public ExchangeList editEL(@RequestBody ExchangeList el){
 		exchangeListServiceImpl.editExchangeList(el);
 		return el;
 	}
 	
 	@RequestMapping(path="/search/", method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@Permission(permissionName = "searchExchangeLists")
 	public Collection<ExchangeList> search(@RequestBody ExchangeList el){
 		int elNumberMin = 0; int elNumberMax = 2147483647;
 		if(el.getNumberOfExchangeList() != -1){
