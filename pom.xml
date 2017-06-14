@@ -146,6 +146,8 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+
+<!--  
 			<plugin>
 				<groupId>org.jvnet.jaxb2.maven2</groupId>
 				<artifactId>maven-jaxb2-plugin</artifactId>
@@ -159,38 +161,21 @@
 				</executions>
 				<configuration>
 					<schemaLanguage>WSDL</schemaLanguage>
-					<generatePackage>com.centralbank.wsdl</generatePackage>
+					<generatePackage>com.bank.wsdl</generatePackage>
 					<schemas>
 						<schema>
-							<url>http://localhost:8090/ws/centralBankRtgsService.wsdl</url>
-						</schema>
-					</schemas>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.jvnet.jaxb2.maven2</groupId>
-				<artifactId>maven-jaxb2-plugin</artifactId>
-				<version>0.13.1</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<schemaLanguage>WSDL</schemaLanguage>
-					<generatePackage>hello.wsdl</generatePackage>
-					<schemas>
-						<schema>
-							<url>http://localhost:8090/ws/centralBankRtgsService.wsdl</url>
+							<url>http://localhost:8090/ws/centralBankRtgsRequestService.wsdl</url>
 						</schema>
 						<schema>
 							<url>http://localhost:8090/ws/centralBankRtgsResponseService.wsdl</url>
 						</schema>
+						<schema>
+							<url>http://localhost:8090/ws/centralBankClearingService.wsdl</url>
+						</schema>
 					</schemas>
 				</configuration>
-			</plugin>
+			</plugin> 
+
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>jaxws-maven-plugin</artifactId>
@@ -209,7 +194,7 @@
 					</execution>
 				</executions>
 			</plugin>
-
+-->
 		</plugins>
 	</build>
 </project>
