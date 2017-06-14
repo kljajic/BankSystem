@@ -9,22 +9,26 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Set;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.oxm.XmlMappingException;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import com.bank.wsdl.Mt103Request;
+import com.bank.wsdl.Mt900Response;
 import com.model.AnalyticalStatement;
 import com.model.Bank;
 import com.model.xml.ClearingSettlementRequest;
 import com.model.xml.RTGSRequest;
 import com.repository.BankRepository;
 import com.repository.CurrencyExchangeRepository;
+import com.webservice.client.CentralBankClient;
 
 
 @Service
@@ -37,6 +41,9 @@ public class InterBankServiceImpl implements InterBankService {
 	private CurrencyExchangeRepository currencyExchangeRepository;
 	
 	private ArrayList<ClearingSettlementRequest> clearingSettlementRequests = new ArrayList<>();
+	
+	@Autowired
+	private ApplicationContext con;
 	
 	@Override
 	public void generateRTGSService(AnalyticalStatement as) {
@@ -57,6 +64,20 @@ public class InterBankServiceImpl implements InterBankService {
 
 			System.out.println("[INFO] Marshalling...");
             OutputStream os;
+			CentralBankClient cbc = (CentralBankClient) con.getBean(CentralBankClient.class);
+			Mt900Response mt;
+			try {
+				mt = cbc.getRtgsResponse(new Mt103Request());
+				System.out.println(mt.getAmount());
+			} catch (XmlMappingException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+            
+            
 			try {
 				os = new FileOutputStream("MT103.xml");
 				marshaller.marshal(req, os);

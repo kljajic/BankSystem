@@ -26,7 +26,6 @@ public class LoginController {
 	}
 	
 	@PostMapping("/login")
-	@Permission(permissionName = "loginUser")
 	public void loginUser(@RequestBody User user){
 		securityService.loginUser(user.getEmail(), user.getPassword());
 	}
@@ -38,7 +37,6 @@ public class LoginController {
 	}
 	
 	@GetMapping("/logout")
-	@Permission(permissionName = "logoutUser")
 	public void logoutUser(){
 		securityService.logoutUser();
 	}
