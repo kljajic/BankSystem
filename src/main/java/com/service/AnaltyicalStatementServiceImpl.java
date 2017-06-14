@@ -312,15 +312,16 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 		clone.setApprovalModel(as.getApprovalModel());
 		clone.setCurrency(as.getCurrency());
 		clone.setCurrencyDate(as.getCurrencyDate());
-		clone.setDebitAuthorizationNumber(clone.getDebitAuthorizationNumber());
+		clone.setDebitAuthorizationNumber(as.getDebitAuthorizationNumber());
 		clone.setErrorType(as.getErrorType());
 		clone.setModel(as.getModel());
 		clone.setOriginator(as.getOriginator());
 		clone.setOriginatorAccount(as.getOriginatorAccount());
 		clone.setPaymentType(as.getPaymentType());
 		clone.setPlaceOfAcceptance(as.getPlaceOfAcceptance());
-		clone.setPlaceOfAcceptance(as.getPlaceOfAcceptance());
+		clone.setPaymentType(as.getPaymentType());
 		clone.setPurpose(as.getPurpose());
+		clone.setDateOfReceipt(as.getDateOfReceipt());
 		clone.setRecipient(as.getRecipient());
 		clone.setRecipientAccount(as.getRecipientAccount());
 		clone.setUrgently(as.isUrgently());

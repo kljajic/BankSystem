@@ -293,7 +293,7 @@ insert into roles_privileges(role_id, privilege_id) values(1, 78);
 insert into roles_privileges(role_id, privilege_id) values(1, 79);
 
 insert into privilege(id, name) values (80, 'createDailyAccountStatus');
-insert into privilege(id, name) values (81, 'getDailyAccountStatuses');
+insert into privilege(id, name) values (81, 'readDailyAccountStatuses');
 insert into privilege(id, name) values (82, 'readDailyAccountStatus');
 insert into privilege(id, name) values (83, 'updateDailyAccount');
 insert into privilege(id, name) values (84, 'removeDailyAccount');
