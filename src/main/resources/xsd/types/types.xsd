@@ -1,0 +1,135 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsT="http://com/xsdSchemas/types" targetNamespace="http://com/xsdSchemas/types"
+	elementFormDefault="qualified">
+	<xs:simpleType name="str255">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"></xs:minLength>
+			<xs:maxLength value="255"></xs:maxLength>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="str120">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"></xs:minLength>
+			<xs:maxLength value="120"></xs:maxLength>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="str50num">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="([0-9])*"></xs:pattern>
+			<xs:minLength value="1"></xs:minLength>
+			<xs:maxLength value="50"></xs:maxLength>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="str20num">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="([0-9]){20}"></xs:pattern>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="str11pib">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="([0-9])*"></xs:pattern>
+			<xs:minLength value="11"></xs:minLength>
+			<xs:maxLength value="11"></xs:maxLength>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="str3currency">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[a-zA-Z][a-zA-Z][a-zA-Z]" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="accountNumber">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{18}" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="str6">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"></xs:minLength>
+			<xs:maxLength value="6"></xs:maxLength>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="swift">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="([0-9])*"></xs:pattern>
+			<xs:minLength value="1"></xs:minLength>
+			<xs:maxLength value="8"></xs:maxLength>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="char">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[a-zA-Z]"></xs:pattern>
+			<xs:length value="1"></xs:length>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	
+
+
+
+	<xs:simpleType name="ordinate3">
+		<xs:restriction base="xs:short">
+			<xs:totalDigits value="3"></xs:totalDigits>
+			<xs:minInclusive value="1"></xs:minInclusive>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="ordinate2">
+		<xs:restriction base="xs:short">
+			<xs:totalDigits value="2"></xs:totalDigits>
+			<xs:minInclusive value="1"></xs:minInclusive>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="num6">
+		<xs:restriction base="xs:integer">
+		<xs:minInclusive value="0"></xs:minInclusive>
+		<xs:totalDigits value="6"></xs:totalDigits>
+		</xs:restriction>
+	</xs:simpleType>
+
+
+
+
+
+
+	<xs:simpleType name="dec15_2">
+		<xs:restriction base="xs:decimal">
+			<xs:minInclusive value="0"></xs:minInclusive>
+			<xs:fractionDigits value="2"></xs:fractionDigits>
+			<xs:totalDigits value="17"></xs:totalDigits>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="dec12_2">
+		<xs:restriction base="xs:decimal">
+			<xs:minInclusive value="0"></xs:minInclusive>
+			<xs:fractionDigits value="2"></xs:fractionDigits>
+			<xs:totalDigits value="14"></xs:totalDigits>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="dec10_2">
+		<xs:restriction base="xs:decimal">
+			<xs:minInclusive value="0"></xs:minInclusive>
+			<xs:fractionDigits value="2"></xs:fractionDigits>
+			<xs:totalDigits value="12"></xs:totalDigits>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="dec5_2">
+		<xs:restriction base="xs:decimal">
+			<xs:minInclusive value="0"></xs:minInclusive>
+			<xs:fractionDigits value="2"></xs:fractionDigits>
+			<xs:totalDigits value="7"></xs:totalDigits>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

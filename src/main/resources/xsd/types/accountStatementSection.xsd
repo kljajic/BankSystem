@@ -1,0 +1,25 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsT="http://com/xsdSchemas/types" xmlns:xsASSI="http://com/xsdSchemas/accountStatementSectionItem"
+	elementFormDefault="qualified" targetNamespace="http://com/xsdSchemas/accountStatementSection">
+	<xs:import namespace="http://com/xsdSchemas/types"
+		schemaLocation="types.xsd" />
+	<xs:import namespace="http://com/xsdSchemas/accountStatementSectionItem"
+		schemaLocation="accountStatementSectionItem.xsd" />
+	<xs:element name="accountStatementSectionResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="accountNumber" type="xsT:accountNumber"></xs:element>
+				<xs:element name="requestDate" type="xs:date"></xs:element>
+				<xs:element name="sectionOrdinate" type="xsT:ordinate2"></xs:element>
+				<xs:element name="previousBalance" type="xsT:dec15_2"></xs:element>
+				<xs:element name="numberOfChangesProfit" type="xsT:num6"></xs:element>
+				<xs:element name="totalProfit" type="xsT:dec15_2"></xs:element>
+				<xs:element name="numberOfChangesDue" type="xsT:num6"></xs:element>
+				<xs:element name="totalDue" type="xsT:dec15_2"></xs:element>
+				<xs:element name="currentBalance" type="xsT:dec15_2"></xs:element>
+				<xs:element minOccurs="1" maxOccurs="unbounded"
+					name="accountStatementSectionItems" type="xsASSI:accountStatementSectionItem"></xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

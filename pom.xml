@@ -95,40 +95,48 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-    		<groupId>net.sf.jasperreports</groupId>
-   			<artifactId>jasperreports</artifactId>
-    		<version>5.5.0</version>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<version>5.5.0</version>
 		</dependency>
 		<dependency>
-    		<groupId>commons-logging</groupId>
-    		<artifactId>commons-logging</artifactId>
-    		<version>1.1.1</version>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.1.1</version>
 		</dependency>
 		<dependency>
-   		 	<groupId>commons-beanutils</groupId>
-    		<artifactId>commons-beanutils</artifactId>
-    		<version>1.8.2</version>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+			<version>1.8.2</version>
 		</dependency>
 		<dependency>
-   			 <groupId>commons-collections</groupId>
-    		 <artifactId>commons-collections</artifactId>
-   		 <version>3.2.1</version>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+			<version>3.2.1</version>
 		</dependency>
 		<dependency>
-   		 	<groupId>commons-digester</groupId>
-   		 	<artifactId>commons-digester</artifactId>
-   		 	<version>2.1</version>
+			<groupId>commons-digester</groupId>
+			<artifactId>commons-digester</artifactId>
+			<version>2.1</version>
 		</dependency>
 		<dependency>
-		    <groupId>javax.servlet</groupId>
-		    <artifactId>servlet-api</artifactId>
-		    <version>2.5</version>
-		    <scope>provided</scope>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>momentjs</artifactId>
 			<version>2.10.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web-services</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>wsdl4j</groupId>
+			<artifactId>wsdl4j</artifactId>
 		</dependency>
 	</dependencies>
 
@@ -141,69 +149,85 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>jaxb2-maven-plugin</artifactId>
-				<version>2.2</version>
+				<version>1.6</version>
 				<executions>
 					<execution>
-						<id>schemagen</id>
+						<id>xjc</id>
 						<goals>
-							<goal>schemagen</goal>
+							<goal>xjc</goal>
 						</goals>
 					</execution>
 				</executions>
 				<configuration>
-					<sources>
-						<source>src/main/java/com/model</source>
-					</sources>
-					<transformSchemas>
-						<transformSchema>
-							<uri>http://com/model/account</uri>
-							<toFile>account.xsd</toFile>
-						</transformSchema>
-						<transformSchema>
-							<uri>http://com/model/statement</uri>
-							<toFile>statement.xsd</toFile>
-						</transformSchema>
-						<transformSchema>
-							<uri>http://com/model/currency</uri>
-							<toFile>currency.xsd</toFile>
-						</transformSchema>
-						<transformSchema>
-							<uri>http://com/model/dailyAccountStatus</uri>
-							<toFile>dailyAccountStatus.xsd</toFile>
-						</transformSchema>
-						<transformSchema>
-							<uri>http://com/model/clearingAndSettlement</uri>
-							<toFile>clearingAndSettlement.xsd</toFile>
-						</transformSchema>
-						<transformSchema>
-							<uri>http://com/model/company</uri>
-							<toFile>company.xsd</toFile>
-						</transformSchema>
-						<transformSchema>
-							<uri>http://com/model/invoice</uri>
-							<toFile>invoice.xsd</toFile>
-						</transformSchema>
-						<transformSchema>
-							<uri>http://com/model/invoiceItem</uri>
-							<toFile>invoiceItem.xsd</toFile>
-						</transformSchema>
-						<transformSchema>
-							<uri>http://com/model/rtgsRequest</uri>
-							<toFile>rtgsRequest.xsd</toFile>
-						</transformSchema>
-						<transformSchema>
-							<uri>http://com/model/rtgsResponse</uri>
-							<toFile>rtgsResponse.xsd</toFile>
-						</transformSchema>
-						<transformSchema>
-							<uri>http://com/model/bank</uri>
-							<toFile>bank.xsd</toFile>
-						</transformSchema>
-					</transformSchemas>
+					<schemaDirectory>${project.basedir}/src/main/resources/xsd/types</schemaDirectory>
+					<outputDirectory>${project.basedir}/src/main/java</outputDirectory>
+					<clearOutputDir>false</clearOutputDir>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.jvnet.jaxb2.maven2</groupId>
+				<artifactId>maven-jaxb2-plugin</artifactId>
+				<version>0.13.1</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<schemaLanguage>WSDL</schemaLanguage>
+					<generatePackage>com.centralbank.wsdl</generatePackage>
+					<schemas>
+						<schema>
+							<url>http://localhost:8090/ws/centralBankRtgsService.wsdl</url>
+						</schema>
+					</schemas>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.jvnet.jaxb2.maven2</groupId>
+				<artifactId>maven-jaxb2-plugin</artifactId>
+				<version>0.13.1</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<schemaLanguage>WSDL</schemaLanguage>
+					<generatePackage>hello.wsdl</generatePackage>
+					<schemas>
+						<schema>
+							<url>http://localhost:8090/ws/centralBankRtgsService.wsdl</url>
+						</schema>
+						<schema>
+							<url>http://localhost:8090/ws/centralBankRtgsResponseService.wsdl</url>
+						</schema>
+					</schemas>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>jaxws-maven-plugin</artifactId>
+				<version>1.12</version>
+				<configuration>
+					<wsdlDirectory>${basedir}/src/main/resources/wsdl</wsdlDirectory>
+					<packageName>com.raps.code.generate.ws</packageName>
+					<keep>true</keep>
+					<sourceDestDir>${basedir}/target/generated/src/main/java</sourceDestDir>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>wsimport</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
 		</plugins>
 	</build>
-
-
 </project>

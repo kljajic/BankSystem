@@ -272,13 +272,9 @@ insert into roles_privileges(role_id, privilege_id) values(1, 69);
 insert into roles_privileges(role_id, privilege_id) values(1, 70);
 insert into roles_privileges(role_id, privilege_id) values(1, 71);
 
-insert into privilege(id, name) values (72, 'loginUser');
 insert into privilege(id, name) values (73, 'registerUser');
-insert into privilege(id, name) values (74, 'logoutUser');
 
-insert into roles_privileges(role_id, privilege_id) values(1, 72);
 insert into roles_privileges(role_id, privilege_id) values(1, 73);
-insert into roles_privileges(role_id, privilege_id) values(1, 74);
 
 insert into privilege(id, name) values (75, 'readExchangeLists');
 insert into privilege(id, name) values (76, 'createExchangeList');

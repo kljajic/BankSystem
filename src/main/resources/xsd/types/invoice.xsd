@@ -1,0 +1,59 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsInv="http://com/xsdSchemas/invoice" targetNamespace="http://com/xsdSchemas/invoice"
+	xmlns:xsT="http://com/xsdSchemas/types" xmlns:xsInvItem="http://com/xsdSchemas/invoiceItem"
+	elementFormDefault="qualified">
+	<xs:import namespace="http://com/xsdSchemas/types"
+		schemaLocation="types.xsd" />
+	<xs:import namespace="http://com/xsdSchemas/invoiceItem"
+		schemaLocation="invoiceItem.xsd" />
+	<xs:element name="invoiceRequest">
+		<xs:complexType>
+			<xs:sequence minOccurs="1" maxOccurs="1">
+				<xs:element name="messageId" type="xsT:str50num"
+					nillable="false">
+				</xs:element>
+				<xs:element name="supplierName" type="xsT:str255"
+					nillable="false">
+				</xs:element>
+				<xs:element name="supplierAddress" type="xsT:str255"
+					nillable="false">
+				</xs:element>
+				<xs:element name="supplierPib" type="xsT:str11pib"
+					nillable="false">
+				</xs:element>
+				<xs:element name="purchaserName" type="xsT:str255"
+					nillable="false">
+				</xs:element>
+				<xs:element name="purchaserAdress" type="xsT:str255"
+					nillable="false">
+				</xs:element>
+				<xs:element name="purchaserPib" type="xsT:str11pib"
+					nillable="false">
+				</xs:element>
+				<xs:element name="billingNumber" type="xsT:num6"
+					nillable="false">
+				</xs:element>
+				<xs:element name="billingDate" type="xs:date" nillable="false"></xs:element>
+				<xs:element name="merchandiseValue" type="xsT:dec15_2"
+					nillable="false"></xs:element>
+				<xs:element name="servicesValue" type="xsT:dec15_2"
+					nillable="false"></xs:element>
+				<xs:element name="totalServiceAndMerchandiseValue" type="xsT:dec15_2"
+					nillable="false"></xs:element>
+				<xs:element name="totalDiscount" type="xsT:dec15_2"
+					nillable="false"></xs:element>
+				<xs:element name="totalTaxes" type="xsT:dec15_2"
+					nillable="false"></xs:element>
+				<xs:element name="currency" type="xsT:str3currency"
+					nillable="false"></xs:element>
+				<xs:element name="amountForPayment" type="xsT:dec15_2"
+					nillable="false"></xs:element>
+				<xs:element name="accountNumber" type="xsT:accountNumber"
+					nillable="false"></xs:element>
+				<xs:element name="currencyDate" type="xs:date" nillable="false"></xs:element>
+				<xs:element minOccurs="1" maxOccurs="unbounded" name="invoiceItems"
+					type="xsInvItem:invoiceItem"></xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

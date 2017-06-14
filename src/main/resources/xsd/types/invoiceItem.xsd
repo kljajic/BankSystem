@@ -1,0 +1,27 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsInvItem="http://com/xsdSchemas/invoiceItem" targetNamespace="http://com/xsdSchemas/invoiceItem"
+	xmlns:xsT="http://com/xsdSchemas/types" elementFormDefault="qualified">
+	<xs:import namespace="http://com/xsdSchemas/types"
+		schemaLocation="types.xsd" />
+	<xs:complexType name="invoiceItem">
+		<xs:sequence>
+			<xs:element name="ordinate" type="xsT:ordinate3"
+				nillable="false"></xs:element>
+			<xs:element name="merchandiseOrServiceName" type="xsT:str120"
+				nillable="false"></xs:element>
+			<xs:element name="amount" type="xsT:dec10_2" nillable="false"></xs:element>
+			<xs:element name="unit" type="xsT:str6" nillable="false"></xs:element>
+			<xs:element name="unitPrice" type="xsT:dec10_2"
+				nillable="false"></xs:element>
+			<xs:element name="value" type="xsT:dec12_2" nillable="false"></xs:element>
+			<xs:element name="discountPercentage" type="xsT:dec5_2"
+				nillable="false"></xs:element>
+			<xs:element name="disounctAmount" type="xsT:dec12_2"
+				nillable="false"></xs:element>
+			<xs:element name="discountTaken" type="xsT:dec12_2"
+				nillable="false"></xs:element>
+			<xs:element name="totalTaxes" type="xsT:dec12_2"
+				nillable="false"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

@@ -1,0 +1,24 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsT="http://com/xsdSchemas/types" elementFormDefault="qualified"
+	targetNamespace="http://com/xsdSchemas/accountStatementSectionItem">
+	<xs:import namespace="http://com/xsdSchemas/types"
+		schemaLocation="types.xsd" />
+	<xs:complexType name="accountStatementSectionItem">
+		<xs:sequence>
+			<xs:element name="originator" type="xsT:str255"></xs:element>
+			<xs:element name="paymentPurpose" type="xsT:str255"></xs:element>
+			<xs:element name="reciever" type="xsT:str255"></xs:element>
+			<xs:element name="statementDate" type="xs:date"></xs:element>
+			<xs:element name="currencyDate" type="xs:date"></xs:element>
+			<xs:element name="originatorAccountNumber" type="xsT:accountNumber"></xs:element>
+			<xs:element name="chargeModel" type="xsT:ordinate2"></xs:element>
+			<xs:element name="chargeDialNumber" type="xsT:str20num"></xs:element>
+			<xs:element name="recieverAccountNumber" type="xsT:accountNumber"></xs:element>
+			<xs:element name="clearanceModel" type="xsT:ordinate2"></xs:element>
+			<xs:element name="clearanceDialNumber" type="xsT:str20num"></xs:element>
+			<xs:element name="amount" type="xsT:dec15_2"></xs:element>
+			<xs:element name="currency" type="xsT:str3currency"></xs:element>
+			<xs:element name="direction" type="xsT:char"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>
