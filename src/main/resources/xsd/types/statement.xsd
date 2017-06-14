@@ -1,0 +1,36 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsT="http://com/xsdSchemas/types" elementFormDefault="qualified"
+	targetNamespace="http://com/xsdSchemas/statement">
+	<xs:import namespace="http://com/xsdSchemas/types"
+		schemaLocation="types.xsd" />
+	<xs:element name="statementRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="messageId" type="xsT:str50num"
+					nillable="false"></xs:element>
+				<xs:element name="originator" type="xsT:str255" nillable="false"></xs:element>
+				<xs:element name="paymentPurpose" type="xsT:str255"
+					nillable="false"></xs:element>
+				<xs:element name="reciever" type="xsT:str255" nillable="false"></xs:element>
+				<xs:element name="statementDate" type="xs:date" nillable="false"></xs:element>
+				<xs:element name="currencyDate" type="xs:date" nillable="false"></xs:element>
+				<xs:element name="originatorAccountNumber" type="xsT:accountNumber"
+					nillable="false"></xs:element>
+				<xs:element name="chargeModel" type="xsT:ordinate2"
+					nillable="false"></xs:element>
+				<xs:element name="chargeDialNumber" type="xsT:str20num"
+					nillable="false"></xs:element>
+				<xs:element name="recieverAccountNumber" type="xsT:accountNumber"
+					nillable="false"></xs:element>
+				<xs:element name="clearanceModel" type="xsT:ordinate2"
+					nillable="false"></xs:element>
+				<xs:element name="clearanceDialNumber" type="xsT:str20num"
+					nillable="false"></xs:element>
+				<xs:element name="amount" type="xsT:dec15_2" nillable="false"></xs:element>
+				<xs:element name="currency" type="xsT:str3currency"
+					nillable="false"></xs:element>
+				<xs:element name="emergency" type="xs:boolean" nillable="false"></xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
