@@ -18,4 +18,6 @@ public interface CurrencyService {
 
 	Currency getCurrency(Long id);
 	
+	Currency getCurrencyByOfficialCode(String officialCode);
+	
 }

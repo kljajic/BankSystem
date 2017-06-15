@@ -72,4 +72,9 @@ public class CityServiceImpl implements CityService {
 		return cityRepository.search(name, countryName, pttNumber);
 	}
 
+	@Override
+	public City getCityByName(String cityName) {
+		return this.cityRepository.getCityByName(cityName.trim().toUpperCase());
+	}
+
 }

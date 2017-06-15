@@ -30,6 +30,7 @@
 				<xs:element name="currency" type="xsT:str3currency"
 					nillable="false"></xs:element>
 				<xs:element name="emergency" type="xs:boolean" nillable="false"></xs:element>
+				<xs:element name="placeOfAcceptance" type="xsT:str120" nillable="false"></xs:element>
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>

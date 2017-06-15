@@ -49,4 +49,9 @@ public class CurrencyServiceImpl implements CurrencyService {
 		return currencyRepository.findOne(id);
 	}
 
+	@Override
+	public Currency getCurrencyByOfficialCode(String officialCode) {
+		return this.currencyRepository.getCurrencyByOfficialCode(officialCode.trim().toUpperCase());
+	}
+
 }

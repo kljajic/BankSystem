@@ -12,5 +12,6 @@ public interface CityService {
 	City updateCity(Long countryId, City city);
 	void deleteCity(Long id);
 	Collection<City> searchCities(City city);
+	City getCityByName(String cityName);
 	
 }

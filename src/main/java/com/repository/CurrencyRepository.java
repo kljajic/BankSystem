@@ -13,6 +13,9 @@ public interface CurrencyRepository extends JpaRepository<Currency, Long> {
 	@Query("select c from Currency as c")
 	public ArrayList<Currency> findAll();
 	
+	@Query("select currency from Currency currency where upper(currency.officialCode) = ?1")
+	Currency getCurrencyByOfficialCode(String officialCode);
+	
 	@Modifying
 	@Query(value="update currency c set c.name=?2, c.official_code=?3, c.country_id=?4, c.domicilna=?5 where c.id=?1", nativeQuery=true)
 	public void updateCurrency(Long id, String name, String officialCode, Long country, boolean domicilna);
