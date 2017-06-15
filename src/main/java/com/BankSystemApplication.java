@@ -55,16 +55,5 @@ public class BankSystemApplication {
 		return new BCryptPasswordEncoder();
 	}
     
-    @Bean
-   	CommandLineRunner lookup(CentralBankClient bankClient) {
-   		return args -> {
-   			String ticker = "MSFT";
 
-   			if (args.length > 0) {
-   				ticker = args[0];
-   			}
-   			Mt900Response response = bankClient.getRtgsResponse(new Mt103Request());
-   			System.out.println(response.getAmount());
-   		};
-   	}
 }

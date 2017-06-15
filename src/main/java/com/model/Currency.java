@@ -19,6 +19,7 @@ import javax.xml.bind.annotation.XmlType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.model.xml.ClearingSettlementRequest;
 
 @Entity
 @XmlAccessorType(XmlAccessType.NONE)
@@ -58,6 +59,11 @@ public class Currency {
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, targetEntity = CurrencyExchange.class, mappedBy="accordingToCurrency")
 	private Set<CurrencyExchange> accordingTocurrencyExchanges;
+	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, targetEntity = ClearingSettlementRequest.class, mappedBy="currency")
+	private Set<ClearingSettlementRequest> clearingSettlementRequests;
+	
+	
 	
 	public Country getCountry() {
 		return country;

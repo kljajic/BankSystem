@@ -32,7 +32,9 @@ import com.model.Bank;
 import com.model.xml.ClearingSettlementRequest;
 import com.model.xml.RTGSRequest;
 import com.repository.BankRepository;
+import com.repository.ClearingAndSettlementRequestRepository;
 import com.repository.CurrencyExchangeRepository;
+import com.repository.RTGSRequestRepository;
 import com.webservice.client.CentralBankClient;
 
 
@@ -48,6 +50,12 @@ public class InterBankServiceImpl implements InterBankService {
 	private ArrayList<ClearingSettlementRequest> clearingSettlementRequests = new ArrayList<>();
 	
 	@Autowired
+	private RTGSRequestRepository rtgsRequestRepository;
+	
+	@Autowired
+	private ClearingAndSettlementRequestRepository clearingAndSettlementRequestRepository;
+	
+	@Autowired
 	private ApplicationContext con;
 	
 	@Override
@@ -59,7 +67,10 @@ public class InterBankServiceImpl implements InterBankService {
 		req.setPaymentBank(paymentBank);
 		Bank receiverBank = bankRepository.findBankByLeadNumber(as.getRecipientAccount().substring(0, 3));
 		req.setRecieverBank(receiverBank);
+		req.setMessageId("MT103");
 		
+		rtgsRequestRepository.save(req);
+
 		JAXBContext context;
 		try {
 			context = JAXBContext.newInstance(RTGSRequest.class);
@@ -121,7 +132,8 @@ public class InterBankServiceImpl implements InterBankService {
 					Marshaller marshaller = context.createMarshaller();
 					
 					marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-	
+					ClearingSettlementRequest csr = clearingSettlementRequests.get(i);
+					clearingAndSettlementRequestRepository.save(csr);
 					System.out.println("[INFO] Marshalling...");
 		            OutputStream os;
 					try {

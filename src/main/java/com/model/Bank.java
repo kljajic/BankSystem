@@ -21,6 +21,8 @@ import org.hibernate.validator.constraints.Email;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.model.xml.ClearingSettlementRequest;
+import com.model.xml.RTGSRequest;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -89,6 +91,19 @@ public class Bank implements Serializable {
 	@XmlElement(name = "transactionAccount", required = true)
 	@Column(name = "BANK_TR_ACC")
 	private String transactionAccount;
+	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, targetEntity = RTGSRequest.class, mappedBy="paymentBank")
+	private Set<RTGSRequest> rtgsRequestsPaymentBank;
+	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, targetEntity = RTGSRequest.class, mappedBy="recieverBank")
+	private Set<RTGSRequest> rtgsRequestsRecieverBank;
+	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, targetEntity = ClearingSettlementRequest.class, mappedBy="paymentBank")
+	private Set<ClearingSettlementRequest> cSPaymentBank;
+	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, targetEntity = ClearingSettlementRequest.class, mappedBy="recieverBank")
+	private Set<ClearingSettlementRequest> cSRecieverBank;
+	
 
 	public String getSwift() {
 		return swift;
@@ -113,4 +128,16 @@ public class Bank implements Serializable {
 	public void setAccounts(Set<Account> accounts) {
 		this.accounts = accounts;
 	}
+
+	@JsonIgnore
+	public Set<RTGSRequest> getRtgsRequestsPaymentBank() {
+		return rtgsRequestsPaymentBank;
+	}
+
+	@JsonIgnore
+	public Set<RTGSRequest> getRtgsRequestsRecieverBank() {
+		return rtgsRequestsRecieverBank;
+	}
+	
+	
 }

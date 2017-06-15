@@ -52,6 +52,7 @@ public class AccountStatementRequest {
     @XmlElement(required = true)
     @XmlSchemaType(name = "date")
     protected XMLGregorianCalendar date;
+    @XmlElement(required = true)
     protected short sectionOrdinate;
 
     /**

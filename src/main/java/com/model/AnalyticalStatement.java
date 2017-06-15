@@ -1,14 +1,18 @@
 package com.model;
 
 import java.util.Date;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
@@ -21,6 +25,9 @@ import javax.xml.bind.annotation.XmlType;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.model.xml.ClearingSettlementRequest;
+import com.model.xml.RTGSRequest;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -176,5 +183,17 @@ public class AnalyticalStatement {
 	
 	@Enumerated(EnumType.STRING)
 	private AnalyticalStatementMode analyticalStatementMode;
+	
+	@ManyToOne(optional = true)
+	private ClearingSettlementRequest clearingSettlementRequest;
+	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, targetEntity = RTGSRequest.class, mappedBy="analyticalStatement")
+	private Set<RTGSRequest> rtgsRequests;
+
+	@JsonIgnore
+	public Set<RTGSRequest> getRtgsRequests() {
+		return rtgsRequests;
+	}
+	
 	
 }

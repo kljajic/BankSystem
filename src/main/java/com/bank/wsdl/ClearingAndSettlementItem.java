@@ -79,11 +79,13 @@ public class ClearingAndSettlementItem {
     protected XMLGregorianCalendar statementDate;
     @XmlElement(required = true)
     protected String originatorAccountNumber;
+    @XmlElement(required = true)
     protected short chargeModel;
     @XmlElement(required = true)
     protected String chargeDialNumber;
     @XmlElement(required = true)
     protected String recieverAccountNumber;
+    @XmlElement(required = true)
     protected short clearanceModel;
     @XmlElement(required = true)
     protected String clearanceDialNumber;

@@ -48,7 +48,6 @@ import javax.xml.datatype.XMLGregorianCalendar;
  * 
  * 
  */
-@Entity
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = { "messageId", "recieverBankSwiftCode", "recieverBankTransactionAccount",
 		"requestMessageId", "currencyDate", "amount", "currency" })

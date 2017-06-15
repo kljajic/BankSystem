@@ -220,8 +220,8 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 		ArrayList<AnalyticalStatement> analyticalStatements = new ArrayList<>();
 		if(analyticalStatement.getAnalyticalStatementMode() == AnalyticalStatementMode.TRANSFER){
 			if(!analyticalStatement.getOriginatorAccount().substring(0, 3).equals(analyticalStatement.getRecipientAccount().substring(0, 3))){
-				interBankService.RTGSOrClearing(analyticalStatement);
 				analyticalStatements.add(this.updateOriginatorStatus(analyticalStatement));
+				interBankService.RTGSOrClearing(analyticalStatement);
 			}else{
 				analyticalStatements.add(this.updateOriginatorStatus(analyticalStatement));
 				analyticalStatements.add(this.updateRecipientStatus(analyticalStatement));

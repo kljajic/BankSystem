@@ -58,6 +58,7 @@ import javax.xml.bind.annotation.XmlType;
 })
 public class InvoiceItem {
 
+	@XmlElement(required = true)
     protected short ordinate;
     @XmlElement(required = true)
     protected String merchandiseOrServiceName;

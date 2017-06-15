@@ -71,6 +71,7 @@ public class AccountStatementSectionResponse {
     @XmlElement(required = true)
     @XmlSchemaType(name = "date")
     protected XMLGregorianCalendar requestDate;
+    @XmlElement(required = true)
     protected short sectionOrdinate;
     @XmlElement(required = true)
     protected BigDecimal previousBalance;
