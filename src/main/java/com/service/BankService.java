@@ -11,5 +11,6 @@ public interface BankService {
 	public Bank updateBank(Bank b,Long countryId);
 	public Bank deleteBank(Long id);
 	public ArrayList<Bank> searchBanks(Bank b, Long countryId);
+	public Bank findBankByLeadNumber(String substring);
 	
 }

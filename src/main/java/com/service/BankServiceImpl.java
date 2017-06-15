@@ -122,4 +122,10 @@ public class BankServiceImpl implements BankService {
 		
 	}
 
+	@Override
+	public Bank findBankByLeadNumber(String substring) {
+		// TODO Auto-generated method stub
+		return bankRepository.findBankByLeadNumber(substring);
+	}
+
 }
