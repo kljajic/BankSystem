@@ -4,15 +4,20 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashSet;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -66,8 +71,10 @@ public class InterBankServiceImpl implements InterBankService {
             OutputStream os;
 			CentralBankClient cbc = (CentralBankClient) con.getBean(CentralBankClient.class);
 			Mt900Response mt;
+			Mt103Request mt103Request = mapAnalyticalStatementToMt103Request(as, paymentBank, receiverBank);
+			
 			try {
-				mt = cbc.getRtgsResponse(new Mt103Request());
+				mt = cbc.getRtgsResponse(mt103Request);
 				System.out.println(mt.getAmount());
 			} catch (XmlMappingException e1) {
 				// TODO Auto-generated catch block
@@ -76,7 +83,6 @@ public class InterBankServiceImpl implements InterBankService {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-            
             
 			try {
 				os = new FileOutputStream("MT103.xml");
@@ -94,6 +100,9 @@ public class InterBankServiceImpl implements InterBankService {
 		} catch (JAXBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (DatatypeConfigurationException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
 		}
 		
 		
@@ -190,4 +199,38 @@ public class InterBankServiceImpl implements InterBankService {
 				addToClearing(as);
 			}
 		}
+	
+	
+	private Mt103Request mapAnalyticalStatementToMt103Request(AnalyticalStatement as, Bank originatorBank, Bank recieverBank) throws DatatypeConfigurationException{
+		GregorianCalendar c = new GregorianCalendar();
+		
+		Mt103Request mt103Request = new Mt103Request();
+		mt103Request.setMessageId("mt103");
+		mt103Request.setAmount(new BigDecimal(as.getAmount()));
+		mt103Request.setChargeDialNumber(as.getDebitAuthorizationNumber());
+		mt103Request.setChargeModel(as.getModel());
+		mt103Request.setClearanceDialNumber(as.getApprovalAuthorizationNumber());
+		mt103Request.setClearanceModel(as.getApprovalModel());
+		mt103Request.setCurrency(as.getCurrency().getOfficialCode());
+		
+		c.setTime(as.getCurrencyDate());
+		XMLGregorianCalendar currencyDateXml = DatatypeFactory.newInstance().newXMLGregorianCalendar(c);
+		mt103Request.setCurrencyDate(currencyDateXml);
+		
+		mt103Request.setOriginator(as.getOriginator());
+		mt103Request.setOriginatorAccountNumber(as.getOriginatorAccount());
+		mt103Request.setOriginatorBankSwiftCode(originatorBank.getSwift());
+		mt103Request.setOriginatorBankTransactionAccount(originatorBank.getTransactionAccount());
+		mt103Request.setPaymentPurpose(as.getPurpose());
+		mt103Request.setReciever(as.getRecipient());
+		mt103Request.setRecieverAccountNumber(as.getRecipientAccount());
+		mt103Request.setRecieverBankSwiftCode(recieverBank.getSwift());
+		mt103Request.setRecieverBankTransactionAccount(recieverBank.getTransactionAccount());
+		
+		c.setTime(as.getDateOfReceipt());
+		XMLGregorianCalendar dateOfReceit = DatatypeFactory.newInstance().newXMLGregorianCalendar(c);
+		mt103Request.setStatementDate(dateOfReceit);
+		
+		return mt103Request;
+	}
 }

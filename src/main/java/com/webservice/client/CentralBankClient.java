@@ -18,16 +18,14 @@ public class CentralBankClient extends WebServiceGatewaySupport{
 		
 	public Mt900Response getRtgsResponse(Mt103Request request) throws XmlMappingException, IOException {
 		
-		request.setAmount(new BigDecimal(4000));
-		request.setChargeDialNumber("400");
-		request.setMessageId("messageId");
-		
 		final StringWriter out = new StringWriter();
 		getWebServiceTemplate().getMarshaller().marshal(request, new StreamResult(out));
 		String xml = out.toString();
 		
 		System.out.println(xml);
 		
+		
+		getWebServiceTemplate().setDefaultUri("http://localhost:8090/ws/centralBankRtgsRequestService");
 		Mt900Response response = (Mt900Response) getWebServiceTemplate()
 				.marshalSendAndReceive("http://localhost:8090/ws/centralBankRtgsRequestService",
 						request, new SoapActionCallback("http://com/xsdSchemas/mt900Response"));

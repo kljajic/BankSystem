@@ -41,11 +41,29 @@ public class WebService {
 	}
 	
 	@Bean(name = "accountStatementRequestService")
-	public DefaultWsdl11Definition AccountStatementRequestWsdl11Definition(@Qualifier("accountStatementRequest") XsdSchema accountStatementRequest) {
+	public DefaultWsdl11Definition accountStatementRequestWsdl11Definition(@Qualifier("accountStatementRequest") XsdSchema accountStatementRequest) {
 		DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
-		wsdl11Definition.setPortTypeName("AccountStatementSectionPort");
+		wsdl11Definition.setPortTypeName("AccountStatementRequestPort");
 		wsdl11Definition.setLocationUri("/ws");
 		wsdl11Definition.setSchema(accountStatementRequest);
+		return wsdl11Definition;
+	}
+	
+	@Bean(name = "rtgsRequestResponseService")
+	public DefaultWsdl11Definition rtgsRequestResponseWsdl11Definition(@Qualifier("rtgsRequest") XsdSchema rtgsRequest) {
+		DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
+		wsdl11Definition.setPortTypeName("RtgsRequestResponsePort");
+		wsdl11Definition.setLocationUri("/ws");
+		wsdl11Definition.setSchema(rtgsRequest);
+		return wsdl11Definition;
+	}
+	
+	@Bean(name = "mt910ResponseService")
+	public DefaultWsdl11Definition mt910ResponseWsdl11Definition(@Qualifier("responseReciever") XsdSchema responseReciever) {
+		DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
+		wsdl11Definition.setPortTypeName("Mt910ResponsePort");
+		wsdl11Definition.setLocationUri("/ws");
+		wsdl11Definition.setSchema(responseReciever);
 		return wsdl11Definition;
 	}
 	
@@ -92,5 +110,17 @@ public class WebService {
 	@Qualifier("statement")
 	public XsdSchema statement() {
 		return new SimpleXsdSchema(new ClassPathResource("xsd/types/statement.xsd"));
+	}
+	
+	@Bean
+	@Qualifier("rtgsRequest")
+	public XsdSchema rtgsRequest() {
+		return new SimpleXsdSchema(new ClassPathResource("xsd/types/rtgsRequest.xsd"));
+	}
+	
+	@Bean
+	@Qualifier("responseReciever")
+	public XsdSchema responseReciever() {
+		return new SimpleXsdSchema(new ClassPathResource("xsd/types/responseReciever.xsd"));
 	}
 }

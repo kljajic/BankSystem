@@ -4,6 +4,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
+import com.bank.wsdl.Mt103Request;
+import com.model.xml.RTGSRequest;
 //import com.centralbank.wsdl.RtgsRequest;
 //import com.centralbank.wsdl.RtgsResponseOriginator;
 import com.webservice.client.CentralBankClient;
