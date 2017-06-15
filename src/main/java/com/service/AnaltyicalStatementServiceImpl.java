@@ -36,7 +36,6 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 	
 	private final AnalyticalStatementRepository analyticalStatementRepository;
 	private final CurrencyService currencyService;
-	private final PaymentTypeService paymentTypeService;
 	private final CityService cityService;
 	private final DailyAccountStatusService dailyAccountStatusService;
 	private final InterBankService interBankService;
@@ -48,7 +47,6 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 	@Autowired
 	public AnaltyicalStatementServiceImpl(AnalyticalStatementRepository analyticalStatementRepository,
 										  CurrencyService currencyService,
-										  PaymentTypeService paymentTypeService,
 										  CityService cityService,
 										  DailyAccountStatusService dailyAccountStatusService,
 										  InterBankService interBankService,
@@ -56,7 +54,6 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 										  ){
 		this.analyticalStatementRepository = analyticalStatementRepository;
 		this.currencyService = currencyService;
-		this.paymentTypeService = paymentTypeService;
 		this.cityService = cityService;
 		this.dailyAccountStatusService = dailyAccountStatusService;
 		this.interBankService = interBankService;
@@ -64,12 +61,10 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 	}
 
 	@Override
-	public Collection<AnalyticalStatement> createAnalyticalStatement(String currencyId, String paymentTypeId, String cityId, 
+	public Collection<AnalyticalStatement> createAnalyticalStatement(String currencyId, String cityId, 
 														  Date dateOfReceipt, Date currencyDate, AnalyticalStatement analyticalStatement) {
 		if(currencyId != null && !currencyId.trim().equals("NOT_ENTERED"))
 			analyticalStatement.setCurrency(currencyService.getCurrency(new Long(currencyId)));
-		if(paymentTypeId != null && !paymentTypeId.trim().equals("NOT_ENTERED"))
-			analyticalStatement.setPaymentType(paymentTypeService.getPaymentType(new Long(paymentTypeId)));
 		if(cityId != null && !cityId.trim().equals("NOT_ENTERED"))
 			analyticalStatement.setPlaceOfAcceptance(cityService.getCity(new Long(cityId)));
 		analyticalStatement.setDateOfReceipt(dateOfReceipt);
@@ -91,7 +86,7 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 	}
 
 	@Override
-	public Collection<AnalyticalStatement> updateAnalyticalStatement(String currencyId, String paymentTypeId, String cityId, 
+	public Collection<AnalyticalStatement> updateAnalyticalStatement(String currencyId, String cityId, 
 														 Date dateOfReceipt, Date currencyDate, AnalyticalStatement analyticalStatement) {
 		Collection<AnalyticalStatement> analyticalStatements = new ArrayList<>();
 		AnalyticalStatement temp = analyticalStatementRepository.findOne(analyticalStatement.getId());
@@ -101,8 +96,6 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 		temp.setApprovalModel(analyticalStatement.getApprovalModel());
 		if(currencyId != null && !currencyId.trim().equals("NOT_ENTERED"))
 			temp.setCurrency(currencyService.getCurrency(new Long(currencyId)));
-		if(paymentTypeId != null && !paymentTypeId.trim().equals("NOT_ENTERED"))
-			temp.setPaymentType(paymentTypeService.getPaymentType(new Long(paymentTypeId)));
 		if(cityId != null && !cityId.trim().equals("NOT_ENTERED"))
 			temp.setPlaceOfAcceptance(cityService.getCity(new Long(cityId)));
 		temp.setCurrencyDate(currencyDate);
@@ -129,11 +122,6 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 		return analyticalStatements;
 	}
 
-	@Override
-	@Transactional(readOnly = true)
-	public Collection<AnalyticalStatement> getAnalyticalStatementsByPaymentTypeId(Long id) {
-		return analyticalStatementRepository.findAnalyticalStatementsByPaymentTypeId(id);
-	}
 
 	@Override
 	@Transactional(readOnly = true)
@@ -142,16 +130,12 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 	}
 
 	@Override
-	public Collection<AnalyticalStatement> searchAnalyticalStatements(Long currencyId, Long paymentTypeId,
+	public Collection<AnalyticalStatement> searchAnalyticalStatements(Long currencyId,
 			Long cityId, Long dailyAccountStatusId, Date dateOfReceipt, Date currencyDate,
 			AnalyticalStatement analyticalStatement) {
 		String currencyCode = "";
 		if(currencyId != null && currencyId >= 0){
 			currencyCode = currencyService.getCurrency(currencyId).getOfficialCode();
-		}
-		String paymentTypeName = "";
-		if(paymentTypeId != null && paymentTypeId >= 0){
-			paymentTypeName = paymentTypeService.getPaymentType(paymentTypeId).getPaymentTypeName();
 		}
 		String cityPttNumber = "";
 		if(cityId != null && cityId >= 0){
@@ -209,7 +193,7 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 			amount = new Double(analyticalStatement.getAmount());
 		}
 		Date minimumDate = new Date(Long.MIN_VALUE);
-		return analyticalStatementRepository.searchAnalyticalStatements(currencyCode, paymentTypeName,
+		return analyticalStatementRepository.searchAnalyticalStatements(currencyCode,
 								cityPttNumber, accountNumber, originator, purpose, recipient,
 								minimumDate, dateOfReceipt, currencyDate, originatorAccount, model,
 								debitAuthorizationNumber, recipientAccount, approvalModel, 
@@ -317,9 +301,7 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 		clone.setModel(as.getModel());
 		clone.setOriginator(as.getOriginator());
 		clone.setOriginatorAccount(as.getOriginatorAccount());
-		clone.setPaymentType(as.getPaymentType());
 		clone.setPlaceOfAcceptance(as.getPlaceOfAcceptance());
-		clone.setPaymentType(as.getPaymentType());
 		clone.setPurpose(as.getPurpose());
 		clone.setDateOfReceipt(as.getDateOfReceipt());
 		clone.setRecipient(as.getRecipient());

@@ -37,15 +37,15 @@ public class AnalyticalStatementController {
 		this.analyticalStatementService = analyticalStatementService;
 	}
 
-	@PostMapping("/create/{currencyId}/{paymentTypeId}/{cityId}/{dateOfReceipt}/{currencyDate}")
+	@PostMapping("/create/{currencyId}/{cityId}/{dateOfReceipt}/{currencyDate}")
 	@ResponseBody
 	@Permission(permissionName = "writeAnalyticalStatement")
 	@ApiOperation(value = "Create a analytical statement.", notes = "Create a single analytical statement.", response = Collection.class)
 	public Collection<AnalyticalStatement> createAnalyticalStatement(@PathVariable("currencyId") String currencyId,
-			@PathVariable("paymentTypeId") String paymentTypeId, @PathVariable("cityId") String cityId,
+			 @PathVariable("cityId") String cityId,
 			@PathVariable("dateOfReceipt") Date dateOfReceipt, @PathVariable("currencyDate") Date currencyDate,
 			@RequestBody AnalyticalStatement analyticalStatement) {
-		return analyticalStatementService.createAnalyticalStatement(currencyId, paymentTypeId, cityId,
+		return analyticalStatementService.createAnalyticalStatement(currencyId, cityId,
 				dateOfReceipt, currencyDate, analyticalStatement);
 	}
 
@@ -65,15 +65,15 @@ public class AnalyticalStatementController {
 		return analyticalStatementService.getAnalyticalStatement(id);
 	}
 
-	@PutMapping("/update/{currencyId}/{paymentTypeId}/{cityId}/{dateOfReceipt}/{currencyDate}")
+	@PutMapping("/update/{currencyId}/{cityId}/{dateOfReceipt}/{currencyDate}")
 	@ResponseBody
 	@Permission(permissionName = "editAnalyticalStatement")
 	@ApiOperation(value = "Update a analytical statement.", notes = "Update a single analytical statement.", response = AnalyticalStatement.class)
 	public Collection<AnalyticalStatement> updateAnalyticalStatement(@PathVariable("currencyId") String currencyId,
-			@PathVariable("paymentTypeId") String paymentTypeId, @PathVariable("cityId") String cityId,
+		    @PathVariable("cityId") String cityId,
 			@PathVariable("dateOfReceipt") Date dateOfReceipt, @PathVariable("currencyDate") Date currencyDate,
 			@RequestBody AnalyticalStatement analyticalStatement) {
-		return analyticalStatementService.updateAnalyticalStatement(currencyId, paymentTypeId, cityId,
+		return analyticalStatementService.updateAnalyticalStatement(currencyId, cityId,
 				dateOfReceipt, currencyDate, analyticalStatement);
 	}
 
@@ -85,13 +85,6 @@ public class AnalyticalStatementController {
 		return analyticalStatementService.deleteAnalyticalStatement(analyticalStatementId);
 	}
 
-	@GetMapping("/getByPaymentTypeId/{id}")
-	@ResponseBody
-	@Permission(permissionName = "readPaymentAnalyticalStatement")
-	@ApiOperation(value = "Get analytical statements by payment type.", notes = "Get analytical statements by given payment type id.", response = Collection.class)
-	public Collection<AnalyticalStatement> getAnalyticalStatementsByPaymentTypeId(@PathVariable("id") Long id) {
-		return analyticalStatementService.getAnalyticalStatementsByPaymentTypeId(id);
-	}
 
 	@GetMapping("/getByDailyAccountStatusId/{id}")
 	@ResponseBody
@@ -101,16 +94,16 @@ public class AnalyticalStatementController {
 		return analyticalStatementService.getAnalyticalStatementsByDailyAccountStatusId(id);
 	}
 
-	@PutMapping("/search/{currencyId}/{paymentTypeId}/{cityId}/{dailyAccountStatusId}/{dateOfReceipt}/{currencyDate}")
+	@PutMapping("/search/{currencyId}/{cityId}/{dailyAccountStatusId}/{dateOfReceipt}/{currencyDate}")
 	@ResponseBody
 	@Permission(permissionName = "searchAnalyticalStatements")
 	@ApiOperation(value = "Search all analytical statements.", notes = "Search all analytical statements by given fields.", response = Collection.class)
 	public Collection<AnalyticalStatement> searchAnalyticalStatements(@PathVariable("currencyId") Long currencyId,
-			@PathVariable("paymentTypeId") Long paymentTypeId, @PathVariable("cityId") Long cityId,
+		    @PathVariable("cityId") Long cityId,
 			@PathVariable("dailyAccountStatusId") Long dailyAccountStatusId,
 			@PathVariable("dateOfReceipt") Date dateOfReceipt, @PathVariable("currencyDate") Date currencyDate,
 			@RequestBody AnalyticalStatement analyticalStatement) {
-		return analyticalStatementService.searchAnalyticalStatements(currencyId, paymentTypeId, cityId,
+		return analyticalStatementService.searchAnalyticalStatements(currencyId, cityId,
 				dailyAccountStatusId, dateOfReceipt, currencyDate, analyticalStatement);
 	}
 	

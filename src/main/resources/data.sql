@@ -38,11 +38,6 @@ insert into city(id, name, ptt_number, country_id) values(2, 'Novi sad', '21000'
 insert into city(id, name, ptt_number, country_id) values(3, 'Moskva', '31000', 2);
 insert into city(id, name, ptt_number, country_id) values(4, 'Rim', '41000', 3);
 
-insert into payment_type(id, payment_type_name) values(1, 'Kes');
-insert into payment_type(id, payment_type_name) values(2, 'Cekovi');
-insert into payment_type(id, payment_type_name) values(3, 'Kredit');
-insert into payment_type(id, payment_type_name) values(4, 'Transfer novca');
-
 insert into user(id, email, name, password, surname) values (1, 'mirko@gmail.com', 'Mirko', '$2a$10$.BJjJ3CVqWoSukqyxqx0z.zVm79kcWDcIdDbfYKM/BcI4rdIn2Nn.', 'Mikac');
 insert into user(id, email, name, password, surname) values (2, 'marko@gmail.com', 'Marko', '$2a$10$.BJjJ3CVqWoSukqyxqx0z.zVm79kcWDcIdDbfYKM/BcI4rdIn2Nn.', 'Kljajic');
 insert into user(id, email, name, password, surname) values (3, 'stefan@gmail.com', 'Stefan', '$2a$10$.BJjJ3CVqWoSukqyxqx0z.zVm79kcWDcIdDbfYKM/BcI4rdIn2Nn.', 'Varajic');
@@ -72,25 +67,25 @@ values(3, '2017-06-03', 3, 0, 1500, 1, 0, -1500);
 
 insert into analytical_statement(id, amount, approval_authorization_number, approval_model, currency_date, date_of_receipt, 
 								 debit_authorization_number, error_type, model, originator, originator_account, purpose, recipient,
-								 recipient_account, uplata, urgently, currency_id, daily_account_status_id, payment_type_id,
+								 recipient_account, uplata, urgently, currency_id, daily_account_status_id,
 								 place_of_acceptance_id) 
 	   value (1, 15000.00, '123456789', '97', '2017-05-09', '2017-05-09', '100018356', 'IZVRSEN_NALOG', '97',
 	   		  'Mirko Mikac, Novi Sad', '333-111-333', 'Uplata poreza na promet proizvoda', 'Poreska uprava',
-	   		  '222-714121843-73', false, false, 1, 1 , 4, 2);
+	   		  '222-714121843-73', false, false, 1, 1 , 2);
 insert into analytical_statement(id, amount, approval_authorization_number, approval_model, currency_date, date_of_receipt, 
 								 debit_authorization_number, error_type, model, originator, originator_account, purpose, recipient,
-								 recipient_account, uplata, urgently, currency_id, daily_account_status_id, payment_type_id,
+								 recipient_account, uplata, urgently, currency_id, daily_account_status_id,
 								 place_of_acceptance_id) 
 	   value (2, 13500.00, '123456789', '97', '2017-05-16', '2017-05-16', '100018356', 'IZVRSEN_NALOG', '97',
 	   		  'Igre na srecu, Beograd', '222-111-333', 'Dobitag na greb greb kartici', 'Mirko Mikac, Novi Sad',
-	   		  '333-111-333', true, false, 1, 2 , 4, 1);	   		  
+	   		  '333-111-333', true, false, 1, 2, 1);	   		  
 insert into analytical_statement(id, amount, approval_authorization_number, approval_model, currency_date, date_of_receipt, 
 								 debit_authorization_number, error_type, model, originator, originator_account, purpose, recipient,
-								 recipient_account, uplata, urgently, currency_id, daily_account_status_id, payment_type_id,
+								 recipient_account, uplata, urgently, currency_id, daily_account_status_id,
 								 place_of_acceptance_id) 
 	   value (3, 1500.00, '123456789', '97', '2017-06-03', '2017-06-03', '100018356', 'IZVRSEN_NALOG', '97',
 	   		  'Stefan Varajic, Doze Djerdja, Novi Sad', '666-111-333', 'Uplata za overu semestra', 'Fakultet tehnickih nauka, Trg Dositeja Obradovica 1, Novi Sad',
-	   		  '840-714121843-73', false, false, 3, 3 , 4, 1);
+	   		  '840-714121843-73', false, false, 3, 3, 1);
 
 insert into role(id, name) values (1, 'BANK_ADMIN');
 insert into role(id, name) values (2, 'BANK_STAFF');

@@ -11,10 +11,10 @@ analyticalStatementService.factory('analyticalStatementService', function($http)
 		});
 	}
 	
-	temp.createAnalyticalStatement = function(cityId, paymentTypeId, currencyId, dateOfReceipt, currencyDate, analyticalStatement){
+	temp.createAnalyticalStatement = function(cityId, currencyId, dateOfReceipt, currencyDate, analyticalStatement){
 		return $http({
 			method : 'POST',
-			url: '../analyticalStatements/create/' + currencyId + '/' + paymentTypeId + '/' + cityId + '/' + dateOfReceipt + '/' + currencyDate,
+			url: '../analyticalStatements/create/' + currencyId +  '/' + cityId + '/' + dateOfReceipt + '/' + currencyDate,
 			data: {
 				'originator': analyticalStatement.originator,
 				'purpose': analyticalStatement.purpose,
@@ -32,10 +32,10 @@ analyticalStatementService.factory('analyticalStatementService', function($http)
 		});
 	}
 	
-	temp.updateAnalyticalStatement = function(cityId, paymentTypeId, currencyId, dateOfReceipt, currencyDate, analyticalStatement){
+	temp.updateAnalyticalStatement = function(cityId, currencyId, dateOfReceipt, currencyDate, analyticalStatement){
 		return $http({
 			method : 'PUT',
-			url: '../analyticalStatements/update/' + currencyId + '/' + paymentTypeId + '/' + cityId + '/' + dateOfReceipt + '/' + currencyDate,
+			url: '../analyticalStatements/update/' + currencyId + '/' + cityId + '/' + dateOfReceipt + '/' + currencyDate,
 			data: {
 				'id': analyticalStatement.id,
 				'originator': analyticalStatement.originator,
@@ -54,10 +54,10 @@ analyticalStatementService.factory('analyticalStatementService', function($http)
 		});
 	}
 	
-	temp.searchAnalyticalStatements = function(dailyAccountStatusId, cityId, paymentTypeId, currencyId, dateOfReceipt, currencyDate, analyticalStatement){
+	temp.searchAnalyticalStatements = function(dailyAccountStatusId, cityId, currencyId, dateOfReceipt, currencyDate, analyticalStatement){
 		return $http({
 			method : 'PUT',
-			url: '../analyticalStatements/search/' + currencyId + '/' + paymentTypeId + '/' + cityId + '/' + dailyAccountStatusId + '/' + dateOfReceipt + '/' + currencyDate,
+			url: '../analyticalStatements/search/' + currencyId + '/'  + cityId + '/' + dailyAccountStatusId + '/' + dateOfReceipt + '/' + currencyDate,
 			data: {
 				'id': analyticalStatement.id,
 				'originator': analyticalStatement.originator,
@@ -100,12 +100,6 @@ analyticalStatementService.factory('analyticalStatementService', function($http)
 		});
 	}
 	
-	temp.getAllPaymentTypes = function(){
-		return $http({
-			method : 'GET',
-			url: '../paymentTypes',
-		});
-	}
 	
 	temp.getAllCurrencies = function(){
 		return $http({

@@ -98,16 +98,6 @@
 				style="margin-left: 6em" />
 		</p>
 		<p>
-			<input ng-value="analyticalStatement.paymentType.id" type="hidden" name="${field.name)"
-				id="${field.id}" /><label for="${field.id}">Payment type</label>
-				<select ng-options="{{paymentTypeOptions}}" ng-model="selectedPaymentType" ng-disabled="nextPaymentType==true">
-					<option selected value="NOT_ENTERED">Not entered</option>
-				</select> 
-				<input ng-click="showPaymentTypes()" type="button"
-				class="btn btn-sm btn-default pulled-left" value="..." ng-disabled="nextPaymentType==true"
-				style="margin-left: 6em" />
-		</p>
-		<p>
 			<input ng-value="analyticalStatement.currency.id" type="hidden" name="${field.name)"
 				id="${field.id}" /><label for="${field.id}">Currency</label>
 				<select ng-options="{{currencyOptions}}" ng-model="selectedCurrency">
@@ -254,35 +244,7 @@
 	</div>
 	</md-dialog>
 	
-	<md-dialog class="modal" id="paymentTypeModal" tabindex="-1"
-		aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h1>Payment types</h1>
-			</div>
-			<div class="modal-body">
-				<form validate class="simple-form">
-					<table class="centered">
-						<tr class="header">
-							<th>Payment type name</th>
-						</tr>
-						<tr ng-repeat="paymentType in paymentTypes"
-							ng-click="setModalSelectedPaymentType(paymentType)"
-							ng-class="{'alert alert-info' : selectedModalPaymentType === paymentType}">
-							<td>{{ paymentType.paymentTypeName }}</td>
-						</tr>
-					</table>
-				</form>
-			</div>
-			<div class="modal-footer">
-				<input id="btnConfirm" type="submit"
-					class="btn btn-default pulled-left" ng-click="confirmPaymentType()"
-					value="Choose" />
-			</div>
-		</div>
-	</div>
-	</md-dialog>
+	
 	
 	<md-dialog class="modal" id="currencyModal" tabindex="-1"
 		aria-labelledby="myModalLabel" aria-hidden="true">
@@ -342,11 +304,6 @@
 							ng-click="setModalSelectedPreviousForm('cities')"
 							ng-class="{'alert alert-info' : selectedModalPrevousForm == 'cities'}">
 							<td>City</td>
-						</tr>
-						<tr
-							ng-click="setModalSelectedPreviousForm('paymentTypes')"
-							ng-class="{'alert alert-info' : selectedModalPrevousForm == 'paymentTypes'}">
-							<td>Payment type</td>
 						</tr>
 						<tr
 							ng-click="setModalSelectedPreviousForm('currencies')"

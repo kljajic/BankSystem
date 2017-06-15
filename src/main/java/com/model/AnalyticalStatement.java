@@ -171,8 +171,7 @@ public class AnalyticalStatement {
 	@ManyToOne
 	private City placeOfAcceptance;
 	
-	@ManyToOne
-	private PaymentType paymentType;
+
 	
 	@XmlElement(name="currency", required=true)
 	@ManyToOne

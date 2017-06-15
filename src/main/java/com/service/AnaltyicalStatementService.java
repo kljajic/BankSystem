@@ -10,7 +10,6 @@ import com.model.AnalyticalStatement;
 public interface AnaltyicalStatementService {
 	
 	Collection<AnalyticalStatement> createAnalyticalStatement(String currencyId, 
-												  			  String paymentTypeId, 
 												  			  String cityId,
 												  			  Date dateOfReceipt,
 												  			  Date currencyDate,
@@ -21,7 +20,6 @@ public interface AnaltyicalStatementService {
 	AnalyticalStatement getAnalyticalStatement(Long id);
 	
 	Collection<AnalyticalStatement> updateAnalyticalStatement(String currencyId,
-												  			  String paymentTypeId, 
 												  			  String cityId,
 												  			  Date dateOfReceipt,
 												  			  Date currencyDate,
@@ -29,12 +27,10 @@ public interface AnaltyicalStatementService {
 	
 	Collection<AnalyticalStatement> deleteAnalyticalStatement(Long id);
 	
-	Collection<AnalyticalStatement> getAnalyticalStatementsByPaymentTypeId(Long id);
 	
 	Collection<AnalyticalStatement> getAnalyticalStatementsByDailyAccountStatusId(Long id);
 	
 	Collection<AnalyticalStatement> searchAnalyticalStatements(Long currencyId,
-			  												   Long paymentTypeId, 
 			  												   Long cityId, 
 			  												   Long dailyAccountStatusId,
 			  												   Date dateOfReceipt,

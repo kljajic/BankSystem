@@ -13,8 +13,6 @@ app.config(function($routeProvider) {
 		templateUrl : "html/city.html"
 	}).when("/exchangeListController", {
 		templateUrl : "html/exchangeList.html"
-	}).when("/paymentTypes", {
-		templateUrl : "html/paymentType.html"
 	}).when("/dailyAccountStatuses", {
 		templateUrl : "html/dailyAccountStatus.html"
 	}).when("/analyticalStatements", {

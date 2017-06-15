@@ -3,7 +3,6 @@ var controller = angular.module('bankApp.controller', ['bankApp.countryControlle
                                                        'bankApp.currencyExchangeController',
                                                        'bankApp.cityController',
                                                        'bankApp.exchangeListController',
-                                                       'bankApp.paymentTypeController',
                                                        'bankApp.dailyAccountStatusController',
                                                        'bankApp.analyticalStatementController',
                                                        'bankApp.legalPersonAccountController',

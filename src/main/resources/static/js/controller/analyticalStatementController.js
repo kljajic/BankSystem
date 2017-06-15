@@ -8,16 +8,13 @@ analyticalStatementController.controller('analyticalStatementController',['$root
 	$scope.analyticalStatements = [];
 	$scope.dailyAccountStatuses = [];
 	$scope.cities = [];
-	$scope.paymentTypes = [];
 	$scope.currencies = [];
 	$scope.dailyAccountStatusOptions = "dailyAccountStatuse.id for dailyAccountStatuse in dailyAccountStatuses";
 	$scope.cityOptions = "city.id for city in cities";
-	$scope.paymentTypeOptions = "paymentType.id for paymentType in paymentTypes";
 	$scope.currencyOptions = "currency.id for currency in currencies";
 	$scope.selectedAnalyticalStatement = {};
 	$scope.selectedDailyAccountStatus = {};
 	$scope.selectedCity = {};
-	$scope.selectedPaymentType = {};
 	$scope.selectedCurrency = {};
 	$scope.mode = {};
 	$scope.mode.current = "Rezim izmene";
@@ -39,11 +36,6 @@ analyticalStatementController.controller('analyticalStatementController',['$root
 		}
 	});
 	
-	analyticalStatementService.getAllPaymentTypes().then(function(response) {
-		if (response.data != null) {
-			$scope.paymentTypes = response.data;
-		}
-	});
 	
 	analyticalStatementService.getAllCurrencies().then(function(response) {
 		if (response.data != null) {
@@ -63,14 +55,6 @@ analyticalStatementController.controller('analyticalStatementController',['$root
 				$scope.analyticalStatements = temp;
 				$scope.selectedCity = $scope.findCityFromNext($routeParams.cityId);
 				$scope.nextCity = true;
-			} else if($rootScope.nextPaymentType != null && $rootScope.nextPaymentType != undefined) {
-				analyticalStatementService.getAnalyticalStatementsByPaymentTypeId($rootScope.nextPaymentType.id).then(function(response){
-					$scope.analyticalStatements = response.data;
-				});
-				$scope.paymentTypes = [];
-				$scope.paymentTypes.push($rootScope.nextPaymentType);
-				$scope.selectedPaymentType = $scope.paymentTypes[0];
-				$scope.nextPaymentType = true;
 			} else if($rootScope.nextDailyAccountStatus != null && $rootScope.nextDailyAccountStatus != undefined) {
 				analyticalStatementService.getAnalyticalStatementsByDailyAccountStatusId($rootScope.nextDailyAccountStatus.id).then(function(response){
 					$scope.analyticalStatements = response.data;
@@ -186,7 +170,7 @@ analyticalStatementController.controller('analyticalStatementController',['$root
 																			$scope.selectedCurrency = {};
 	$scope.submitAction = function(analyticalStatement) {
 		if ($scope.action == "addClicked") {
-			analyticalStatementService.createAnalyticalStatement($scope.selectedCity.id, $scope.selectedPaymentType.id, $scope.selectedCurrency.id, $scope.dateOfReceipt, $scope.currencyDate, analyticalStatement).then(function(response) {
+			analyticalStatementService.createAnalyticalStatement($scope.selectedCity.id, $scope.selectedCurrency.id, $scope.dateOfReceipt, $scope.currencyDate, analyticalStatement).then(function(response) {
 				if(response.data != null && response.data != undefined){
 					for(var i = 0; i < response.data.length; i++){
 						$scope.analyticalStatements.push(response.data[i]);
@@ -202,9 +186,6 @@ analyticalStatementController.controller('analyticalStatementController',['$root
 			var cityId = -1;
 			if($scope.selectedCity != null && $scope.selectedCity.id != undefined)
 				cityId = $scope.selectedCity.id;
-			var paymentTypeId = -1;
-			if($scope.selectedPaymentType != null && $scope.selectedPaymentType.id != undefined)
-				paymentTypeId = $scope.selectedPaymentType.id;
 			var currencyId = -1;
 			if($scope.selectedCurrency != null && $scope.selectedCurrency.id != undefined)
 				currencyId = $scope.selectedCurrency.id;
@@ -212,12 +193,12 @@ analyticalStatementController.controller('analyticalStatementController',['$root
 				$scope.dateOfReceipt = null;
 			if($scope.currencyDate == undefined)
 				$scope.currencyDate = null;
-			analyticalStatementService.searchAnalyticalStatements(dailyAccountStatusId, cityId, paymentTypeId, currencyId, $scope.dateOfReceipt, $scope.currencyDate, analyticalStatement).then(function(response) {
+			analyticalStatementService.searchAnalyticalStatements(dailyAccountStatusId, cityId, currencyId, $scope.dateOfReceipt, $scope.currencyDate, analyticalStatement).then(function(response) {
 				$scope.analyticalStatements = response.data;
 			});
 		} else {
 			if (Object.keys($scope.selectedAnalyticalStatement).length > 0) {
-				analyticalStatementService.updateAnalyticalStatement($scope.selectedCity.id, $scope.selectedPaymentType.id, $scope.selectedCurrency.id, $scope.dateOfReceipt, $scope.currencyDate, analyticalStatement).then(
+				analyticalStatementService.updateAnalyticalStatement($scope.selectedCity.id, $scope.selectedCurrency.id, $scope.dateOfReceipt, $scope.currencyDate, analyticalStatement).then(
 						function(response) {
 							for(var i = 0; i < response.data.length; i++){
 								$scope.analyticalStatements.push(response.data[i]);
@@ -254,12 +235,6 @@ analyticalStatementController.controller('analyticalStatementController',['$root
 		for(i=0;i<$scope.cities.length;i++){
 			if($scope.cities[i].id == analyticalStatement.placeOfAcceptance.id){
 				$scope.selectedCity = $scope.cities[i];
-				break;  
-			}
-		}
-		for(i=0;i<$scope.paymentTypes.length;i++){
-			if($scope.paymentTypes[i].id == analyticalStatement.paymentType.id){
-				$scope.selectedPaymentType = $scope.paymentTypes[i];
 				break;  
 			}
 		}
@@ -310,20 +285,7 @@ analyticalStatementController.controller('analyticalStatementController',['$root
 		$scope.selectedModalCity = {};
 	}
 	
-	$scope.showPaymentTypes = function(){
-		$("#paymentTypeModal").modal('show');
-	}
 	
-	$scope.selectedModalPaymentType = {};
-	$scope.setModalSelectedPaymentType = function(paymentType){
-		$scope.selectedModalPaymentType = paymentType;
-	}
-	
-	$scope.confirmPaymentType = function(){
-		$scope.selectedPaymentType = $scope.selectedModalPaymentType;
-		$("#paymentTypeModal").modal('hide');
-		$scope.selectedModalPaymentType = {};
-	}
 	
 	$scope.showCurrencies = function(){
 		$("#currencyModal").modal('show');
