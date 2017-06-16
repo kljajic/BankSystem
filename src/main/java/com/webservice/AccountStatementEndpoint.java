@@ -57,11 +57,10 @@ public class AccountStatementEndpoint {
 		newAnalyticalStatement.setRecipientAccount(request.getRecieverAccountNumber());
 		newAnalyticalStatement.setUplata(true);
 		newAnalyticalStatement.setUrgently(false);
-		/*analtyicalStatementService.createAnalyticalStatement(currencyService.getCurrencyByOfficialCode(request.getCurrency()).getId(),
-				this.cityService.getCityByName(request.getPlaceOfAcceptance()).getId(),
-				request.getStatementDate().toGregorianCalendar().getTime(),
-				request.getCurrencyDate().toGregorianCalendar().getTime(),
-				newAnalyticalStatement);*/
+		analtyicalStatementService.createAnalyticalStatement(currencyService.getCurrencyByOfficialCode(request.getCurrency()).getId().toString(),
+				this.cityService.getCityByName(request.getPlaceOfAcceptance()).getId().toString(), 
+				request.getStatementDate().toGregorianCalendar().getTime(), 
+				request.getCurrencyDate().toGregorianCalendar().getTime(), newAnalyticalStatement);
 	}
 	
 	@PayloadRoot(namespace = NAMESPACE_URI + "/accountStatementRequest", localPart = "accountStatementRequest")

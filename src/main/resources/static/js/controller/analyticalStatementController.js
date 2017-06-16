@@ -3,7 +3,7 @@ var analyticalStatementController = angular.module('bankApp.analyticalStatementC
 analyticalStatementController.controller('analyticalStatementController',['$rootScope','$scope','$location','$http',
 		'analyticalStatementService', '$routeParams',function($rootScope,$scope,$location,$http,analyticalStatementService,$routeParams, $window) {
 	
-	$scope.action = {};
+	$scope.action = 'searchClicked';
 	$scope.analyticalStatement = {};
 	$scope.analyticalStatements = [];
 	$scope.dailyAccountStatuses = [];
@@ -17,10 +17,9 @@ analyticalStatementController.controller('analyticalStatementController',['$root
 	$scope.selectedCity = {};
 	$scope.selectedCurrency = {};
 	$scope.mode = {};
-	$scope.mode.current = "Rezim izmene";
+	$scope.mode.current = "Rezim pretrage";
 	$scope.dateOfReceipt = new Date();
 	$scope.currencyDate = new Date();
-	$scope.nextPaymentType = false;
 	$scope.nextDailyAccountStatus = false;
 	$scope.nextCity = false;
 	
@@ -115,71 +114,11 @@ analyticalStatementController.controller('analyticalStatementController',['$root
 		}
 		$scope.setParameters($scope.analyticalStatements[n - 1]);
 	}
-	
-	$scope.addClicked = function() {
-		$scope.action = "addClicked";
-		$scope.mode.current = "Rezim dodavanja";
-		/*$scope.analyticalStatement = {};
-		$scope.selectedAnalyticalStatement = {};
-		if($scope.nextDailyAccountStatus != true){
-			$scope.selectedDailyAccountStatus = {};
-		}
-		$scope.selectedCity = {};
-		if($scope.nextPaymentType != true){
-			$scope.selectedPaymentType = {};
-		}
-		$scope.selectedCurrency = {};
-		$scope.date = new Date();*/
-	}
-	
-	$scope.searchClicked = function() {
-		$scope.action = "searchClicked";
-		$scope.mode.current = "Rezim pretrage";
-	}
 
-	$scope.removeClicked = function() {
-		swal({
-			  title: "Are you sure?",
-			  text: "You will not be able to recover this!",
-			  type: "warning",
-			  showCancelButton: true,
-			  confirmButtonColor: "#DD6B55",
-			  confirmButtonText: "Yes, do it!",
-			  cancelButtonText: "Cancel!",
-			  closeOnConfirm: false,
-			  closeOnCancel: false
-			},
-			function(isConfirm){
-			  if (isConfirm) {
-				  analyticalStatementService.deleteAnalyticalStatement($scope.selectedAnalyticalStatement.id).then(function(response){
-					  for(var i = 0; i < response.data.length; i++){
-							$scope.analyticalStatements.push(response.data[i]);
-							$scope.selectedAnalyticalStatement = response.data[i];
-							$scope.analyticalStatement = response.data[i];
-						}
-					});
-				  swal("Reverted!", "Your data has been reverted.", "success");
-			  } else {
-			    swal("Cancelled", "Your have canceled revert operation.", "error");
-			  }
-			});
-	}
-																			$scope.selectedDailyAccountStatus = {};
-																			$scope.selectedCity = {};
-																			$scope.selectedPaymentType = {};
-																			$scope.selectedCurrency = {};
+	$scope.selectedDailyAccountStatus = {};
+	$scope.selectedCity = {};
+	$scope.selectedCurrency = {};
 	$scope.submitAction = function(analyticalStatement) {
-		if ($scope.action == "addClicked") {
-			analyticalStatementService.createAnalyticalStatement($scope.selectedCity.id, $scope.selectedCurrency.id, $scope.dateOfReceipt, $scope.currencyDate, analyticalStatement).then(function(response) {
-				if(response.data != null && response.data != undefined){
-					for(var i = 0; i < response.data.length; i++){
-						$scope.analyticalStatements.push(response.data[i]);
-						$scope.selectedAnalyticalStatement = response.data[i];
-						$scope.analyticalStatement = response.data[i];
-					}
-				}
-			});
-		} else if ($scope.action == "searchClicked") {
 			var dailyAccountStatusId = -1;
 			if($scope.selectedDailyAccountStatus != null && $scope.selectedDailyAccountStatus.id != undefined)
 				dailyAccountStatusId = $scope.selectedDailyAccountStatus.id;
@@ -196,29 +135,9 @@ analyticalStatementController.controller('analyticalStatementController',['$root
 			analyticalStatementService.searchAnalyticalStatements(dailyAccountStatusId, cityId, currencyId, $scope.dateOfReceipt, $scope.currencyDate, analyticalStatement).then(function(response) {
 				$scope.analyticalStatements = response.data;
 			});
-		} else {
-			if (Object.keys($scope.selectedAnalyticalStatement).length > 0) {
-				analyticalStatementService.updateAnalyticalStatement($scope.selectedCity.id, $scope.selectedCurrency.id, $scope.dateOfReceipt, $scope.currencyDate, analyticalStatement).then(
-						function(response) {
-							for(var i = 0; i < response.data.length; i++){
-								$scope.analyticalStatements.push(response.data[i]);
-								$scope.selectedAnalyticalStatement = response.data[i];
-								$scope.analyticalStatement = response.data[i];
-							}
-						});
-			} else {
-				ngNotify.set('Select payment type first!' , {
-					type : 'error',
-					duration: 3000,
-					theme: 'pitchy'
-				});
-			}
-		}
 	}
 	
 	$scope.rollbackAction = function() {
-		$scope.action = "editClicked"
-		$scope.mode.current = "Rezim izmene";
 		$scope.analyticalStatement = {};
 		$scope.getAllAnalyticalStatements();
 	}

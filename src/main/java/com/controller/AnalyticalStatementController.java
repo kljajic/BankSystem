@@ -1,7 +1,6 @@
 package com.controller;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 
@@ -103,8 +102,10 @@ public class AnalyticalStatementController {
 			@PathVariable("dailyAccountStatusId") Long dailyAccountStatusId,
 			@PathVariable("dateOfReceipt") Date dateOfReceipt, @PathVariable("currencyDate") Date currencyDate,
 			@RequestBody AnalyticalStatement analyticalStatement) {
-		return analyticalStatementService.searchAnalyticalStatements(currencyId, cityId,
+		Collection<AnalyticalStatement> o =analyticalStatementService.searchAnalyticalStatements(currencyId, cityId,
 				dailyAccountStatusId, dateOfReceipt, currencyDate, analyticalStatement);
+		System.out.println(o.size());
+		return o;
 	}
 	
 	  @GetMapping("/export/{accountId}/{startDate}/{endDate}")
