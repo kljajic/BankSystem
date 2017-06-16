@@ -42,11 +42,11 @@ import lombok.ToString;
 @EqualsAndHashCode(of = {"originator", "purpose", "recipient", "dateOfReceipt", "currencyDate",
 		"originatorAccount", "model", "debitAuthorizationNumber", "recipientAccount",
 		"approvalModel", "approvalAuthorizationNumber", "amount", "currency", "urgently", "uplata",
-		"dailyAccountStatus", "placeOfAcceptance", "paymentType", "analyticalStatementMode"})
+		"dailyAccountStatus", "placeOfAcceptance", "analyticalStatementMode"})
 @ToString(of = {"originator", "purpose", "recipient", "dateOfReceipt", "currencyDate",
 		"originatorAccount", "model", "debitAuthorizationNumber", "recipientAccount",
 		"approvalModel", "approvalAuthorizationNumber", "amount", "currency", "urgently", "uplata",
-		"dailyAccountStatus", "placeOfAcceptance", "paymentType", "analyticalStatementMode"})
+		"dailyAccountStatus", "placeOfAcceptance", "analyticalStatementMode"})
 @ApiModel(value = "Analytical statment", description = "Analytical statment.")
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name="analytical_statement", namespace="http://com/model/statement", propOrder={
@@ -171,8 +171,6 @@ public class AnalyticalStatement {
 	@ManyToOne
 	private City placeOfAcceptance;
 	
-
-	
 	@XmlElement(name="currency", required=true)
 	@ManyToOne
 	private Currency currency;
@@ -193,6 +191,5 @@ public class AnalyticalStatement {
 	public Set<RTGSRequest> getRtgsRequests() {
 		return rtgsRequests;
 	}
-	
 	
 }

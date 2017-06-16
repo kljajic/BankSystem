@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +17,7 @@ import javax.sql.DataSource;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -309,6 +311,12 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 		clone.setUrgently(as.isUrgently());
 		clone.setAnalyticalStatementMode(as.getAnalyticalStatementMode());
 		return clone;
+	}
+
+	@Override
+	public List<AnalyticalStatement> getAnalyticalStatementsForDailyAccountStatusId(Pageable pageable,
+			Long dailyAccountStatusId) {
+		return this.analyticalStatementRepository.findAnalyticalStatementsByDailyAccountStatusId(pageable, dailyAccountStatusId);
 	}
 	
 }

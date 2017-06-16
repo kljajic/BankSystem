@@ -2,7 +2,9 @@ package com.repository;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -28,5 +30,7 @@ public interface AnalyticalStatementRepository extends JpaRepository<AnalyticalS
 			Date currencyDate, String originatorAccount, String model, String debitAuthorizationNumber,
 			String recipientAccount, String approvalModel, String approvalAuthorizationNumber,
 			boolean urgently, Double amount);
+	
+	List<AnalyticalStatement> findAnalyticalStatementsByDailyAccountStatusId(Pageable pageable,Long dailyAccountStatusId);
 	
 }

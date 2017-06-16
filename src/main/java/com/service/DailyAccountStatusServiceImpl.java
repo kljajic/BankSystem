@@ -129,7 +129,7 @@ public class DailyAccountStatusServiceImpl implements DailyAccountStatusService{
 		calendar.set(Calendar.SECOND, 59);
 		Date endDate = calendar.getTime();
 				
-		DailyAccountStatus dailyAccountStatus = dailyAccountStatusRepository.findDailyAccountStatusByDateAndAccountNumber(accountNumber);
+		DailyAccountStatus dailyAccountStatus = dailyAccountStatusRepository.findDailyAccountStatusByLastDateAndAccountNumber(accountNumber);
 		if(dailyAccountStatus == null) {
 			dailyAccountStatus = new DailyAccountStatus();
 			dailyAccountStatus.setAccount(accountService.getAccountByAccountNumber(accountNumber));
@@ -143,6 +143,24 @@ public class DailyAccountStatusServiceImpl implements DailyAccountStatusService{
 			return newDailyAccountStatus;
 		}
 		return dailyAccountStatus;
+	}
+
+	@Override
+	public DailyAccountStatus getDailyAccountStatusForAccount(Long accountId, Date date) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.set(Calendar.HOUR_OF_DAY, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		Date startDate = calendar.getTime();
+		System.out.println(startDate);
+		calendar.set(Calendar.HOUR_OF_DAY, 23);
+		calendar.set(Calendar.MINUTE, 59);
+		calendar.set(Calendar.SECOND, 59);
+		Date endDate = calendar.getTime();
+		System.out.println(endDate);
+		
+		return this.dailyAccountStatusRepository.findDailyAccountStatusByAccountAndDate(accountId, startDate, endDate);
 	}
 	
 }

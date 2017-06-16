@@ -2,8 +2,11 @@ package com.service;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.data.domain.Pageable;
 
 import com.model.AnalyticalStatement;
 
@@ -40,5 +43,7 @@ public interface AnaltyicalStatementService {
 	void exportToPdf(Long accountId,Date startDate,Date endDate,HttpServletResponse response);
 	
 	Collection<AnalyticalStatement> doTransaction(AnalyticalStatement analyticalStatement);
+	
+	List<AnalyticalStatement> getAnalyticalStatementsForDailyAccountStatusId(Pageable pageable, Long dailyAccountStatusId);
 
 }

@@ -17,6 +17,10 @@ public interface DailyAccountStatusRepository extends JpaRepository<DailyAccount
 	
 	@Query("select status from DailyAccountStatus status inner join status.account as account where "
 			+ "account.accountNumber = ?1 and status.date = (select max(s.date) from DailyAccountStatus s where s.account.accountNumber = ?1)")
-	DailyAccountStatus findDailyAccountStatusByDateAndAccountNumber(String accountNumber);
+	DailyAccountStatus findDailyAccountStatusByLastDateAndAccountNumber(String accountNumber);
+	
+	@Query("select status from DailyAccountStatus status inner join status.account as account where "
+			+ "account.id = ?1 and status.date between ?2 and ?3")
+	DailyAccountStatus findDailyAccountStatusByAccountAndDate(Long accountId,Date minDate, Date maxDate);
 	
 }
