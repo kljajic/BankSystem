@@ -1,0 +1,88 @@
+package com.webservice;
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ws.server.endpoint.annotation.Endpoint;
+import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
+import org.springframework.ws.server.endpoint.annotation.RequestPayload;
+import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
+
+import com.bank.wsdl.Mt103Request;
+import com.model.AnalyticalStatement;
+import com.model.AnalyticalStatementMode;
+import com.model.Bank;
+import com.model.xml.RTGSRequest;
+import com.service.AnaltyicalStatementService;
+import com.service.BankService;
+import com.service.CityService;
+import com.service.CurrencyService;
+import com.service.RTGSRequestService;
+
+
+@Endpoint
+public class RTGSMt103Endpoint {
+	
+	@Autowired
+	private CurrencyService currencyService;
+	
+	@Autowired
+	private AnaltyicalStatementService analtyicalStatementService;
+	
+	@Autowired
+	private CityService cityService;
+	
+	@Autowired
+	private RTGSRequestService rtgsRequestService;
+	
+	@Autowired
+	private BankService bankService;
+
+	private static final String NAMESPACE_URI = "http://com/xsdSchemas";
+
+	@PayloadRoot(namespace = NAMESPACE_URI+"rtgsRequest", localPart= "mt103Request")
+	@ResponsePayload
+	public boolean getMt103Request(@RequestPayload Mt103Request req) {
+		
+		System.out.println("Usao mt103");
+		AnalyticalStatement as = new AnalyticalStatement();
+		as.setOriginator(req.getOriginator());
+		as.setPurpose(req.getPaymentPurpose());
+		as.setRecipient(req.getReciever());
+		as.setDateOfReceipt(req.getStatementDate().toGregorianCalendar().getTime());
+		as.setCurrencyDate(req.getCurrencyDate().toGregorianCalendar().getTime());
+		as.setOriginatorAccount(req.getOriginatorAccountNumber());
+		as.setModel(req.getChargeModel());
+		as.setDebitAuthorizationNumber(req.getChargeDialNumber());
+		
+		as.setRecipientAccount(req.getRecieverAccountNumber());
+		as.setApprovalModel(req.getClearanceModel());
+		as.setApprovalAuthorizationNumber(req.getClearanceDialNumber());
+		as.setUrgently(true);
+		as.setAmount(req.getAmount().doubleValue());
+		//as.setErrorType(req.getEr);
+		//as.setDailyAccountStatus(req.getDa);
+		//as.setPlaceOfAcceptance(req.getP);
+		as.setCurrency(currencyService.getCurrencyByOfficialCode(req.getCurrency()));
+		as.setUplata(true);
+		as.setAnalyticalStatementMode(AnalyticalStatementMode.TRANSFER);
+		
+		/*analtyicalStatementService.createAnalyticalStatement(currencyService.getCurrencyByOfficialCode(req.getCurrency()).getId(),
+				this.cityService.getCityByName(req.getPlaceOfAcceptance()).getId(),
+				req.getStatementDate().toGregorianCalendar().getTime(),
+				req.getCurrencyDate().toGregorianCalendar().getTime(),
+				as);*/
+		
+		RTGSRequest rtgs = new RTGSRequest();
+		rtgs.setMessageId("MT103");
+		Bank paymentBank = bankService.findBankByLeadNumber(req.getOriginatorBankTransactionAccount().substring(0, 3));
+		//rtgs.setPaymentBank(bankService);
+		Bank recieverBank = bankService.findBankByLeadNumber(req.getRecieverBankTransactionAccount().substring(0, 3));
+		rtgs.setRecieverBank(recieverBank);
+		rtgs.setAnalyticalStatement(as);
+		
+		rtgsRequestService.save(rtgs);
+		
+		return true;
+	}
+	
+}

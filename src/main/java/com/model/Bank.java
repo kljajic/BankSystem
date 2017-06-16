@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.model.xml.ClearingSettlementRequest;
 import com.model.xml.RTGSRequest;
+import com.model.xml.RTGSResponse;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -56,6 +57,9 @@ public class Bank implements Serializable {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "bank", orphanRemoval = true, targetEntity = Account.class)
 	private Set<Account> accounts;
 
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, targetEntity = RTGSResponse.class, mappedBy = "bank")
+	private Set<RTGSResponse> rTGSResponses;
+	
 	@ManyToOne
 	private Country country;
 

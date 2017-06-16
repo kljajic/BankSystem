@@ -27,6 +27,8 @@ public class RtgsMt910Endpoint {
 	@ResponsePayload
 	public boolean getRtgsMt910Response(@RequestPayload Mt910Response receivedReqeust){
 		
+		System.out.println("Usao mt910");
+
 		RTGSResponse response = new RTGSResponse();
 		response.setCurrencyCode(receivedReqeust.getCurrency());
 		response.setCurrencyDate(receivedReqeust.getCurrencyDate().toGregorianCalendar().getTime());

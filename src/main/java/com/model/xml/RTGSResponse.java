@@ -5,6 +5,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Size;
@@ -40,6 +42,10 @@ public class RTGSResponse implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = -1104060011581400898L;
+	
+	@GeneratedValue
+	@Id
+	private Long id;
 	
 	@Column(nullable = false)
 	@Size(min=1, max=50)
