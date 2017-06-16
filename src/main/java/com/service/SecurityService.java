@@ -9,5 +9,7 @@ public interface SecurityService {
 	 void registerUser(User user);
 	 
 	 void logoutUser();
+	 
+	 boolean getLoggedUser();
 	
 }

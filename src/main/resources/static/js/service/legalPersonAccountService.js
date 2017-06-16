@@ -18,6 +18,7 @@ legalPersonAccountService.factory('legalPersonAccountService', function($http) {
 	temp.getAllClients = function() {
 		return $http.get('/clients');
 	};
+	
 
 	temp.addLegalPersonAccount = function(legalPersonAccount, openingDate,
 			bankId, clientId, currencyId) {

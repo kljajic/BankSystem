@@ -2,7 +2,7 @@ var legalPersonAccountController = angular.module('bankApp.legalPersonAccountCon
 		[]);
 
 legalPersonAccountController.controller('legalPersonAccountController', function($scope,
-		$location, $window, $compile, $routeParams,legalPersonAccountService, ngNotify, exchangeListService) {
+		$location, $window, $compile, $routeParams,analyticalStatementService,legalPersonAccountService, ngNotify, exchangeListService) {
 	
 	$scope.action = {};
 	$scope.legalPersonAccounts = [];
@@ -180,6 +180,18 @@ legalPersonAccountController.controller('legalPersonAccountController', function
 	$scope.showBanks = function(bank){
 		$("#bankModal").modal('show');
 		$scope.setModalSelectedBank(bank);
+	}
+	
+	$scope.pdf = function(account){
+		$("#pdfModal").modal('show');
+		$scope.pdfExportAccount = account;
+	}
+	
+	$scope.exportToPdf = function(){
+		console.log($scope.pdfExportAccount);
+		analyticalStatementService.exportToPdf($scope.pdfExportAccount.id,$scope.pdfExportAccount.startDate,$scope.pdfExportAccount.endDate).then(function(response){
+			$("#pdfModal").modal('show');
+		});
 	}
 	
 	

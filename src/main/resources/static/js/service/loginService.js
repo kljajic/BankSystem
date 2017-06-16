@@ -14,5 +14,15 @@ loginService.factory('loginService', function($http){
 		return $http.post("/public/login", jsonLogParams);
 	}
 	
+	temp.logout = function(){
+		
+		return $http.get("/public/logout");
+	}
+	
+	temp.getLogged = function(){
+		
+		return $http.get("/public/getLogged");
+	}
+	
 	return temp;
 });

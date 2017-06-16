@@ -63,8 +63,10 @@
 <script src="js/controller/ClearingSettlementController.js"></script>
 <script src="js/service/ClearingSettlementService.js"></script>
 
+<script src="js/controller/userController.js"></script>
+
 </head>
-<div ng-cloak ng-controller="loginController">
+<div ng-cloak ng-controller="userController">
 	<nav class="navbar navbar-default" role="navigation">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -78,14 +80,14 @@
 			<div class="collapse navbar-collapse"
 				id="bs-sidebar-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="#">Home</a></li>
-					<li class="dropdown"><a href="#" class="dropdown-toggle"
+					<li class="active" ng-show = "!logged"><a href="#">Home</a></li>
+					<li class="dropdown" ng-show = "logged"><a href class="dropdown-toggle"
 						data-toggle="dropdown">User</a>
 						<ul class="dropdown-menu forAnimate" role="menu">
-							<li><a href=#>Profile</a></li>
-							<li><a href="#">Account</a></li>
-							<li><a href="#">History</a></li>
-							<li><a ng-click="logout()">Logout</a></li>
+							<li><a href>Profile</a></li>
+							<li><a href=>Account</a></li>
+							<li><a href>History</a></li>
+							<li><a href ng-click="logout()">Logout</a></li>
 						</ul></li>
 					<li><a href="#!/accounts">Accounts</a></li>
 					<li><a href="#!/countries">Countries</a></li>

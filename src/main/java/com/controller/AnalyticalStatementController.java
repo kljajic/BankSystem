@@ -110,10 +110,7 @@ public class AnalyticalStatementController {
 	  @GetMapping("/export/{accountId}/{startDate}/{endDate}")
 	  @ResponseBody
 	  @Permission(permissionName = "exportAnalyticalStatement")
-	  public void exportToPdf(@PathVariable("accountId") Long accountId,@PathVariable("startDate") String startDate,@PathVariable("endDate") String endDate,HttpServletResponse response) throws ParseException {
-		  SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-DD");
-		  Date start = sdf.parse(startDate);
-		  Date end = sdf.parse(endDate);
+	  public void exportToPdf(@PathVariable("accountId") Long accountId,@PathVariable("startDate") Date start,@PathVariable("endDate") Date end,HttpServletResponse response) throws ParseException {
 		  analyticalStatementService.exportToPdf(accountId, start,end,response);
 	  }
 

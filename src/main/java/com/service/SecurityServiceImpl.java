@@ -45,4 +45,13 @@ public class SecurityServiceImpl implements SecurityService {
 		SecurityContextHolder.getContext().setAuthentication(null);
 	}
 
+	@Override
+	public boolean getLoggedUser() {
+		if(SecurityContextHolder.getContext().getAuthentication() != null){
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 }

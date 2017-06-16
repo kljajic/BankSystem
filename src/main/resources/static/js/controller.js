@@ -10,5 +10,6 @@ var controller = angular.module('bankApp.controller', ['bankApp.countryControlle
                                                        'bankApp.legalPersonAccountController',
                                                        'bankApp.bankController',
                                                        'bankApp.RTGSRequestController',
-                                                       'bankApp.ClearingSettlementController'
+                                                       'bankApp.ClearingSettlementController',
+                                                       'bankApp.userController'
                                                        ]);

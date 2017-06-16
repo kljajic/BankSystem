@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.Date;
 
 import com.model.Account;
-import com.model.AnalyticalStatement;
 
 public interface AccountService {
 	

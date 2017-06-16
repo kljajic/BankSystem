@@ -75,6 +75,13 @@ analyticalStatementService.factory('analyticalStatementService', function($http)
 		});
 	}
 	
+	temp.exportToPdf = function(accountId,startDate,endDate){
+		return $http({
+			method : 'GET',
+			url: '../analyticalStatements/export/' + accountId + '/'  + startDate + '/' + endDate,
+		});
+	}
+	
 	temp.deleteAnalyticalStatement = function(id){
 		return $http({
 			method : 'DELETE',

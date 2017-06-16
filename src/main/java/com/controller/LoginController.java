@@ -41,4 +41,9 @@ public class LoginController {
 		securityService.logoutUser();
 	}
 	
+	@GetMapping("/getLogged")
+	public boolean getLoggedUser(){
+		return securityService.getLoggedUser();
+	}
+	
 }
