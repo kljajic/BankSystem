@@ -37,13 +37,12 @@ public class RTGSMt103Endpoint {
 	@Autowired
 	private BankService bankService;
 
-	private static final String NAMESPACE_URI = "http://com/xsdSchemas";
+	private static final String NAMESPACE_URI = "http://com/xsdSchemas/";
 
 	@PayloadRoot(namespace = NAMESPACE_URI+"rtgsRequest", localPart= "mt103Request")
 	@ResponsePayload
-	public boolean getMt103Request(@RequestPayload Mt103Request req) {
+	public Mt103Request getMt103Request(@RequestPayload Mt103Request req) {
 		
-		System.out.println("Usao mt103");
 		AnalyticalStatement as = new AnalyticalStatement();
 		as.setOriginator(req.getOriginator());
 		as.setPurpose(req.getPaymentPurpose());
@@ -74,15 +73,16 @@ public class RTGSMt103Endpoint {
 		
 		RTGSRequest rtgs = new RTGSRequest();
 		rtgs.setMessageId("MT103");
+		
 		Bank paymentBank = bankService.findBankByLeadNumber(req.getOriginatorBankTransactionAccount().substring(0, 3));
-		//rtgs.setPaymentBank(bankService);
 		Bank recieverBank = bankService.findBankByLeadNumber(req.getRecieverBankTransactionAccount().substring(0, 3));
+		
+		rtgs.setPaymentBank(paymentBank);
 		rtgs.setRecieverBank(recieverBank);
 		rtgs.setAnalyticalStatement(as);
 		
-		rtgsRequestService.save(rtgs);
-		
-		return true;
+		//rtgsRequestService.save(rtgs);
+		return req;
 	}
 	
 }

@@ -61,7 +61,7 @@ public class RTGSResponse implements Serializable{
 	private Bank bank;
 	
 	@Column(nullable = false)
-	@Size(min=1, max=3)
+	@Size(min=1, max=50)
 	@XmlElement(name="requestId", required=true)
 	private String requestId;
 	

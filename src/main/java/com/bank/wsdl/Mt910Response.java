@@ -9,7 +9,6 @@ package com.bank.wsdl;
 
 import java.math.BigDecimal;
 
-import javax.persistence.Entity;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -18,7 +17,6 @@ import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.datatype.XMLGregorianCalendar;
-
 
 /**
  * <p>
@@ -53,31 +51,28 @@ import javax.xml.datatype.XMLGregorianCalendar;
 		"requestMessageId", "currencyDate", "amount", "currency" })
 @XmlRootElement(name = "mt910Response", namespace = "http://com/xsdSchemas/rtgsResponseReciever")
 public class Mt910Response {
-	
-	
-	@XmlElement(required = true)
+
+	@XmlElement(namespace = "http://com/xsdSchemas/rtgsResponseReciever", required = true)
 	protected String messageId;
 
-	@XmlElement(required = true)
+	@XmlElement(namespace = "http://com/xsdSchemas/rtgsResponseReciever",required = true)
 	protected String recieverBankSwiftCode;
 
-	@XmlElement(required = true)
+	@XmlElement(namespace = "http://com/xsdSchemas/rtgsResponseReciever", required = true)
 	protected String recieverBankTransactionAccount;
 
-	@XmlElement(required = true)
+	@XmlElement(namespace = "http://com/xsdSchemas/rtgsResponseReciever", required = true)
 	protected String requestMessageId;
 
-	@XmlElement(required = true)
+	@XmlElement(namespace = "http://com/xsdSchemas/rtgsResponseReciever", required = true)
 	@XmlSchemaType(name = "date")
 	protected XMLGregorianCalendar currencyDate;
-	
-	@XmlElement(required = true)
+
+	@XmlElement(namespace = "http://com/xsdSchemas/rtgsResponseReciever", required = true)
 	protected BigDecimal amount;
 
-	@XmlElement(required = true)
+	@XmlElement(namespace = "http://com/xsdSchemas/rtgsResponseReciever", required = true)
 	protected String currency;
-	
-	@XmlTransient
 
 	/**
 	 * Gets the value of the messageId property.
@@ -161,6 +156,10 @@ public class Mt910Response {
 	 */
 	public void setRequestMessageId(String value) {
 		this.requestMessageId = value;
+	}
+
+	public void setCurrency(String currency) {
+		this.currency = currency;
 	}
 
 	/**

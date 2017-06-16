@@ -67,5 +67,13 @@ public class ObjectFactory {
     public ClearingAndSettlementItem createClearingAndSettlementItem() {
         return new ClearingAndSettlementItem();
     }
+    
+    /**
+     * Create an instance of {@link Mt910Response }
+     * 
+     */
+    public Mt910Response createMt910Response() {
+        return new Mt910Response();
+    }
 
 }

@@ -25,10 +25,8 @@ public class RtgsMt910Endpoint {
 	
 	@PayloadRoot(namespace=NAMESPACE + "rtgsResponseReciever", localPart="mt910Response")
 	@ResponsePayload
-	public boolean getRtgsMt910Response(@RequestPayload Mt910Response receivedReqeust){
+	public Mt910Response getRtgsMt910Response(@RequestPayload Mt910Response receivedReqeust){
 		
-		System.out.println("Usao mt910");
-
 		RTGSResponse response = new RTGSResponse();
 		response.setCurrencyCode(receivedReqeust.getCurrency());
 		response.setCurrencyDate(receivedReqeust.getCurrencyDate().toGregorianCalendar().getTime());
@@ -38,9 +36,9 @@ public class RtgsMt910Endpoint {
 		response.setValue(receivedReqeust.getAmount().doubleValue());
 		response.setBank(bankService.findBankByLeadNumber(receivedReqeust.getRecieverBankTransactionAccount().substring(0, 3)));
 		
-		rtgsResponseService.save(response);
 		
-		return true;
+		rtgsResponseService.save(response);
+		return receivedReqeust;
 	}
 	
 }

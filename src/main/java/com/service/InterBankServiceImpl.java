@@ -31,6 +31,8 @@ import com.model.AnalyticalStatement;
 import com.model.Bank;
 import com.model.xml.ClearingSettlementRequest;
 import com.model.xml.RTGSRequest;
+import com.model.xml.RTGSResponse;
+import com.model.xml.RTGSResponseType;
 import com.repository.BankRepository;
 import com.repository.ClearingAndSettlementRequestRepository;
 import com.repository.CurrencyExchangeRepository;
@@ -57,6 +59,9 @@ public class InterBankServiceImpl implements InterBankService {
 	
 	@Autowired
 	private ApplicationContext con;
+	
+	@Autowired
+	private RTGSResponseService rtgsResponseService;
 	
 	@Override
 	public void generateRTGSService(AnalyticalStatement as) {
@@ -87,6 +92,17 @@ public class InterBankServiceImpl implements InterBankService {
 			try {
 				mt = cbc.getRtgsResponse(mt103Request);
 				System.out.println(mt.getAmount());
+				
+				RTGSResponse rtgsResponse = new RTGSResponse();
+				rtgsResponse.setMessageId(mt.getMessageId());
+				rtgsResponse.setBank(paymentBank);
+				rtgsResponse.setCurrencyCode(mt.getCurrency());
+				rtgsResponse.setCurrencyDate(mt.getCurrencyDate().toGregorianCalendar().getTime());
+				rtgsResponse.setRequestId(mt.getRequestMessageId());
+				rtgsResponse.setValue(mt.getAmount().doubleValue());
+				rtgsResponse.setResponseType(RTGSResponseType.PaymentAccount);
+				rtgsResponseService.save(rtgsResponse);
+				
 			} catch (XmlMappingException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

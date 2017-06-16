@@ -2,20 +2,22 @@ package com.webservice.client;
 
 import java.io.IOException;
 import java.io.StringWriter;
-import java.math.BigDecimal;
 
 import javax.xml.transform.stream.StreamResult;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.oxm.XmlMappingException;
 import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
 import org.springframework.ws.soap.client.core.SoapActionCallback;
 
 import com.bank.wsdl.Mt103Request;
 import com.bank.wsdl.Mt900Response;
+import com.service.RTGSResponseService;
 
 
 public class CentralBankClient extends WebServiceGatewaySupport{
 		
+	
 	public Mt900Response getRtgsResponse(Mt103Request request) throws XmlMappingException, IOException {
 		
 		final StringWriter out = new StringWriter();
