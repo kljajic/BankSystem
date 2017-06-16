@@ -109,6 +109,8 @@ public class Bank implements Serializable {
 	private Set<ClearingSettlementRequest> cSRecieverBank;
 	
 
+	
+	
 	public String getSwift() {
 		return swift;
 	}
@@ -141,6 +143,21 @@ public class Bank implements Serializable {
 	@JsonIgnore
 	public Set<RTGSRequest> getRtgsRequestsRecieverBank() {
 		return rtgsRequestsRecieverBank;
+	}
+
+	@JsonIgnore
+	public Set<RTGSResponse> getrTGSResponses() {
+		return rTGSResponses;
+	}
+
+	@JsonIgnore
+	public Set<ClearingSettlementRequest> getcSPaymentBank() {
+		return cSPaymentBank;
+	}
+	
+	@JsonIgnore
+	public Set<ClearingSettlementRequest> getcSRecieverBank() {
+		return cSRecieverBank;
 	}
 	
 	

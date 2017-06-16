@@ -8,5 +8,7 @@ var service = angular.module('bankApp.service', ['bankApp.countryService',
                                                  'bankApp.legalPersonAccountService',
                                                  'bankApp.loginService',
                                                  'bankApp.legalPersonAccountService',
-                                                 'bankApp.bankService'
+                                                 'bankApp.bankService',
+                                                 'bankApp.RTGSRequestService',
+                                                 'bankApp.ClearingSettlementService'
                                                  ]);

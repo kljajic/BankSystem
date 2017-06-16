@@ -23,5 +23,9 @@ app.config(function($routeProvider) {
 		templateUrl : "html/login.html"
 	}).when("/banks", {
 		templateUrl : "html/bank.html"
+	}).when("/RTGSRequest", {
+		templateUrl : "html/RTGSRequest.html"
+	}).when("/ClearingSettlement", {
+		templateUrl : "html/ClearingSettlement.html"
 	});
 });

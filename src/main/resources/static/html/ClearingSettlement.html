@@ -1,4 +1,4 @@
-<div ng-cloak ng-controller = "RTGSRequestController">
+<div ng-cloak ng-controller="ClearingSettlementController">
 
 	<div class="toolbar">
 		<ul>
@@ -29,22 +29,25 @@
 	<div class="table">
 		<table>
 			<tr class="header">
-				<th>Poruka</th>
 				<th>Banka duznika</th>
 				<th>Banka poverioca</th>
-				<th>Analitika izvoda</th>
+				<th>Ukupna suma</th>
+				<th>Valuta</th>
+				<th>Datum valute</th>
+				<th>Datum</th>
 			</tr>
-			<tr ng-repeat="rtgsReq in rtgsRequests"
-				ng-click="setSelected(rtgsReq)"
-				ng-class="{'alert alert-info' : selectedRTGSReq===rtgsReq}">
-				<td class="messageId">{{ rtgsReq.messageId }}</td>
-				<td class="paymentBank">{{ rtgsReq.paymentBank.name }}</td>
-				<td class="recieverBank">{{ rtgsReq.recieverBank.name }}</td>
-				<td class="analitycalStatement">{{ rtgsReq.analyticalStatement.id }}</td>
+			<tr ng-repeat="csReq in csRequests"
+				ng-click="setSelected(csReq)"
+				ng-class="{'alert alert-info' : selectedCsReq===csReq}">
+				<td class="paymentBank">{{ csReq.paymentBank.name }}</td>
+				<td class="recieverBank">{{ csReq.recieverBank.name }}</td>
+				<td class="totalAmount">{{ csReq.totalAmount }}</td>
+				<td class="currency">{{ csReq.currency.officialCode }}</td>
+				<td class="currencyDate">{{ csReq.currencyDate}}</td>
+				<td class="date">{{ csReq.date }}</td>
 			</tr>
 		</table>
 	</div>
-
 
 
 </div>

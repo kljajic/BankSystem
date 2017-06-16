@@ -128,5 +128,15 @@ public class Currency {
 	public void setLegalPersonAccounts(Set<Account> legalPersonAccounts) {
 		this.legalPersonAccounts = legalPersonAccounts;
 	}
+
+	@JsonIgnore
+	public Set<ClearingSettlementRequest> getClearingSettlementRequests() {
+		return clearingSettlementRequests;
+	}
+
+	@JsonProperty
+	public void setClearingSettlementRequests(Set<ClearingSettlementRequest> clearingSettlementRequests) {
+		this.clearingSettlementRequests = clearingSettlementRequests;
+	}
 	
 }

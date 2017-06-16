@@ -40,6 +40,7 @@ import com.repository.RTGSRequestRepository;
 import com.webservice.client.CentralBankClient;
 
 
+
 @Service
 public class InterBankServiceImpl implements InterBankService {
 
@@ -190,6 +191,7 @@ public class InterBankServiceImpl implements InterBankService {
 		}
 		if(flag){
 			clearingSettlementRequests.get(tempIndex).getAnalyticalStatements().add(as);
+			clearingSettlementRequests.get(tempIndex).setTotalAmount(clearingSettlementRequests.get(tempIndex).getTotalAmount() + as.getAmount());
 			System.out.println("flag");
 		} else {
 			ClearingSettlementRequest csr = new ClearingSettlementRequest();
