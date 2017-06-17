@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -270,6 +271,8 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 	    params.put("startDate", startDate);
 	    params.put("endDate", endDate);
 	    params.put("client", a.getClient().getName() + " " +  a.getClient().getSurname());
+	    URL url = this.getClass().getClassLoader().getResource("jasper/logo.png");
+	    params.put("logo", url);
 	    FileInputStream fileInputStream;
 	    params.put("address", a.getClient().getAddress());
 		try {
