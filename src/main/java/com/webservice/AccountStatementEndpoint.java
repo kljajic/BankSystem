@@ -1,13 +1,13 @@
 package com.webservice;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.Calendar;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
@@ -68,17 +68,13 @@ public class AccountStatementEndpoint {
 		if(clientAccount == null){
 			return null;
 		}
-		System.out.println("NASAO KLIJENTA");
-		System.out.println(request.getDate().toGregorianCalendar().getTime());
 		DailyAccountStatus dailyAccountStatus = dailyAccountStatusService.getDailyAccountStatusForAccount(clientAccount.getId(), request.getDate().toGregorianCalendar().getTime());
 		if(dailyAccountStatus == null){
 			return null;
 		}
-		System.out.println("NASAO DAILY ACCOUNT STATUS");
 		List<AnalyticalStatement> statements=
 				analyticalStatementService.getAnalyticalStatementsForDailyAccountStatusId(new PageRequest(request.getSectionOrdinate(), 5), dailyAccountStatus.getId());
-		System.out.println(statements);
-		System.out.println(statements.size());
+		Collection<AnalyticalStatement> allStatements=analyticalStatementService.getAnalyticalStatementsByDailyAccountStatusId(dailyAccountStatus.getId());
 		if(statements != null && statements.size() > 0){
 			AccountStatementSectionResponse response = new AccountStatementSectionResponse();
 			response.setAccountNumber(clientAccount.getAccountNumber());
@@ -86,8 +82,10 @@ public class AccountStatementEndpoint {
 			response.setSectionOrdinate(request.getSectionOrdinate());
 			response.setSectionOrdinate((short)dailyAccountStatus.getNumberOfChanges());
 			response.setPreviousBalance(new BigDecimal(dailyAccountStatus.getPreviousAmount()));
-			//response.setNumberOfChangesDue(value);
-			//response.setNumberOfChangesProfit(value);
+			int numberOfChangesProfit = getNumberOfChangesInFavor(allStatements);
+			response.setNumberOfChangesProfit(new BigInteger(numberOfChangesProfit+""));
+			int numberOfChangesDue = allStatements.size() - numberOfChangesProfit;
+			response.setNumberOfChangesDue(new BigInteger(numberOfChangesDue+""));
 			response.setTotalDue(new BigDecimal(dailyAccountStatus.getTransferExpenses()));
 			response.setTotalProfit(new BigDecimal(dailyAccountStatus.getTransferInFavor()));
 			for(AnalyticalStatement statement : statements){
@@ -133,14 +131,27 @@ public class AccountStatementEndpoint {
 		sectionItem.setClearanceDialNumber(analyticalStatement.getApprovalAuthorizationNumber());
 		sectionItem.setClearanceModel(analyticalStatement.getApprovalModel());
 		sectionItem.setCurrency(analyticalStatement.getCurrency().getOfficialCode());
-		//sectionItem.setCurrencyDate(XMLGregorianCalendarImpl.);
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(analyticalStatement.getCurrencyDate());
+		sectionItem.setCurrencyDate(XMLGregorianCalendarImpl.createDateTime(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH)+1, calendar.get(Calendar.DATE), calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), calendar.get(Calendar.SECOND)));
 		sectionItem.setOriginator(analyticalStatement.getOriginator());
 		sectionItem.setOriginatorAccountNumber(analyticalStatement.getOriginatorAccount());
 		sectionItem.setPaymentPurpose(analyticalStatement.getPurpose());
 		sectionItem.setReciever(analyticalStatement.getRecipient());
 		sectionItem.setRecieverAccountNumber(analyticalStatement.getRecipientAccount());
-		//sectionItem.setStatementDate(XMLGregorianCalendarImpl.);
+		calendar.setTime(analyticalStatement.getDateOfReceipt());
+		sectionItem.setStatementDate(XMLGregorianCalendarImpl.createDateTime(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH)+1, calendar.get(Calendar.DATE), calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), calendar.get(Calendar.SECOND)));
 		return sectionItem;
+	}
+	
+	private int getNumberOfChangesInFavor(Collection<AnalyticalStatement> analyticalStatements){
+		int numberOfChangesInFavor = 0;
+		for(AnalyticalStatement analyticalStatement : analyticalStatements){
+			if(analyticalStatement.isUplata()){
+				numberOfChangesInFavor++;
+			}
+		}
+		return numberOfChangesInFavor;
 	}
 	
 }
