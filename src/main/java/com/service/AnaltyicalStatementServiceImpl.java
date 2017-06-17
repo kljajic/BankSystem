@@ -267,8 +267,8 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 		Account a = accountService.getAccount(accountId);
 	    Map<String,Object> params = new HashMap<>();
 	    params.put("bankAccount", a.getAccountNumber());
-	   // params.put("startDate", startDate);
-	   // params.put("endDate", endDate);
+	    params.put("startDate", startDate);
+	    params.put("endDate", endDate);
 	    params.put("client", a.getClient().getName() + " " +  a.getClient().getSurname());
 	    FileInputStream fileInputStream;
 	    params.put("address", a.getClient().getAddress());
