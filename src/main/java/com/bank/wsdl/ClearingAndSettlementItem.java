@@ -389,5 +389,7 @@ public class ClearingAndSettlementItem {
     public void setCurrency(String value) {
         this.currency = value;
     }
+    
+    
 
 }
