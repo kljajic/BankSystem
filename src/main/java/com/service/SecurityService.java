@@ -11,5 +11,7 @@ public interface SecurityService {
 	 void logoutUser();
 	 
 	 boolean getLoggedUser();
+	 
+	 boolean changeUserPassword(String oldPassword, String newPassword, String username);
 	
 }
