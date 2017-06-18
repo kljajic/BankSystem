@@ -4,10 +4,17 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
+
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
@@ -78,10 +85,20 @@ public class AccountStatementEndpoint {
 		if(statements != null && statements.size() > 0){
 			AccountStatementSectionResponse response = new AccountStatementSectionResponse();
 			response.setAccountNumber(clientAccount.getAccountNumber());
-			response.setRequestDate(request.getDate());
+			
+			GregorianCalendar cal = new GregorianCalendar();
+			cal.setTime(new Date());
+			
+			try {
+				response.setRequestDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(cal));
+			} catch (DatatypeConfigurationException e) {
+				response.setRequestDate(request.getDate());
+			}
+
 			response.setSectionOrdinate(request.getSectionOrdinate());
 			response.setSectionOrdinate((short)dailyAccountStatus.getNumberOfChanges());
 			response.setPreviousBalance(new BigDecimal(dailyAccountStatus.getPreviousAmount()));
+			response.setCurrentBalance(new BigDecimal(dailyAccountStatus.getCurrentAmount()));
 			int numberOfChangesProfit = getNumberOfChangesInFavor(allStatements);
 			response.setNumberOfChangesProfit(new BigInteger(numberOfChangesProfit+""));
 			int numberOfChangesDue = allStatements.size() - numberOfChangesProfit;
