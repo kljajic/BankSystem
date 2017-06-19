@@ -11,5 +11,6 @@ var controller = angular.module('bankApp.controller', ['bankApp.countryControlle
                                                        'bankApp.bankController',
                                                        'bankApp.RTGSRequestController',
                                                        'bankApp.ClearingSettlementController',
-                                                       'bankApp.userController'
+                                                       'bankApp.userController',
+                                                       'bankApp.registrationController'
                                                        ]);

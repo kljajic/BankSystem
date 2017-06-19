@@ -297,5 +297,7 @@ insert into roles_privileges(role_id, privilege_id) values(1, 83);
 insert into roles_privileges(role_id, privilege_id) values(1, 84);
 insert into roles_privileges(role_id, privilege_id) values(1, 85);
 
-
+insert into privilege(id, name) values (86, 'registerClient');
+insert into roles_privileges(role_id, privilege_id) values(1, 86);
+insert into roles_privileges(role_id, privilege_id) values(2, 86);
 

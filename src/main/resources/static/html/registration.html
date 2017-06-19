@@ -1,0 +1,52 @@
+<div ng-cloak ng-controller="registrationController">
+
+	<div class="panel">
+		<p>
+
+			<input ng-value="client.id" type="hidden" name="${field.name}"
+				id="${field.id}" /> <input type="text" name="someData"
+				ng-model="client.id" style="display: none;" />
+		<p>
+			<label for="${field.officialCode}">Ime</label> <input
+				ng-model="client.name" type="text"
+				name="${field.officialCode}" id="${field.officialCode}" />
+		</p>
+		<p>
+			<label for="${field.name}">Prezime</label> <input
+				ng-model="client.surname" type="text" name="${field.name}"
+				id="${field.name}" />
+		</p>
+		<p>
+			<label for="${field.domicilna}">Email</label> <input
+				ng-model="client.email" type="email"
+				name="${field.domicilna}" id="${field.domicilna}" />
+		</p>
+		<p>
+			<label for="${field.domicilna}">Sifra</label> <input
+				ng-model="client.password" type="password"
+				name="${field.domicilna}" id="${field.domicilna}" />
+		</p>
+		<p>
+			<label for="${field.domicilna}">Adresa</label> <input
+				ng-model="client.address" type="text"
+				name="${field.domicilna}" id="${field.domicilna}" />
+		</p>
+		<p>
+			<label for="${field.domicilna}">Datum rodjenja</label> <input
+				ng-model="client.dateOfBirth" type="date"
+				name="${field.domicilna}" id="${field.domicilna}" />
+		</p>
+
+		<div id="formActions">
+			<input class="btn btn-lg btn-default pulled-left"
+				ng-click="submitAction(client)" type="submit" value="Registruj"
+				style="margin-left: 6em" /> <input
+				class="btn btn-lg btn-default pulled-left"
+				ng-click="rollbackAction()" type="submit" value="Rollback"
+				style="margin-left: 6em" />
+		</div>
+
+		</p>
+	</div>
+
+</div>

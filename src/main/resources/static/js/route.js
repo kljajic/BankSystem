@@ -27,5 +27,7 @@ app.config(function($routeProvider) {
 		templateUrl : "html/RTGSRequest.html"
 	}).when("/ClearingSettlement", {
 		templateUrl : "html/ClearingSettlement.html"
+	}).when("/register", {
+		templateUrl : "html/registration.html"
 	});
 });
