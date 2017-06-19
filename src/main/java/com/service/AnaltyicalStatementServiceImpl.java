@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -196,6 +197,16 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 			amount = new Double(analyticalStatement.getAmount());
 		}
 		Date minimumDate = new Date(Long.MIN_VALUE);
+		
+		Calendar cal =Calendar.getInstance();
+		cal.setTime(dateOfReceipt);
+		cal.add(Calendar.HOUR_OF_DAY, 24);
+		dateOfReceipt =cal.getTime();
+		
+		cal.setTime(currencyDate);
+		cal.add(Calendar.HOUR_OF_DAY, 24);
+		currencyDate =cal.getTime();
+		
 		return analyticalStatementRepository.searchAnalyticalStatements(currencyCode,
 								cityPttNumber, accountNumber, originator, purpose, recipient,
 								minimumDate, dateOfReceipt, currencyDate, originatorAccount, model,
