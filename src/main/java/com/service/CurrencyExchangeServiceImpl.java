@@ -16,19 +16,16 @@ public class CurrencyExchangeServiceImpl implements CurrencyExchangeService{
 
 	@Override
 	public ArrayList<CurrencyExchange> getAll() {
-		// TODO Auto-generated method stub
 		return currencyExchangeRepository.findAll();
 	}
 
 	@Override
 	public void save(CurrencyExchange ce) {
-		// TODO Auto-generated method stub
 		currencyExchangeRepository.save(ce);
 	}
 
 	@Override
 	public void removeCurrencyExchange(Long id) {
-		// TODO Auto-generated method stub
 		currencyExchangeRepository.delete(id);
 	}
 

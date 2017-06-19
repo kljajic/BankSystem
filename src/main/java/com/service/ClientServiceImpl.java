@@ -32,7 +32,6 @@ public class ClientServiceImpl implements ClientService{
 	public Client save(Client client) {
 		client.setPassword(passwordEncoder.encode(client.getPassword()));
 		Client c = clientRepository.save(client);
-		System.out.println(c.getId());
 		clientRepository.addClientRole(c.getId());
 		return c;
 	}

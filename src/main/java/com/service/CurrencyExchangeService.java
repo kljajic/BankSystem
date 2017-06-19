@@ -2,8 +2,6 @@ package com.service;
 
 import java.util.ArrayList;
 
-import org.springframework.data.jpa.repository.Query;
-
 import com.model.CurrencyExchange;
 
 public interface CurrencyExchangeService {

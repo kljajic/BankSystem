@@ -12,35 +12,30 @@ import com.repository.CurrencyRepository;
 public class CurrencyServiceImpl implements CurrencyService {
 
 	@Autowired
-	CurrencyRepository currencyRepository;
+	private CurrencyRepository currencyRepository;
 	
 	@Override
 	public ArrayList<Currency> getAll() {
-		// TODO Auto-generated method stub
 		return currencyRepository.findAll();
 	}
 
 	@Override
 	public void save(Currency currency) {
-		// TODO Auto-generated method stub
 		currencyRepository.save(currency);
 	}
 
 	@Override
 	public void removeCurrency(Long id) {
-		// TODO Auto-generated method stub
 		currencyRepository.delete(id);
 	}
 
 	@Override
 	public void updateCurrency(Long id, String name, String officialCode, Long country, boolean domicilna) {
-		// TODO Auto-generated method stub
 		currencyRepository.updateCurrency(id, name, officialCode, country, domicilna);
 	}
 
 	@Override
 	public ArrayList<Currency> searchCurrency(String name, String officialCode, String country, boolean domicilna) {
-		// TODO Auto-generated method stub
 		return currencyRepository.searchCurrency(name, officialCode, country, domicilna);
 	}
 

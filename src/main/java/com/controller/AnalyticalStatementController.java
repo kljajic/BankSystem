@@ -1,5 +1,7 @@
 package com.controller;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Collection;
 import java.util.Date;
@@ -23,6 +25,7 @@ import com.service.AnaltyicalStatementService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import net.sf.jasperreports.engine.JRException;
 
 @RestController
 @RequestMapping("/analyticalStatements")
@@ -111,7 +114,7 @@ public class AnalyticalStatementController {
 	  @GetMapping("/export/{accountId}/{startDate}/{endDate}")
 	  @ResponseBody
 	  @Permission(permissionName = "exportAnalyticalStatement")
-	  public void exportToPdf(@PathVariable("accountId") Long accountId,@PathVariable("startDate") Date start,@PathVariable("endDate") Date end,HttpServletResponse response) throws ParseException {
+	  public void exportToPdf(@PathVariable("accountId") Long accountId,@PathVariable("startDate") Date start,@PathVariable("endDate") Date end,HttpServletResponse response) throws ParseException, JRException, SQLException, IOException {
 		  analyticalStatementService.exportToPdf(accountId, start,end,response);
 	  }
 

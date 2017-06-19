@@ -5,7 +5,6 @@ import java.io.StringWriter;
 
 import javax.xml.transform.stream.StreamResult;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.oxm.XmlMappingException;
 import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
 import org.springframework.ws.soap.client.core.SoapActionCallback;
@@ -13,7 +12,6 @@ import org.springframework.ws.soap.client.core.SoapActionCallback;
 import com.bank.wsdl.Mt102Request;
 import com.bank.wsdl.Mt103Request;
 import com.bank.wsdl.Mt900Response;
-import com.service.RTGSResponseService;
 
 
 public class CentralBankClient extends WebServiceGatewaySupport{

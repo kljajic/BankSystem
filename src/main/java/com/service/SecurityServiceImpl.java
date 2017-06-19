@@ -1,6 +1,5 @@
 package com.service;
 
-import org.hibernate.validator.internal.constraintvalidators.bv.size.SizeValidatorForArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -68,15 +67,11 @@ public class SecurityServiceImpl implements SecurityService {
 
 	@Override
 	public boolean changeUserPassword(String oldPassword, String newPassword, String username) {
-		// TODO Auto-generated method stub
 		User user = userRepository.findUserByEmail(username);
-		System.out.println("EMAILLL" + username);
-		System.out.println("USERRR:" + user.getName() + "  " + user.getPassword());
 		if(user == null){
 			return false;
 		} else {
 			boolean matches = passwordEncoder.matches(oldPassword, user.getPassword());
-			System.out.println("MATCHEEEES" + matches);
 			if(matches){
 				user.setPassword(passwordEncoder.encode(newPassword));
 				userRepository.save(user);

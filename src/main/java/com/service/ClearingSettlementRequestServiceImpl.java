@@ -16,13 +16,11 @@ public class ClearingSettlementRequestServiceImpl implements ClearingSettlementR
 
 	@Override
 	public void save(ClearingSettlementRequest csr) {
-		// TODO Auto-generated method stub
 		clearingSettlementRequestRepository.save(csr);
 	}
 
 	@Override
 	public ArrayList<ClearingSettlementRequest> getAllClearingSettlementRequests() {
-		// TODO Auto-generated method stub
 		return (ArrayList<ClearingSettlementRequest>) clearingSettlementRequestRepository.findAll();
 	}
 

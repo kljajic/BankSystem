@@ -264,7 +264,7 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 	}
 
 	@Override
-	public void exportToPdf(Long accountId, Date startDate,Date endDate,HttpServletResponse response) {
+	public void exportToPdf(Long accountId, Date startDate,Date endDate,HttpServletResponse response) throws JRException, SQLException, IOException {
 		Account a = accountService.getAccount(accountId);
 	    Map<String,Object> params = new HashMap<>();
 	    params.put("bankAccount", a.getAccountNumber());
@@ -275,23 +275,15 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 	    params.put("logo", url);
 	    FileInputStream fileInputStream;
 	    params.put("address", a.getClient().getAddress());
-		try {
-			JasperPrint jp  = JasperFillManager.fillReport(getClass().getResource("/jasper/BankReport.jasper").openStream(),params, dataSource.getConnection());
-		    File pdf = new File(System.getProperty("user.home") + "/Downloads/" + "izvestaj-"+a.getAccountNumber()+".pdf");
-		    FileOutputStream out = new FileOutputStream(pdf);
-		    JasperExportManager.exportReportToPdfStream(jp, out);
-			fileInputStream = new FileInputStream(pdf);
-			IOUtils.copy(fileInputStream, response.getOutputStream());
-			fileInputStream.close();
-			out.close();
-			response.flushBuffer();
-		} catch (JRException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}		
+		JasperPrint jp  = JasperFillManager.fillReport(getClass().getResource("/jasper/BankReport.jasper").openStream(),params, dataSource.getConnection());
+	    File pdf = new File(System.getProperty("user.home") + "/Downloads/" + "izvestaj-"+a.getAccountNumber()+".pdf");
+		FileOutputStream out = new FileOutputStream(pdf);
+		JasperExportManager.exportReportToPdfStream(jp, out);
+		fileInputStream = new FileInputStream(pdf);
+		IOUtils.copy(fileInputStream, response.getOutputStream());
+		fileInputStream.close();
+		out.close();
+		response.flushBuffer();
 	}
 	
 	public AnalyticalStatement cloneAnalyticalStatement(AnalyticalStatement as) {

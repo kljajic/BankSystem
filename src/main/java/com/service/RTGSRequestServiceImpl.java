@@ -16,13 +16,11 @@ public class RTGSRequestServiceImpl implements RTGSRequestService {
 
 	@Override
 	public void save(RTGSRequest req) {
-		// TODO Auto-generated method stub
 		rTGSRequestRepository.save(req);
 	}
 
 	@Override
 	public ArrayList<RTGSRequest> getAllRTGSRequestServices() {
-		// TODO Auto-generated method stub
 		return (ArrayList<RTGSRequest>) rTGSRequestRepository.findAll();
 	}
 

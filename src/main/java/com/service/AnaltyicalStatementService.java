@@ -1,5 +1,7 @@
 package com.service;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -9,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.data.domain.Pageable;
 
 import com.model.AnalyticalStatement;
+
+import net.sf.jasperreports.engine.JRException;
 
 public interface AnaltyicalStatementService {
 	
@@ -40,7 +44,7 @@ public interface AnaltyicalStatementService {
 			  												   Date currencyDate,
 			  												   AnalyticalStatement analyticalStatement);
 	
-	void exportToPdf(Long accountId,Date startDate,Date endDate,HttpServletResponse response);
+	void exportToPdf(Long accountId,Date startDate,Date endDate,HttpServletResponse response) throws JRException, SQLException, IOException;
 	
 	Collection<AnalyticalStatement> doTransaction(AnalyticalStatement analyticalStatement);
 	

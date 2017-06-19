@@ -21,7 +21,6 @@ public class RevokedAccountServiceImpl implements RevokedAccountService {
 	
 	@Override
 	public RevokedAccount createRevokedAccount(RevokedAccount ra) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	
@@ -36,7 +35,6 @@ public class RevokedAccountServiceImpl implements RevokedAccountService {
 
 	@Override
 	public RevokedAccount updateRevokedAccount(RevokedAccount ra) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

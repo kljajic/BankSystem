@@ -17,37 +17,31 @@ public class CountryServiceImpl implements CountryService {
 
 	@Override
 	public ArrayList<Country> getAll() {
-		// TODO Auto-generated method stub
 		return countryRepository.findAll();
 	}
 
 	@Override
 	public void save(Country country) {
-		// TODO Auto-generated method stub
 		countryRepository.save(country);
 	}
 
 	@Override
 	public void delete(Country country) {
-		// TODO Auto-generated method stub
 		countryRepository.delete(country);
 	}
 
 	@Override
 	public void removeCountry(Long id) {
-		// TODO Auto-generated method stub
 		countryRepository.delete(id);
 	}
 
 	@Override
 	public void updateCountry(long id, String name) {
-		// TODO Auto-generated method stub
 		countryRepository.updateCountry(id, name);
 	}
 
 	@Override
 	public Set<Country> searchByName(String name) {
-		// TODO Auto-generated method stub
 		return countryRepository.SearchByName(name);
 	}
 
