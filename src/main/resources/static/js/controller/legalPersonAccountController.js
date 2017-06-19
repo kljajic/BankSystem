@@ -50,6 +50,13 @@ legalPersonAccountController.controller('legalPersonAccountController', function
 				}
 				$('#selectFieldCurrency').removeAttr('disabled');
 			}
+		},
+		function(reason) {
+			  if(reason.status == 401){
+				  $location.path('/unauthorized')
+			  } else if(reason.status == 403){
+				  $location.path('/');
+			  }
 		});
 	}
 	

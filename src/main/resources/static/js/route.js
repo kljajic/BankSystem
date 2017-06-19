@@ -29,5 +29,7 @@ app.config(function($routeProvider) {
 		templateUrl : "html/ClearingSettlement.html"
 	}).when("/register", {
 		templateUrl : "html/registration.html"
+	}).when("/unauthorized", {
+		templateUrl : "html/unauthorized.html"
 	});
 });

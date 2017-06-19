@@ -31,6 +31,13 @@ cityController.controller('cityController', function($scope, $location,
 					$('selectField').removeAttr('disabled');
 				}
 			}
+		},
+		function(reason) {
+			  if(reason.status == 401){
+				  $location.path('/unauthorized')
+			  } else if(reason.status == 403){
+				  $location.path('/');
+			  }
 		});
 	}
 
@@ -39,6 +46,13 @@ cityController.controller('cityController', function($scope, $location,
 			if (data.data != null) {
 				$scope.countries = data.data;
 			}
+		},
+		function(reason) {
+			  if(reason.status == 401){
+				  $location.path('/unauthorized')
+			  } else if(reason.status == 403){
+				  $location.path('/');
+			  }
 		});
 	}
 

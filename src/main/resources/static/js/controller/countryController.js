@@ -12,6 +12,13 @@ countryController.controller('countryController', function($scope, $location, $w
 		if(data.data != null){
 			$scope.countries = data.data;
 		}
+	},
+	function(reason) {
+		  if(reason.status == 401){
+			  $location.path('/unauthorized')
+		  } else if(reason.status == 403){
+			  $location.path('/');
+		  }
 	});
 	
 	$scope.country = {};

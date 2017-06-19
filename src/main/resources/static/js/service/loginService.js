@@ -24,6 +24,7 @@ loginService.factory('loginService', function($http){
 		return $http.get("/public/getLogged");
 	}
 	
+	
 	temp.changePassword = function(oldPassword, newPassword, username){
 		return $http.post("/public/changePassword/" + oldPassword+"/"+newPassword +"/"+username);
 	}

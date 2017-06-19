@@ -23,6 +23,13 @@ exchangeListController.controller('exchangeListController', function($scope,
 					$scope.exchangeLists[i].usedSinceView = moment($scope.exchangeLists[i].usedSince).format("DD MMM YYYY");
 				}
 			}
+		},
+		function(reason) {
+			  if(reason.status == 401){
+				  $location.path('/unauthorized')
+			  } else if(reason.status == 403){
+				  $location.path('/');
+			  }
 		});
 	}
 	

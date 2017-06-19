@@ -61,6 +61,13 @@ currencyExchangeController.controller('currencyExchangeController', function($sc
 					$('#selectFieldAccordingTo').removeAttr('disabled');
 				}
 			}
+		},
+		function(reason) {
+			  if(reason.status == 401){
+				  $location.path('/unauthorized')
+			  } else if(reason.status == 403){
+				  $location.path('/');
+			  }
 		});
 		currencyService.getAllCurrencies().then(function(response){
 			if(response.data != null){

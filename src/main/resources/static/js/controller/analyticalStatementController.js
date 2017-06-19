@@ -27,12 +27,26 @@ analyticalStatementController.controller('analyticalStatementController',['$root
 		if (response.data != null) {
 			$scope.dailyAccountStatuses = response.data;
 		}
+	},
+	function(reason) {
+		  if(reason.status == 401){
+			  $location.path('/unauthorized')
+		  } else if(reason.status == 403){
+			  $location.path('/');
+		  }
 	});
 	
 	analyticalStatementService.getAllCities().then(function(response) {
 		if (response.data != null) {
 			$scope.cities = response.data;
 		}
+	},
+	function(reason) {
+		  if(reason.status == 401){
+			  $location.path('/unauthorized')
+		  } else if(reason.status == 403){
+			  $location.path('/');
+		  }
 	});
 	
 	
@@ -40,6 +54,13 @@ analyticalStatementController.controller('analyticalStatementController',['$root
 		if (response.data != null) {
 			$scope.currencies = response.data;
 		}
+	},
+	function(reason) {
+		  if(reason.status == 401){
+			  $location.path('/unauthorized')
+		  } else if(reason.status == 403){
+			  $location.path('/');
+		  }
 	});
 	
 	$scope.getAllAnalyticalStatements = function() {
@@ -57,6 +78,13 @@ analyticalStatementController.controller('analyticalStatementController',['$root
 			} else if($rootScope.nextDailyAccountStatus != null && $rootScope.nextDailyAccountStatus != undefined) {
 				analyticalStatementService.getAnalyticalStatementsByDailyAccountStatusId($rootScope.nextDailyAccountStatus.id).then(function(response){
 					$scope.analyticalStatements = response.data;
+				},
+				function(reason) {
+					  if(reason.status == 401){
+						  $location.path('/unauthorized')
+					  } else if(reason.status == 403){
+						  $location.path('/');
+					  }
 				});
 				$scope.dailyAccountStatuses = [];
 				$scope.dailyAccountStatuses.push($rootScope.nextDailyAccountStatus);
@@ -68,6 +96,13 @@ analyticalStatementController.controller('analyticalStatementController',['$root
 					$('selectField').removeAttr('disabled');
 				}
 			}
+		},
+		function(reason) {
+			  if(reason.status == 401){
+				  $location.path('/unauthorized')
+			  } else if(reason.status == 403){
+				  $location.path('/');
+			  }
 		});
 	}
 	

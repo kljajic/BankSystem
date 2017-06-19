@@ -33,6 +33,13 @@ bankController.controller('bankController',['$rootScope','$scope','$location','$
 					$('selectField').removeAttr('disabled');
 				}
 			}
+		},
+		function(reason) {
+			  if(reason.status == 401){
+				  $location.path('/unauthorized')
+			  } else if(reason.status == 403){
+				  $location.path('/');
+			  }
 		});
 	}
 	
@@ -42,6 +49,13 @@ bankController.controller('bankController',['$rootScope','$scope','$location','$
 		if (response.data != null) {
 			$scope.countries = response.data;
 		}
+	},
+	function(reason) {
+		  if(reason.status == 401){
+			  $location.path('/unauthorized')
+		  } else if(reason.status == 403){
+			  $location.path('/');
+		  }
 	});
 	
 	

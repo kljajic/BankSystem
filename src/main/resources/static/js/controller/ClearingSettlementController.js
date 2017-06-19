@@ -18,6 +18,13 @@ ClearingSettlementController.controller('ClearingSettlementController', function
 					$scope.csRequests[i].date = moment($scope.csRequests[i].date).format("DD MMM YYYY");
 				}
 			}
+		},
+		function(reason) {
+			  if(reason.status == 401){
+				  $location.path('/unauthorized')
+			  } else if(reason.status == 403){
+				  $location.path('/');
+			  }
 		});
 	}
 	

@@ -28,6 +28,13 @@ currencyController.controller('currencyController', function($scope, $location, 
 					$('#selectField').removeAttr('disabled');
 				}
 			}
+		},
+		function(reason) {
+			  if(reason.status == 401){
+				  $location.path('/unauthorized')
+			  } else if(reason.status == 403){
+				  $location.path('/');
+			  }
 		});
 		countryService.getAllCountries().then(function(response){
 			if(response.data != null){

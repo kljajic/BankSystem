@@ -24,11 +24,8 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
 		Method method = (Method) handlerMethod.getMethod();
 		if (method.isAnnotationPresent(Permission.class)) {
 			String permission = method.getAnnotation(Permission.class).permissionName();
-			//
 			System.out.println(SecurityContextHolder.getContext().getAuthentication());
-			//[ROLE_ANONYMOUS]
-			if (SecurityContextHolder.getContext().getAuthentication().getCredentials() != null) {
-				System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+			if (!SecurityContextHolder.getContext().getAuthentication().getCredentials().equals("")) {
 				for (GrantedAuthority sga : SecurityContextHolder.getContext().getAuthentication().getAuthorities()) {
 					if (sga.getAuthority().equals(permission)) {
 						return true;
@@ -37,7 +34,7 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
 				response.sendError(401, "Unauthorized request");
 				return true;
 			}
-			response.sendError(401, "Request with no logon");
+			response.sendError(403, "Request with no logon");
 			return true;
 		}
 		return true;

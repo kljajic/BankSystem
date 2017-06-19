@@ -19,6 +19,13 @@ dailyAccountStatusController.controller('dailyAccountStatusController',['$rootSc
 		if (response.data != null) {
 			$scope.accounts = response.data;
 		}
+	},
+	function(reason) {
+		  if(reason.status == 401){
+			  $location.path('/unauthorized')
+		  } else if(reason.status == 403){
+			  $location.path('/');
+		  }
 	});
 	
 	cityService.serviceRefresh();

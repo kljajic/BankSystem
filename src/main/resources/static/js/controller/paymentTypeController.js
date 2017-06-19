@@ -15,6 +15,13 @@ paymentTypeController.controller('paymentTypeController',['$rootScope','$scope',
 			if (response.data != null) {
 				$scope.paymentTypes = response.data;
 			}
+		},
+		function(reason) {
+			  if(reason.status == 401){
+				  $location.path('/unauthorized')
+			  } else if(reason.status == 403){
+				  $location.path('/');
+			  }
 		});
 	}
 	
