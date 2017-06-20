@@ -67,11 +67,26 @@ public class WebService {
 		return wsdl11Definition;
 	}
 	
+	@Bean(name = "userRequestService")
+	public DefaultWsdl11Definition userWsdl11Definition(@Qualifier("user") XsdSchema userRequest) {
+		DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
+		wsdl11Definition.setPortTypeName("userPort");
+		wsdl11Definition.setLocationUri("/ws");
+		wsdl11Definition.setSchema(userRequest);
+		return wsdl11Definition;
+	}
+	
 	
 	@Bean
 	@Qualifier("accountStatementRequest")
 	public XsdSchema accountStatementRequest() {
 		return new SimpleXsdSchema(new ClassPathResource("xsd/types/accountStatementRequest.xsd"));
+	}
+	
+	@Bean
+	@Qualifier("user")
+	public XsdSchema user() {
+		return new SimpleXsdSchema(new ClassPathResource("xsd/types/user.xsd"));
 	}
 	
 	@Bean

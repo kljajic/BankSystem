@@ -1,0 +1,20 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:tns="http://certificate.com/user" targetNamespace="http://certificate.com/user"
+	elementFormDefault="qualified">
+
+	<xs:element name="getUserRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="email" type="xs:string" />
+			</xs:sequence> 
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="getUserResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="verified" type="xs:boolean" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
