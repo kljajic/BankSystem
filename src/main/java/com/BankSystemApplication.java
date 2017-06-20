@@ -1,11 +1,14 @@
 package com;
 
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import com.config.SSLCertificateValidation;
 
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -48,6 +51,13 @@ public class BankSystemApplication {
     @Bean
 	public PasswordEncoder getBCryptPasswordEncoder(){
 		return new BCryptPasswordEncoder();
+	}
+    
+    @Bean
+	CommandLineRunner lookup() {
+		return args -> {
+			SSLCertificateValidation.disable();
+		};
 	}
     
 }

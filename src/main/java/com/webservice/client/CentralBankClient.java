@@ -26,9 +26,9 @@ public class CentralBankClient extends WebServiceGatewaySupport{
 		System.out.println(xml);
 		
 		
-		getWebServiceTemplate().setDefaultUri("http://localhost:8090/ws/centralBankRtgsRequestService");
+		getWebServiceTemplate().setDefaultUri("https://localhost:8090/ws/centralBankRtgsRequestService");
 		Mt900Response response = (Mt900Response) getWebServiceTemplate()
-				.marshalSendAndReceive("http://localhost:8090/ws/centralBankRtgsRequestService",
+				.marshalSendAndReceive("https://localhost:8090/ws/centralBankRtgsRequestService",
 						request, new SoapActionCallback("http://com/xsdSchemas/mt900Response"));
 		System.out.println(response);
 		return response;
@@ -51,9 +51,9 @@ public class CentralBankClient extends WebServiceGatewaySupport{
 		System.out.println(xml);
 		
 		
-		getWebServiceTemplate().setDefaultUri("http://localhost:8090/ws/centralBankClearingService");
+		getWebServiceTemplate().setDefaultUri("https://localhost:8090/ws/centralBankClearingService");
 		getWebServiceTemplate()
-				.marshalSendAndReceive("http://localhost:8090/ws/centralBankClearingService",
+				.marshalSendAndReceive("https://localhost:8090/ws/centralBankClearingService",
 						req, new SoapActionCallback("http://com/xsdSchemas/mt102"));
 		
 		return true;
