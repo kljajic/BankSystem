@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = {"id"})
+@EqualsAndHashCode
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name="statement")
 @XmlType(name = "invoice", 

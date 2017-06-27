@@ -9,13 +9,13 @@ insert into currency(name, official_code, domicilna, country_id) values ('Lira',
 insert into currency(name, official_code, domicilna, country_id) values ('Sol', 'SOL', true, 4);
 
 insert into bank(bank_id,bank_pib,bank_name,bank_address,bank_email,bank_web,bank_tel,bank_fax,bank_act,bank_swt,bank_tr_acc,country_id)
-values(1,'993456789','Vojvodjanska banka','Bulevear fronta 20','vojvodjanska@gmail.com','www.vobanka.com','021/555-333','232-444',true,'23345678','222-111-333',1);
+values(1,'993456789','Vojvodjanska banka','Bulevear fronta 20','vojvodjanska@gmail.com','www.vobanka.com','021/555-333','232-444',true,'23345678','333-000-000',1);
 
 insert into bank(bank_id,bank_pib,bank_name,bank_address,bank_email,bank_web,bank_tel,bank_fax,bank_act,bank_swt,bank_tr_acc,country_id)
-values(2,'123456789','Komercijalna banka','Bulvear nardonog fronta 20','komercijalna@mail.rs','www.komercijalna.com','024/555-131','444-444',true,'12345678','333-111-333',1);
+values(2,'123456789','Komercijalna banka','Bulvear nardonog fronta 20','komercijalna@mail.rs','www.komercijalna.com','024/555-131','444-444',true,'12345678','222-000-000',1);
 
 insert into bank(bank_id,bank_pib,bank_name,bank_address,bank_email,bank_web,bank_tel,bank_fax,bank_act,bank_swt,bank_tr_acc,country_id)
-values(3,'123456789','Erste banka','Bulvear nardonog fronta 100','erstelna@mail.rs','www.erste.com','024/525-111','123-123',true,'98456456','888-555-444',2);
+values(3,'123456789','Erste banka','Bulvear nardonog fronta 100','erstelna@mail.rs','www.erste.com','024/525-111','123-123',true,'98456456','666-000-000',2);
 
 insert into exchange_list(date, number_of_exchange_list, used_since, bank_bank_id) 
 values('2017-10-15', 123, '2017-10-1', 1);
@@ -53,7 +53,7 @@ insert into client(id,address,date_of_birth) values (5,'Bulevar narodnog fronta 
 insert into client(id,address,date_of_birth) values (6,'Dunavska 2, Backa Topola 24300','1994-01-20');
 
 insert into account(account_id,account_num,account_date,account_active,bank_bank_id,client_id, currency_id) values(1,'333-111-333','2017-05-05',true,1,1, 1);
-insert into account(account_id,account_num,account_date,account_active,bank_bank_id,client_id, currency_id) values(2,'222-111-444','2017-05-06',true,3,2, 1);
+insert into account(account_id,account_num,account_date,account_active,bank_bank_id,client_id, currency_id) values(2,'222-111-444','2017-05-06',true,3,2, 2);
 insert into account(account_id,account_num,account_date,account_active,bank_bank_id,client_id, currency_id) values(3,'666-111-333','2017-06-03',true,2,3, 3);
 insert into account(account_id,account_num,account_date,account_active,bank_bank_id,client_id, currency_id) values(4,'333-222-444','2017-06-01',true,1,5, 1);
 insert into account(account_id,account_num,account_date,account_active,bank_bank_id,client_id, currency_id) values(5,'333-333-333','2017-06-01',true,1,6, 1);

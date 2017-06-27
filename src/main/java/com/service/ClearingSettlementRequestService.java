@@ -6,8 +6,10 @@ import com.model.xml.ClearingSettlementRequest;
 
 public interface ClearingSettlementRequestService {
 
-	public void save(ClearingSettlementRequest csr);
+	void save(ClearingSettlementRequest csr);
 	
-	public ArrayList<ClearingSettlementRequest> getAllClearingSettlementRequests();
+	ArrayList<ClearingSettlementRequest> getAllClearingSettlementRequests();
+	
+	ClearingSettlementRequest search(Long paymentBankId, Long recipientBankId);
 
 }

@@ -30,33 +30,15 @@ public class CentralBankClient extends WebServiceGatewaySupport{
 		Mt900Response response = (Mt900Response) getWebServiceTemplate()
 				.marshalSendAndReceive("https://localhost:8090/ws/centralBankRtgsRequestService",
 						request, new SoapActionCallback("http://com/xsdSchemas/mt900Response"));
-		System.out.println(response);
 		return response;
 	}
 	
-	public boolean getMt102Request(Mt102Request req){
-
-		final StringWriter out = new StringWriter();
-		try {
-			getWebServiceTemplate().getMarshaller().marshal(req, new StreamResult(out));
-		} catch (XmlMappingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		String xml = out.toString();
-		
-		System.out.println(xml);
-		
-		
+	public Mt900Response getMt102Request(Mt102Request req){
 		getWebServiceTemplate().setDefaultUri("https://localhost:8090/ws/centralBankClearingService");
-		getWebServiceTemplate()
+		Mt900Response mt900Response = (Mt900Response) getWebServiceTemplate()
 				.marshalSendAndReceive("https://localhost:8090/ws/centralBankClearingService",
-						req, new SoapActionCallback("http://com/xsdSchemas/mt102"));
-		
-		return true;
+						req, new SoapActionCallback("http://com/xsdSchemas/mt900Response"));
+		return mt900Response;
 	}
 	
 }

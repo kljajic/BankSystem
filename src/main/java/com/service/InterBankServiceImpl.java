@@ -1,26 +1,18 @@
 package com.service;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.oxm.XmlMappingException;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -31,159 +23,74 @@ import com.bank.wsdl.Mt103Request;
 import com.bank.wsdl.Mt900Response;
 import com.model.AnalyticalStatement;
 import com.model.Bank;
+import com.model.Currency;
 import com.model.xml.ClearingSettlementRequest;
 import com.model.xml.RTGSRequest;
 import com.model.xml.RTGSResponse;
 import com.model.xml.RTGSResponseType;
-import com.repository.BankRepository;
-import com.repository.ClearingAndSettlementRequestRepository;
 import com.repository.CurrencyExchangeRepository;
 import com.repository.RTGSRequestRepository;
 import com.webservice.client.CentralBankClient;
 
-
-
 @Service
 public class InterBankServiceImpl implements InterBankService {
 
+	private ConcurrentHashMap<String,Mt102Request> clearingSettlementRequests = new ConcurrentHashMap<>();
+	
 	@Autowired
-	private BankRepository bankRepository;
+	private BankService bankService;
 	
 	@Autowired
 	private CurrencyExchangeRepository currencyExchangeRepository;
-	
-	private ArrayList<ClearingSettlementRequest> clearingSettlementRequests = new ArrayList<>();
 	
 	@Autowired
 	private RTGSRequestRepository rtgsRequestRepository;
 	
 	@Autowired
-	private ClearingAndSettlementRequestRepository clearingAndSettlementRequestRepository;
+	private ClearingSettlementRequestService clearingAndSettlementRequestService;
 	
 	@Autowired
-	private ApplicationContext con;
+	private CentralBankClient centralBankClient;
 	
 	@Autowired
 	private RTGSResponseService rtgsResponseService;
 	
 	@Override
-	public void generateRTGSService(AnalyticalStatement as) {
-		System.out.println("YOYOYOYOYOYO");
+	public void generateRTGSRequest(AnalyticalStatement as) {
 		RTGSRequest req = new RTGSRequest();
 		req.setAnalyticalStatement(as);
-		Bank paymentBank = bankRepository.findBankByLeadNumber(as.getOriginatorAccount().substring(0, 3));
+		Bank paymentBank = bankService.findBankByLeadNumber(as.getOriginatorAccount().substring(0, 3));
 		req.setPaymentBank(paymentBank);
-		Bank receiverBank = bankRepository.findBankByLeadNumber(as.getRecipientAccount().substring(0, 3));
+		Bank receiverBank = bankService.findBankByLeadNumber(as.getRecipientAccount().substring(0, 3));
 		req.setRecieverBank(receiverBank);
 		req.setMessageId("MT103");
 		
 		rtgsRequestRepository.save(req);
 
-		JAXBContext context;
-		try {
-			context = JAXBContext.newInstance(RTGSRequest.class);
-			Marshaller marshaller = context.createMarshaller();
-			
-			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-
-			System.out.println("[INFO] Marshalling...");
-            OutputStream os;
-			CentralBankClient cbc = (CentralBankClient) con.getBean(CentralBankClient.class);
-			Mt900Response mt;
+		try{
 			Mt103Request mt103Request = mapAnalyticalStatementToMt103Request(as, paymentBank, receiverBank);
-			
-			try {
-				mt = cbc.getRtgsResponse(mt103Request);
-				System.out.println(mt.getAmount());
-				
-				RTGSResponse rtgsResponse = new RTGSResponse();
-				rtgsResponse.setMessageId(mt.getMessageId());
-				rtgsResponse.setBank(paymentBank);
-				rtgsResponse.setCurrencyCode(mt.getCurrency());
-				rtgsResponse.setCurrencyDate(mt.getCurrencyDate().toGregorianCalendar().getTime());
-				rtgsResponse.setRequestId(mt.getRequestMessageId());
-				rtgsResponse.setValue(mt.getAmount().doubleValue());
-				rtgsResponse.setResponseType(RTGSResponseType.PaymentAccount);
-				rtgsResponseService.save(rtgsResponse);
-				
-			} catch (XmlMappingException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-            
-			try {
-				os = new FileOutputStream("MT103.xml");
-				marshaller.marshal(req, os);
-				os.close();
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			//marshaller.marshal(req, System.out);
-		} catch (JAXBException e) {
-			// TODO Auto-generated catch block
+			Mt900Response mt900Response = centralBankClient.getRtgsResponse(mt103Request);
+			RTGSResponse rtgsResponse = new RTGSResponse();
+			rtgsResponse.setMessageId(mt900Response.getMessageId());
+			rtgsResponse.setBank(paymentBank);
+			rtgsResponse.setCurrencyCode(mt900Response.getCurrency());
+			rtgsResponse.setCurrencyDate(mt900Response.getCurrencyDate().toGregorianCalendar().getTime());
+			rtgsResponse.setRequestId(mt900Response.getRequestMessageId());
+			rtgsResponse.setValue(mt900Response.getAmount().doubleValue());
+			rtgsResponse.setResponseType(RTGSResponseType.PaymentAccount);
+			rtgsResponseService.save(rtgsResponse);
+		}catch (DatatypeConfigurationException | XmlMappingException | IOException e) {
 			e.printStackTrace();
-		} catch (DatatypeConfigurationException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
 		}
-		
-		
 	}
 
 	@Scheduled(fixedRate = 120000)
 	@Override
 	public void generateClearingService() {
-		// TODO Auto-generated method stub
-		System.out.println("generating clearing...");
-		if(clearingSettlementRequests != null){
-			for(int i = 0; i < clearingSettlementRequests.size(); i++){
-				JAXBContext context;
-				try {
-					context = JAXBContext.newInstance(ClearingSettlementRequest.class);
-					Marshaller marshaller = context.createMarshaller();
-					ClearingSettlementRequest csr = clearingSettlementRequests.get(i);
-					
-					CentralBankClient cbc = (CentralBankClient) con.getBean(CentralBankClient.class);
-					try {
-						Mt102Request mt102Request = mapClearingSettlementToMt102Request(csr);
-						boolean b = cbc.getMt102Request(mt102Request);
-					} catch (DatatypeConfigurationException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					
-
-					marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-					
-					clearingAndSettlementRequestRepository.save(csr);
-					System.out.println("[INFO] Marshalling...");
-		            OutputStream os;
-					try {
-						String nameOfFile = "MT102_" + i + ".xml";
-						os = new FileOutputStream(nameOfFile);
-						marshaller.marshal(clearingSettlementRequests.get(i), os);
-						os.close();
-					} catch (FileNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				} catch (JAXBException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-	
+		if(!clearingSettlementRequests.isEmpty()){
+			for(Map.Entry<String, Mt102Request> pair : clearingSettlementRequests.entrySet()){
+				Mt900Response response =centralBankClient.getMt102Request(pair.getValue());
+				System.out.println(response);
 			}
 		}
 		clearingSettlementRequests.clear();
@@ -191,44 +98,43 @@ public class InterBankServiceImpl implements InterBankService {
 
 	@Override
 	public void addToClearing(AnalyticalStatement as) {
-		boolean flag = false;
-		int tempIndex = 0;
-		for(int i = 0; i < clearingSettlementRequests.size(); i++){
-			ClearingSettlementRequest csr = clearingSettlementRequests.get(i);
-			if(csr.getCurrency().getOfficialCode().equals(as.getCurrency().getOfficialCode()) && csr.getCurrencyDate().equals(as.getCurrencyDate())
-					&& csr.getPaymentBank().getTransactionAccount().substring(0, 3).equals(as.getOriginatorAccount().substring(0, 3))
-					&& csr.getRecieverBank().getTransactionAccount().substring(0, 3).equals(as.getRecipientAccount().substring(0, 3))){
-				flag = true;
-				tempIndex = i;
-			}
-		}
-		if(flag){
-			clearingSettlementRequests.get(tempIndex).getAnalyticalStatements().add(as);
-			clearingSettlementRequests.get(tempIndex).setTotalAmount(clearingSettlementRequests.get(tempIndex).getTotalAmount() + as.getAmount());
-			System.out.println("flag");
-		} else {
+		Bank receiverBank = bankService.findBankByLeadNumber(as.getRecipientAccount().substring(0, 3));
+		Bank paymentBank = bankService.findBankByLeadNumber(as.getOriginatorAccount().substring(0, 3));
+		if(!clearingSettlementRequests.contains(receiverBank.getSwift()+":"+as.getCurrency().getOfficialCode())){
 			ClearingSettlementRequest csr = new ClearingSettlementRequest();
-			Bank paymentBank = bankRepository.findBankByLeadNumber(as.getOriginatorAccount().substring(0, 3));
 			csr.setPaymentBank(paymentBank);
-			Bank receiverBank = bankRepository.findBankByLeadNumber(as.getRecipientAccount().substring(0, 3));
 			csr.setRecieverBank(receiverBank);
 			csr.setTotalAmount(as.getAmount());
 			csr.setCurrency(as.getCurrency());
 			csr.setCurrencyDate(as.getCurrencyDate());
-			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-			Date date = new Date();
-			csr.setDate(date);
+			csr.setDate(new Date());
 			HashSet<AnalyticalStatement> tempAS = new HashSet<>();
 			tempAS.add(as);
 			csr.setAnalyticalStatements(tempAS);
-			clearingSettlementRequests.add(csr);
-			System.out.println("nije flag");
+			clearingAndSettlementRequestService.save(csr);
+			try{
+				makeMt102Request(paymentBank, receiverBank, as.getCurrency(), as.getCurrencyDate());
+			}catch (DatatypeConfigurationException e) {
+				e.printStackTrace();
+			}
+		}else{
+			ClearingSettlementRequest clearingSettlementRequest = clearingAndSettlementRequestService.search(paymentBank.getId(), receiverBank.getId());
+			clearingSettlementRequest.getAnalyticalStatements().add(as);
+			clearingAndSettlementRequestService.save(clearingSettlementRequest);
 		}
-		System.out.println("VELICINAAAAAAA " + clearingSettlementRequests.size());
+		
+		try{
+			ClearingAndSettlementItem clearingAndSettlementItem = this.mapAnalyticalStatementToClearingAndSetlmentItem(as);
+			Mt102Request mt102Request = clearingSettlementRequests.get(receiverBank.getSwift()+":"+as.getCurrency().getOfficialCode());
+			mt102Request.setAmount(new BigDecimal(mt102Request.getAmount().doubleValue()+as.getAmount()));
+			mt102Request.getStatementItems().add(clearingAndSettlementItem);
+		}catch (DatatypeConfigurationException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
-	public void RTGSOrClearing(AnalyticalStatement as) {
+	public void RTGSOrClearing(AnalyticalStatement as){
 		double sum;
 		if(!as.getCurrency().getOfficialCode().equals("DIN")){
 			sum = as.getAmount() * currencyExchangeRepository.findMiddleRateAccordingToDinars(as.getCurrency().getOfficialCode());
@@ -236,73 +142,14 @@ public class InterBankServiceImpl implements InterBankService {
 			sum = as.getAmount();
 		}
 		if(sum >= 250000 || as.isUrgently()){
-			System.out.println("RATATAATATA");
-			generateRTGSService(as);
-			} else {
+			generateRTGSRequest(as);
+		} else {
 				addToClearing(as);
-			}
 		}
-	
-	private Mt102Request mapClearingSettlementToMt102Request(ClearingSettlementRequest csr) throws DatatypeConfigurationException{
-
-		Mt102Request mt102Request = new Mt102Request();
-		mt102Request.setMessageId("mt102");
-		mt102Request.setOriginatorBankSwiftCode(csr.getPaymentBank().getSwift());
-		mt102Request.setOriginatorBankTransactionAccount(csr.getPaymentBank().getTransactionAccount());
-		mt102Request.setRecieverBankSwiftCode(csr.getRecieverBank().getSwift());
-		mt102Request.setOriginatorBankTransactionAccount(csr.getRecieverBank().getTransactionAccount());
-		mt102Request.setAmount(BigDecimal.valueOf(csr.getTotalAmount()));
-		mt102Request.setCurrency(csr.getCurrency().getOfficialCode());
-		
-		GregorianCalendar c = new GregorianCalendar();
-		c.setTime(csr.getCurrencyDate());
-
-		XMLGregorianCalendar currencyDateXml = DatatypeFactory.newInstance().newXMLGregorianCalendar(c);
-		
-		mt102Request.setCurrencyDate(currencyDateXml);
-		
-		c.setTime(csr.getCurrencyDate());
-		XMLGregorianCalendar dateXml = DatatypeFactory.newInstance().newXMLGregorianCalendar(c);
-
-		mt102Request.setDate(dateXml);
-		
-		ArrayList<ClearingAndSettlementItem> csitems = new ArrayList<ClearingAndSettlementItem>();
-		
-		int temp = 0;
-		for(AnalyticalStatement as : csr.getAnalyticalStatements()){
-			ClearingAndSettlementItem item = csitems.get(temp);
-			
-			item.setRequestId("id");
-			item.setOriginator(as.getOriginator());
-			item.setPaymentPurpose(as.getPurpose());
-			item.setReciever(as.getRecipient());
-			
-			c.setTime(as.getDateOfReceipt());
-			XMLGregorianCalendar statementDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(c);
-			item.setStatementDate(statementDate);
-			
-			item.setOriginatorAccountNumber(as.getOriginatorAccount());
-			item.setChargeModel(as.getModel());
-			item.setChargeDialNumber(as.getDebitAuthorizationNumber());
-			item.setRecieverAccountNumber(as.getRecipientAccount());
-			
-			item.setClearanceModel(as.getApprovalModel());
-			item.setClearanceDialNumber(as.getApprovalAuthorizationNumber());
-			
-			item.setAmount(BigDecimal.valueOf(as.getAmount()));
-			item.setCurrency(as.getCurrency().getOfficialCode());
-			
-			temp++;
-		}
-		
-		mt102Request.getStatementItems().addAll(csitems);
-		
-		return mt102Request;
 	}
-	
-	
+		
 	private Mt103Request mapAnalyticalStatementToMt103Request(AnalyticalStatement as, Bank originatorBank, Bank recieverBank) throws DatatypeConfigurationException{
-		GregorianCalendar c = new GregorianCalendar();
+		GregorianCalendar gregorianCalendar = new GregorianCalendar();
 		
 		Mt103Request mt103Request = new Mt103Request();
 		mt103Request.setMessageId("mt103");
@@ -313,8 +160,8 @@ public class InterBankServiceImpl implements InterBankService {
 		mt103Request.setClearanceModel(as.getApprovalModel());
 		mt103Request.setCurrency(as.getCurrency().getOfficialCode());
 		
-		c.setTime(as.getCurrencyDate());
-		XMLGregorianCalendar currencyDateXml = DatatypeFactory.newInstance().newXMLGregorianCalendar(c);
+		gregorianCalendar.setTime(as.getCurrencyDate());
+		XMLGregorianCalendar currencyDateXml = DatatypeFactory.newInstance().newXMLGregorianCalendar(gregorianCalendar);
 		mt103Request.setCurrencyDate(currencyDateXml);
 		
 		mt103Request.setOriginator(as.getOriginator());
@@ -327,10 +174,65 @@ public class InterBankServiceImpl implements InterBankService {
 		mt103Request.setRecieverBankSwiftCode(recieverBank.getSwift());
 		mt103Request.setRecieverBankTransactionAccount(recieverBank.getTransactionAccount());
 		
-		c.setTime(as.getDateOfReceipt());
-		XMLGregorianCalendar dateOfReceit = DatatypeFactory.newInstance().newXMLGregorianCalendar(c);
+		gregorianCalendar.setTime(as.getDateOfReceipt());
+		XMLGregorianCalendar dateOfReceit = DatatypeFactory.newInstance().newXMLGregorianCalendar(gregorianCalendar);
 		mt103Request.setStatementDate(dateOfReceit);
 		
 		return mt103Request;
 	}
+	
+	private ClearingAndSettlementItem mapAnalyticalStatementToClearingAndSetlmentItem(AnalyticalStatement as) throws DatatypeConfigurationException{
+		GregorianCalendar gregorianCalendar = new GregorianCalendar();
+		
+		ClearingAndSettlementItem clearingAndSettlementItem = new ClearingAndSettlementItem();
+		clearingAndSettlementItem.setRequestId("requestId");
+		clearingAndSettlementItem.setAmount(new BigDecimal(as.getAmount()));
+		clearingAndSettlementItem.setChargeDialNumber(as.getDebitAuthorizationNumber());
+		clearingAndSettlementItem.setChargeModel(as.getModel());
+		clearingAndSettlementItem.setClearanceDialNumber(as.getApprovalAuthorizationNumber());
+		clearingAndSettlementItem.setClearanceModel(as.getApprovalModel());
+		clearingAndSettlementItem.setCurrency(as.getCurrency().getOfficialCode());
+		
+		clearingAndSettlementItem.setOriginator(as.getOriginator());
+		clearingAndSettlementItem.setOriginatorAccountNumber(as.getOriginatorAccount());
+		clearingAndSettlementItem.setPaymentPurpose(as.getPurpose());
+		clearingAndSettlementItem.setReciever(as.getRecipient());
+		clearingAndSettlementItem.setRecieverAccountNumber(as.getRecipientAccount());
+		
+		gregorianCalendar.setTime(as.getDateOfReceipt());
+		XMLGregorianCalendar dateOfReceit = DatatypeFactory.newInstance().newXMLGregorianCalendar(gregorianCalendar);
+		clearingAndSettlementItem.setStatementDate(dateOfReceit);
+		
+		return clearingAndSettlementItem;
+	}
+	
+	private void makeMt102Request(Bank paymentBank, Bank receiverBank, Currency currency, Date currencyDate) throws DatatypeConfigurationException {
+		GregorianCalendar gregorianCalendar = new GregorianCalendar();
+		
+		Mt102Request mt102request = new Mt102Request();
+		mt102request.setAmount(new BigDecimal(0));
+		mt102request.setCurrency(currency.getOfficialCode());
+		
+		gregorianCalendar.setTime(currencyDate);
+		XMLGregorianCalendar date = DatatypeFactory.newInstance().newXMLGregorianCalendar(gregorianCalendar);
+		mt102request.setCurrencyDate(date);
+		
+		gregorianCalendar.setTime(new Date());
+		XMLGregorianCalendar todayDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(gregorianCalendar);
+		mt102request.setDate(todayDate);
+		mt102request.setMessageId("mt102Request");
+		mt102request.setOriginatorBankSwiftCode(paymentBank.getSwift());
+		mt102request.setOriginatorBankTransactionAccount(paymentBank.getTransactionAccount());
+		mt102request.setRecieverBankSwiftCode(receiverBank.getSwift());
+		mt102request.setRecieverBankTransactionAccount(receiverBank.getTransactionAccount());
+		
+		clearingSettlementRequests.put(receiverBank.getSwift()+":"+currency.getOfficialCode(), mt102request);
+	}
+
+	@Override
+	public void receiveClearings(Mt102Request request) {
+		// TODO unwrap account statements, save them and update daily account statuses
+		
+	}
+	
 }
