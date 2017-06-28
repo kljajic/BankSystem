@@ -13,6 +13,8 @@ public interface CurrencyRepository extends JpaRepository<Currency, Long> {
 	@Query("select c from Currency as c")
 	public ArrayList<Currency> findAll();
 	
+	public Currency findByName(String name);
+	
 	@Query("select currency from Currency currency where upper(currency.officialCode) = ?1")
 	Currency getCurrencyByOfficialCode(String officialCode);
 	

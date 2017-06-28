@@ -19,7 +19,7 @@ public class ClearingResponseEndpoint {
 		this.interBankService = interBankService;
 	}
 	
-	@PayloadRoot(namespace=NAMESPACE + "http://com/xsdSchemas/clearingAndSettlement", localPart="mt102Request")
+	@PayloadRoot(namespace=NAMESPACE + "clearingAndSettlement", localPart="mt102Request")
 	public void getRtgsMt910Response(@RequestPayload Mt102Request request){
 		interBankService.receiveClearings(request);
 	}

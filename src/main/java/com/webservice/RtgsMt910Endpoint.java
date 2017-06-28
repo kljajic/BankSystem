@@ -36,6 +36,7 @@ public class RtgsMt910Endpoint {
 		response.setValue(receivedReqeust.getAmount().doubleValue());
 		response.setBank(bankService.findBankByLeadNumber(receivedReqeust.getRecieverBankTransactionAccount().substring(0, 3)));
 		
+		System.out.println("PRIMIO MT910");
 		
 		rtgsResponseService.save(response);
 		return receivedReqeust;

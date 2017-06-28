@@ -67,6 +67,15 @@ public class WebService {
 		return wsdl11Definition;
 	}
 	
+	@Bean(name = "mt102ResponseService")
+	public DefaultWsdl11Definition mt102ResponseWsdl11Definition(@Qualifier("clearingAndSettlement") XsdSchema responseReciever) {
+		DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
+		wsdl11Definition.setPortTypeName("Mt102ResponsePort");
+		wsdl11Definition.setLocationUri("/ws");
+		wsdl11Definition.setSchema(responseReciever);
+		return wsdl11Definition;
+	}
+	
 	@Bean(name = "userRequestService")
 	public DefaultWsdl11Definition userWsdl11Definition(@Qualifier("user") XsdSchema userRequest) {
 		DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
@@ -81,6 +90,18 @@ public class WebService {
 	@Qualifier("accountStatementRequest")
 	public XsdSchema accountStatementRequest() {
 		return new SimpleXsdSchema(new ClassPathResource("xsd/types/accountStatementRequest.xsd"));
+	}
+	
+	@Bean
+	@Qualifier("clearingAndSettlement")
+	public XsdSchema clearingAndSettlement() {
+		return new SimpleXsdSchema(new ClassPathResource("xsd/types/clearingAndSettlement.xsd"));
+	}
+	
+	@Bean
+	@Qualifier("clearingAndSettlementItem")
+	public XsdSchema clearingAndSettlementItem() {
+		return new SimpleXsdSchema(new ClassPathResource("xsd/types/clearingAndSettlementItem.xsd"));
 	}
 	
 	@Bean

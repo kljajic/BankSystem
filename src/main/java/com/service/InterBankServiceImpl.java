@@ -22,6 +22,7 @@ import com.bank.wsdl.Mt102Request;
 import com.bank.wsdl.Mt103Request;
 import com.bank.wsdl.Mt900Response;
 import com.model.AnalyticalStatement;
+import com.model.AnalyticalStatementMode;
 import com.model.Bank;
 import com.model.Currency;
 import com.model.xml.ClearingSettlementRequest;
@@ -29,6 +30,7 @@ import com.model.xml.RTGSRequest;
 import com.model.xml.RTGSResponse;
 import com.model.xml.RTGSResponseType;
 import com.repository.CurrencyExchangeRepository;
+import com.repository.CurrencyRepository;
 import com.repository.RTGSRequestRepository;
 import com.webservice.client.CentralBankClient;
 
@@ -45,6 +47,9 @@ public class InterBankServiceImpl implements InterBankService {
 	
 	@Autowired
 	private RTGSRequestRepository rtgsRequestRepository;
+	
+	@Autowired
+	private CurrencyRepository currencyRepository;
 	
 	@Autowired
 	private ClearingSettlementRequestService clearingAndSettlementRequestService;
@@ -91,6 +96,7 @@ public class InterBankServiceImpl implements InterBankService {
 			for(Map.Entry<String, Mt102Request> pair : clearingSettlementRequests.entrySet()){
 				Mt900Response response =centralBankClient.getMt102Request(pair.getValue());
 				System.out.println(response);
+				System.out.println("VRATIO MT900");
 			}
 		}
 		clearingSettlementRequests.clear();
@@ -232,7 +238,35 @@ public class InterBankServiceImpl implements InterBankService {
 	@Override
 	public void receiveClearings(Mt102Request request) {
 		// TODO unwrap account statements, save them and update daily account statuses
-		
+		for(ClearingAndSettlementItem item : request.getStatementItems()){
+			AnalyticalStatement as = mapToAnalyticalStatement(request,item);
+			//as.save()
+			//azurirate dailyAccountStatuse
+		}
+	}
+
+	private AnalyticalStatement mapToAnalyticalStatement(Mt102Request request, ClearingAndSettlementItem item) {
+		AnalyticalStatement as = new AnalyticalStatement();
+		as.setAmount(item.getAmount().doubleValue());
+		as.setAnalyticalStatementMode(AnalyticalStatementMode.TRANSFER);
+		as.setApprovalAuthorizationNumber(item.getClearanceDialNumber());
+		as.setDebitAuthorizationNumber(item.getChargeDialNumber());
+		as.setApprovalModel(item.getClearanceModel());
+		as.setModel(item.getChargeModel());
+		as.setCurrency(currencyRepository.getCurrencyByOfficialCode(request.getCurrency()));
+		as.setDateOfReceipt(request.getDate().toGregorianCalendar().getTime());
+		as.setOriginator(item.getOriginator());
+		as.setOriginatorAccount(item.getOriginatorAccountNumber());
+		as.setUplata(true);
+		as.setRecipient(item.getReciever());
+		as.setRecipientAccount(item.getRecieverAccountNumber());
+		as.setPurpose(item.getPaymentPurpose());
+		as.setUrgently(false);
+		//as.setDailyAccountStatus(dailyAccountStatus);
+		//as.setClearingSettlementRequest(clearingSettlementRequest);
+		//as.setPlaceOfAcceptance(request.);
+		//as.setRtgsRequests(rtgsRequests);
+		return as;
 	}
 	
 }

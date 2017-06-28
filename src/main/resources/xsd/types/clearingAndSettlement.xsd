@@ -1,0 +1,31 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsT="http://com/xsdSchemas/types" xmlns:xsCASI="http://com/xsdSchemas/clearingAndSettlementItem"
+	elementFormDefault="qualified" targetNamespace="http://com/xsdSchemas/clearingAndSettlement">
+	<xs:import namespace="http://com/xsdSchemas/types"
+		schemaLocation="types.xsd" />
+	<xs:import namespace="http://com/xsdSchemas/clearingAndSettlementItem"
+		schemaLocation="clearingAndSettlementItem.xsd" />
+	<xs:element name="mt102Request">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="messageId" type="xsT:str50num"
+					nillable="false"></xs:element>
+				<xs:element name="originatorBankSwiftCode" type="xsT:swift"
+					nillable="false"></xs:element>
+				<xs:element name="originatorBankTransactionAccount" type="xsT:accountNumber"
+					nillable="false"></xs:element>
+				<xs:element name="recieverBankSwiftCode" type="xsT:swift"
+					nillable="false"></xs:element>
+				<xs:element name="recieverBankTransactionAccount" type="xsT:accountNumber"
+					nillable="false"></xs:element>
+				<xs:element name="amount" type="xsT:dec15_2" nillable="false"></xs:element>
+				<xs:element name="currency" type="xsT:str3currency"
+					nillable="false"></xs:element>
+				<xs:element name="currencyDate" type="xs:date" nillable="false"></xs:element>
+				<xs:element name="date" type="xs:date" nillable="false"></xs:element>
+				<xs:element minOccurs="1" maxOccurs="unbounded" name="statementItems"
+					type="xsCASI:clearingAndSettlementItem"></xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
