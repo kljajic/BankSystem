@@ -14,9 +14,7 @@ import com.model.Bank;
 import com.model.xml.RTGSRequest;
 import com.service.AnaltyicalStatementService;
 import com.service.BankService;
-import com.service.CityService;
 import com.service.CurrencyService;
-import com.service.RTGSRequestService;
 
 
 @Endpoint
@@ -28,11 +26,8 @@ public class RTGSMt103Endpoint {
 	@Autowired
 	private AnaltyicalStatementService analtyicalStatementService;
 	
-	@Autowired
-	private CityService cityService;
-	
-	@Autowired
-	private RTGSRequestService rtgsRequestService;
+	//@Autowired
+	//private RTGSRequestService rtgsRequestService;
 	
 	@Autowired
 	private BankService bankService;
@@ -58,18 +53,11 @@ public class RTGSMt103Endpoint {
 		as.setApprovalAuthorizationNumber(req.getClearanceDialNumber());
 		as.setUrgently(true);
 		as.setAmount(req.getAmount().doubleValue());
-		//as.setErrorType(req.getEr);
-		//as.setDailyAccountStatus(req.getDa);
-		//as.setPlaceOfAcceptance(req.getP);
 		as.setCurrency(currencyService.getCurrencyByOfficialCode(req.getCurrency()));
 		as.setUplata(true);
 		as.setAnalyticalStatementMode(AnalyticalStatementMode.TRANSFER);
 		
-		/*analtyicalStatementService.createAnalyticalStatement(currencyService.getCurrencyByOfficialCode(req.getCurrency()).getId(),
-				this.cityService.getCityByName(req.getPlaceOfAcceptance()).getId(),
-				req.getStatementDate().toGregorianCalendar().getTime(),
-				req.getCurrencyDate().toGregorianCalendar().getTime(),
-				as);*/
+		analtyicalStatementService.receiveClearingOrRtgs(as);
 		
 		RTGSRequest rtgs = new RTGSRequest();
 		rtgs.setMessageId("MT103");

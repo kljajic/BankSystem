@@ -134,7 +134,7 @@ public class AccountStatementEndpoint {
 		newAnalyticalStatement.setRecipient(request.getReciever());
 		newAnalyticalStatement.setRecipientAccount(request.getRecieverAccountNumber());
 		newAnalyticalStatement.setUplata(true);
-		newAnalyticalStatement.setUrgently(false);
+		newAnalyticalStatement.setUrgently(request.isEmergency());
 		return newAnalyticalStatement;
 	}
 	

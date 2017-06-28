@@ -325,4 +325,11 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 		return this.analyticalStatementRepository.findAnalyticalStatementsByDailyAccountStatusId(pageable, dailyAccountStatusId);
 	}
 	
+	@Override
+	public void receiveClearingOrRtgs(AnalyticalStatement analyticalStatement) {
+		DailyAccountStatus recipientDailyAccountStatus = dailyAccountStatusService.updateRecipiantDailyAccountStatus(analyticalStatement);
+		analyticalStatement.setDailyAccountStatus(recipientDailyAccountStatus);
+		analyticalStatementRepository.save(analyticalStatement);
+	}
+	
 }

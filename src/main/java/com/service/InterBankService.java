@@ -1,6 +1,5 @@
 package com.service;
 
-import com.bank.wsdl.Mt102Request;
 import com.model.AnalyticalStatement;
 
 public interface InterBankService {
@@ -12,7 +11,5 @@ public interface InterBankService {
 	public void addToClearing(AnalyticalStatement as);
 	
 	public void RTGSOrClearing(AnalyticalStatement as);
-
-	void receiveClearings(Mt102Request request);
 	
 }

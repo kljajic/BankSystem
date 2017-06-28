@@ -50,4 +50,6 @@ public interface AnaltyicalStatementService {
 	
 	List<AnalyticalStatement> getAnalyticalStatementsForDailyAccountStatusId(Pageable pageable, Long dailyAccountStatusId);
 
+	void receiveClearingOrRtgs(AnalyticalStatement analyticalStatement);
+
 }
