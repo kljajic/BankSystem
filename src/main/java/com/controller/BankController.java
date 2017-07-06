@@ -1,13 +1,18 @@
 package com.controller;
 
+import java.io.IOException;
+import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.model.Bank;
 import com.model.user.Permission;
 import com.service.BankServiceImpl;
+
+import net.sf.jasperreports.engine.JRException;
 
 @RestController
 @RequestMapping("/banks")
@@ -98,6 +105,13 @@ public class BankController {
 			return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	  @GetMapping("/export/{bankId}")
+	  @ResponseBody
+	  @Permission(permissionName = "exportAnalyticalStatement")
+	  public void exportToPdf(@PathVariable("bankId") Long bankId,HttpServletResponse response) throws ParseException, JRException, SQLException, IOException {
+		  bankServiceImpl.exportToPdf(bankId,response);
+	  }
 	
 	
 	

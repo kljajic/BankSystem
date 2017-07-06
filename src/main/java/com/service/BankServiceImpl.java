@@ -1,7 +1,19 @@
 package com.service;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
+
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,6 +22,11 @@ import com.model.Bank;
 import com.model.Country;
 import com.repository.BankRepository;
 import com.repository.CountryRepository;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
 
 @Service
 @Transactional
@@ -20,6 +37,9 @@ public class BankServiceImpl implements BankService {
 	
 	@Autowired
 	private CountryRepository countryRepository;
+	
+    @Autowired
+    DataSource dataSource;
 	
 	@Override
 	public Bank createBank(Bank b,Long countryId) {
@@ -125,6 +145,26 @@ public class BankServiceImpl implements BankService {
 	@Override
 	public Bank findBankByLeadNumber(String substring) {
 		return bankRepository.findBankByLeadNumber(substring);
+	}
+
+	@Override
+	public void exportToPdf(Long bankId,HttpServletResponse response) throws JRException, IOException, SQLException {
+		Bank b = bankRepository.findOne(bankId);
+	    Map<String,Object> params = new HashMap<>();
+	    params.put("bank", b.getSwift());
+	    URL url = this.getClass().getClassLoader().getResource("jasper/logo.png");
+	    params.put("logo", url);
+	    FileInputStream fileInputStream;
+		JasperPrint jp  = JasperFillManager.fillReport(getClass().getResource("/jasper/BankAccountReport.jasper").openStream(),params, dataSource.getConnection());
+	    File pdf = new File(System.getProperty("user.home") + "/Downloads/" + "izvestajBanka-"+b.getSwift()+".pdf");
+		FileOutputStream out = new FileOutputStream(pdf);
+		JasperExportManager.exportReportToPdfStream(jp, out);
+		fileInputStream = new FileInputStream(pdf);
+		IOUtils.copy(fileInputStream, response.getOutputStream());
+		fileInputStream.close();
+		out.close();
+		response.flushBuffer();
+		
 	}
 
 }

@@ -11,6 +11,13 @@ var temp = {};
 		});
 	}
 	
+	temp.exportToPdf = function(bankId){
+		return $http({
+			method : 'GET',
+			url: '../banks/export/' + bankId,
+		});
+	}
+	
 	temp.createBank = function(bank,countryId){
 		return $http({
 			method : 'POST',

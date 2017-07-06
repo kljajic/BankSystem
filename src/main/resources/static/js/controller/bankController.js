@@ -13,6 +13,13 @@ bankController.controller('bankController',['$rootScope','$scope','$location','$
 	$scope.mode = {};
 	$scope.mode.current = "Rezim izmene";
 	
+	$scope.exportToPdf = function(bank){
+		bankService.exportToPdf(bank.id).then(function(response){
+			
+		});
+	}
+	
+	
 	
 	$scope.getAllBanks = function() {
 		bankService.getAllBanks().then(function(response) {

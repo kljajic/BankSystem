@@ -40,6 +40,8 @@
 				<th>Swift kod</th>
 				<th>Transakcioni nalog</th>
 				<th>Country</th>
+				<th>Report</th>
+				
 				
 			</tr>
 			<tr ng-repeat="bank in banks" ng-click="setSelected(bank)"
@@ -54,6 +56,7 @@
 				<td>{{ bank.swift}}</td>
 				<td>{{ bank.transactionAccount}}</td>
 				<td>{{ bank.country.name}}</td>
+				<td><a href id="pdf" ng-click="exportToPdf(bank)">PDF</a></td>
 				
 			</tr>
 		</table>
