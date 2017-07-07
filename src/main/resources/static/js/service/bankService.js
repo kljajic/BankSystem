@@ -11,6 +11,7 @@ var temp = {};
 		});
 	}
 	
+	
 	temp.exportToPdf = function(bankId){
 		return $http({
 			method : 'GET',
