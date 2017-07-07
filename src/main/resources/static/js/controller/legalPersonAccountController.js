@@ -198,6 +198,9 @@ legalPersonAccountController.controller('legalPersonAccountController', function
 		console.log($scope.pdfExportAccount);
 		analyticalStatementService.exportToPdf($scope.pdfExportAccount.id,$scope.pdfExportAccount.startDate,$scope.pdfExportAccount.endDate).then(function(response){
 			$("#pdfModal").modal('show');
+			var name = $scope.pdfExportAccount.accountNumber + ' - IZVESTAJ - ' + $scope.pdfExportAccount.startDate.toString().substring(4, 15) + ' - ' + $scope.pdfExportAccount.startDate.toString().substring(4, 15) + '.pdf';
+			var file = new Blob([response.data], {type: "application/pdf;charset=utf-8"});
+	            saveAs(file, name);
 		});
 	}
 	

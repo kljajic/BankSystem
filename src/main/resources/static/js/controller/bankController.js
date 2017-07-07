@@ -15,7 +15,10 @@ bankController.controller('bankController',['$rootScope','$scope','$location','$
 	
 	$scope.exportToPdf = function(bank){
 		bankService.exportToPdf(bank.id).then(function(response){
-			
+			var file = new Blob([response.data], {type: "application/pdf;charset=utf-8"});
+			var date = new Date();
+			var name = bank.name + ' - IZVESTAJ - ' + date.toString().substring(4, 15); + '.pdf';
+            saveAs(file, name);
 		});
 	}
 	

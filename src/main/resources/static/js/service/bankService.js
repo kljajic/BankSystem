@@ -15,6 +15,7 @@ var temp = {};
 		return $http({
 			method : 'GET',
 			url: '../banks/export/' + bankId,
+			responseType: 'blob'
 		});
 	}
 	

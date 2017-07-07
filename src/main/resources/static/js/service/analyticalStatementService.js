@@ -79,6 +79,7 @@ analyticalStatementService.factory('analyticalStatementService', function($http)
 		return $http({
 			method : 'GET',
 			url: '../analyticalStatements/export/' + accountId + '/'  + startDate + '/' + endDate,
+			responseType: 'blob'
 		});
 	}
 	

@@ -291,6 +291,7 @@ public class AnaltyicalStatementServiceImpl implements AnaltyicalStatementServic
 		FileOutputStream out = new FileOutputStream(pdf);
 		JasperExportManager.exportReportToPdfStream(jp, out);
 		fileInputStream = new FileInputStream(pdf);
+		response.setContentLengthLong(pdf.length());
 		IOUtils.copy(fileInputStream, response.getOutputStream());
 		fileInputStream.close();
 		out.close();

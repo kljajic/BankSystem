@@ -9,6 +9,7 @@ import java.util.Date;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -111,8 +113,7 @@ public class AnalyticalStatementController {
 		return o;
 	}
 	
-	  @GetMapping("/export/{accountId}/{startDate}/{endDate}")
-	  @ResponseBody
+	  @RequestMapping(value = "/export/{accountId}/{startDate}/{endDate}", method = RequestMethod.GET)
 	  @Permission(permissionName = "exportAnalyticalStatement")
 	  public void exportToPdf(@PathVariable("accountId") Long accountId,@PathVariable("startDate") Date start,@PathVariable("endDate") Date end,HttpServletResponse response) throws ParseException, JRException, SQLException, IOException {
 		  analyticalStatementService.exportToPdf(accountId, start,end,response);
