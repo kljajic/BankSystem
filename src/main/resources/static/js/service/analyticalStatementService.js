@@ -83,6 +83,15 @@ analyticalStatementService.factory('analyticalStatementService', function($http)
 		});
 	}
 	
+	
+	temp.exportToXml = function(accountId,startDate,endDate){
+		return $http({
+			method : 'GET',
+			url: '../analyticalStatements/exportxml/' + accountId + '/'  + startDate + '/' + endDate,
+			responseType: 'blob'
+		});
+	}
+	
 	temp.deleteAnalyticalStatement = function(id){
 		return $http({
 			method : 'DELETE',

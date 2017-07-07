@@ -197,12 +197,21 @@ legalPersonAccountController.controller('legalPersonAccountController', function
 	$scope.exportToPdf = function(){
 		console.log($scope.pdfExportAccount);
 		analyticalStatementService.exportToPdf($scope.pdfExportAccount.id,$scope.pdfExportAccount.startDate,$scope.pdfExportAccount.endDate).then(function(response){
-			$("#pdfModal").modal('show');
 			var name = $scope.pdfExportAccount.accountNumber + ' - IZVESTAJ - ' + $scope.pdfExportAccount.startDate.toString().substring(4, 15) + ' - ' + $scope.pdfExportAccount.startDate.toString().substring(4, 15) + '.pdf';
 			var file = new Blob([response.data], {type: "application/pdf;charset=utf-8"});
 	            saveAs(file, name);
 		});
 	}
+	
+	$scope.exportToXml = function(){
+		console.log($scope.pdfExportAccount);
+		analyticalStatementService.exportToXml($scope.pdfExportAccount.id,$scope.pdfExportAccount.startDate,$scope.pdfExportAccount.endDate).then(function(response){
+			var name = $scope.pdfExportAccount.accountNumber + ' - IZVESTAJ - ' + $scope.pdfExportAccount.startDate.toString().substring(4, 15) + ' - ' + $scope.pdfExportAccount.startDate.toString().substring(4, 15) + '.xml';
+			var file = new Blob([response.data], {type: "application/xml;charset=utf-8"});
+	            saveAs(file, name);
+		});
+	}
+	
 	
 	
 	$scope.setModalSelectedBank = function(bank){

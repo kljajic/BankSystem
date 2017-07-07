@@ -37,7 +37,7 @@
 				<th>Klijent</th>
 				<th>Banka</th>
 				<th>Valuta</th>
-				<th colspan = "2">Izvestaj</th>
+				<th colspan="2">Izvestaj</th>
 			</tr>
 			<tr ng-repeat="legalPersonAccount in legalPersonAccounts"
 				ng-click="setSelected(legalPersonAccount)"
@@ -49,9 +49,8 @@
 					legalPersonAccount.client.surname }}</td>
 				<td>{{ legalPersonAccount.bank.name}}</td>
 				<td>{{ legalPersonAccount.currency.officialCode}}</td>
-				<td><a href id="xml" ng-click="exportToXml()">XML</a></td>
-				<td><a href id="pdf" ng-click="pdf(legalPersonAccount)">PDF</a></td>
-				
+				<td><a href id="pdf" ng-click="pdf(legalPersonAccount)">Export</a></td>
+
 			</tr>
 		</table>
 	</div>
@@ -68,8 +67,9 @@
 				name="${field.name}" id="${field.id}" />
 		</p>
 		<p>
-			<label for="${field.id}">Datum otvaranja</label> <input id="openingDateDatePicker" type="date"
-				name="${field.name}" id="${field.id}" />
+			<label for="${field.id}">Datum otvaranja</label> <input
+				id="openingDateDatePicker" type="date" name="${field.name}"
+				id="${field.id}" />
 		</p>
 
 		<p>
@@ -92,9 +92,9 @@
 		<p>
 			<input ng-value="legalPersonAccount.currency.id" type="hidden"
 				name="${field.name)" id="${field.id}" /> <label for="${field.id}">Valuta</label>
-			<select id="selectFieldCurrency" ng-options="{{currencyOptions}}" ng-model="selectedCurrency"><option
-					value="" ng-if="true"></option></select> <input
-				ng-click="showCurrencies(selectedCurrency)" type="button"
+			<select id="selectFieldCurrency" ng-options="{{currencyOptions}}"
+				ng-model="selectedCurrency"><option value="" ng-if="true"></option></select>
+			<input ng-click="showCurrencies(selectedCurrency)" type="button"
 				class="btn btn-sm btn-default pulled-left" value="..."
 				style="margin-left: 6em" />
 		</p>
@@ -186,7 +186,7 @@
 		</div>
 	</div>
 	</md-dialog>
-	
+
 	<md-dialog class="modal" id="pdfModal" tabindex="-1"
 		aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
@@ -196,15 +196,18 @@
 			</div>
 			<div class="modal-body">
 				<form validate class="simple-form">
-					<label>Period:</label>
-					<input type="date" ng-model="pdfExportAccount.startDate"/>
-					<input type="date"  ng-model="pdfExportAccount.endDate" />
+					<label>Period:</label> <input type="date"
+						ng-model="pdfExportAccount.startDate" /> <input type="date"
+						ng-model="pdfExportAccount.endDate" />
 				</form>
 			</div>
 			<div class="modal-footer">
 				<input id="btnConfirm" type="submit"
 					class="btn btn-default pulled-left" ng-click="exportToPdf()"
-					value="Potvrdi" />
+					value="Export pdf" /> 
+				<input id="btnConfirm" type="submit"
+					class="btn btn-default pulled-left" ng-click="exportToXml()"
+					value="Export xml" />
 			</div>
 		</div>
 	</div>
@@ -219,8 +222,8 @@
 			</div>
 			<div class="modal-body">
 				<form validate class="simple-form">
-					<label for="${field.id}">Transfer account</label>
-					<input type="text" ng-model="transferAccount">
+					<label for="${field.id}">Transfer account</label> <input
+						type="text" ng-model="transferAccount">
 				</form>
 			</div>
 			<div class="modal-footer">
@@ -267,9 +270,9 @@
 		</div>
 	</div>
 	</md-dialog>
-	
-	
-<md-dialog class="modal" id="previousFormsModal" tabindex="-1"
+
+
+	<md-dialog class="modal" id="previousFormsModal" tabindex="-1"
 		aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -282,18 +285,15 @@
 						<tr class="header">
 							<th>Referenca</th>
 						</tr>
-						<tr
-							ng-click="setModalSelectedPreviousForm('banks')"
+						<tr ng-click="setModalSelectedPreviousForm('banks')"
 							ng-class="{'alert alert-info' : selectedModalPrevousForm == 'banks'}">
 							<td>Banka</td>
 						</tr>
-						<tr
-							ng-click="setModalSelectedPreviousForm('clients')"
+						<tr ng-click="setModalSelectedPreviousForm('clients')"
 							ng-class="{'alert alert-info' : selectedModalPrevousForm == 'clients'}">
 							<td>Klijent</td>
 						</tr>
-						<tr
-							ng-click="setModalSelectedPreviousForm('currencies')"
+						<tr ng-click="setModalSelectedPreviousForm('currencies')"
 							ng-class="{'alert alert-info' : selectedModalPrevousForm == 'currencies'}">
 							<td>Valuta</td>
 						</tr>
@@ -302,12 +302,12 @@
 			</div>
 			<div class="modal-footer">
 				<input id="btnConfirm" type="submit"
-					class="btn btn-default pulled-left" ng-click="confirmPreviousForm()"
-					value="Izaberi" />
+					class="btn btn-default pulled-left"
+					ng-click="confirmPreviousForm()" value="Izaberi" />
 			</div>
 		</div>
 	</div>
 	</md-dialog>
-	
-	
+
+
 </div>

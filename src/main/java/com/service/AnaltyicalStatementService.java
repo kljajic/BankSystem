@@ -51,5 +51,7 @@ public interface AnaltyicalStatementService {
 	List<AnalyticalStatement> getAnalyticalStatementsForDailyAccountStatusId(Pageable pageable, Long dailyAccountStatusId);
 
 	void receiveClearingOrRtgs(AnalyticalStatement analyticalStatement);
+	
+	void exportToXml(Long accountId,Date startDate,Date endDate,HttpServletResponse response) throws JRException, SQLException, IOException;
 
 }

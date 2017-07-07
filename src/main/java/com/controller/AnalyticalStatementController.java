@@ -118,5 +118,11 @@ public class AnalyticalStatementController {
 	  public void exportToPdf(@PathVariable("accountId") Long accountId,@PathVariable("startDate") Date start,@PathVariable("endDate") Date end,HttpServletResponse response) throws ParseException, JRException, SQLException, IOException {
 		  analyticalStatementService.exportToPdf(accountId, start,end,response);
 	  }
-
+	  
+	  @RequestMapping(value = "/exportxml/{accountId}/{startDate}/{endDate}", method = RequestMethod.GET)
+	  @Permission(permissionName = "exportAnalyticalStatement")
+	  public void exportToXml(@PathVariable("accountId") Long accountId,@PathVariable("startDate") Date start,@PathVariable("endDate") Date end,HttpServletResponse response) throws ParseException, JRException, SQLException, IOException {
+		  analyticalStatementService.exportToXml(accountId, start,end,response);
+	  }
+	  
 }

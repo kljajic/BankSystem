@@ -33,6 +33,13 @@
 				<th>Banka duznika</th>
 				<th>Banka poverioca</th>
 				<th>Analitika izvoda</th>
+				<th>Duznik</th>
+				<th>Poverilac</th>
+				<th>Racun duznika</th>
+				<th>Racun poverioca</th>
+				<th>Iznos</th>
+				<th>Hitno</th>
+				<th>Datum</th>
 			</tr>
 			<tr ng-repeat="rtgsReq in rtgsRequests"
 				ng-click="setSelected(rtgsReq)"
@@ -41,6 +48,13 @@
 				<td class="paymentBank">{{ rtgsReq.paymentBank.name }}</td>
 				<td class="recieverBank">{{ rtgsReq.recieverBank.name }}</td>
 				<td class="analitycalStatement">{{ rtgsReq.analyticalStatement.id }}</td>
+				<td>{{ rtgsReq.analyticalStatement.originator }}</td>
+				<td >{{ rtgsReq.analyticalStatement.recipient }}</td>
+				<td>{{ rtgsReq.analyticalStatement.originatorAccount }}</td>
+				<td>{{ rtgsReq.analyticalStatement.recipientAccount }}</td>
+				<td>{{ rtgsReq.analyticalStatement.amount }}</td>
+				<td>{{ rtgsReq.analyticalStatement.urgently }}</td>
+				<td>{{ rtgsReq.analyticalStatement.dateOfReceipt.substring(0, 11) }}</td>
 			</tr>
 		</table>
 	</div>
